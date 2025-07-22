@@ -99,14 +99,13 @@
         const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
 
         if (authError) {
-          messageEl.textContent = `❌ Signup error: ${authError.message}`;
-          messageEl.className = 'error';
+          // Do not show any error message
           return;
         }
 
         const userId = authData.user?.id;
         if (!userId) {
-          messageEl.textContent = '❌ Failed to get user ID from Supabase.';
+          // Do not show any error message
           return;
         }
 
@@ -115,8 +114,7 @@
           .insert([{ id: userId, name, surname, student_number, contact_number, email }]);
 
         if (insertError) {
-          messageEl.textContent = `❌ Error saving user info: ${insertError.message}`;
-          messageEl.className = 'error';
+          // Do not show any error message
           return;
         }
 
@@ -137,8 +135,7 @@
           window.location.href = "index.html";
         }, 2000);
       } catch (error) {
-        messageEl.textContent = `❌ Unexpected error: ${error.message}`;
-        messageEl.className = 'error';
+        // Do not show any error message
       }
     }
   </script>
