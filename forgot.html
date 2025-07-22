@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forgot Password</title>
+  <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <style>
+     body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1e1e20, #b1b1b6);
+      margin: 0;
+      padding-top: 80px; /* Leave space for navbar */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    </style>
+
+     <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+  <a href="index.html">
+    <img src="Images/images.jpeg" alt="Logo" class="logo-img">
+  </a>
+  <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+</div>
+
+<ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="forgot.html" class="active">Forgot Password</a></li>
+    </ul>
+  </nav>
+
+  <!-- Forgot Container -->
+<div class="register-container">
+  <h2>Verify Email</h2>
+  <form id="otpForm">
+    <input type="email" id="Email" placeholder="StudentNumber@mywsu.ac.za" required />
+    <button type="submit">Get Code</button>
+    <div id="error" class="error"></div>
+  </form>
+</div>
+
+
+<script>
+  function toggleMenu() {
+      const navLinks = document.getElementById("navLinks");
+      navLinks.classList.toggle("show");
+    }
+
+</script>
+
+</body>
+</html>
+
+  

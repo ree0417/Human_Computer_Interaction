@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Volleyball Team Registration</title>
+  <link rel="stylesheet" href="Style.css">
+  <link rel="stylesheet" href="home.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    
+  </style>
+</head>
+<body>
+        <nav class="navbar">
+  <div class="nav-brand">
+    <a href="home.html">
+      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
+    </a>
+    <div class="hamburger" onclick="toggleMenu()">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+  </div>
+
+  
+   <ul class="nav-links" id="navLinks">
+     <li><a href="football.html">Football</a></li>
+      <li><a href="rugby.html">Rugby</a></li>
+      <li><a href="upcoming.html">Upcoming Matches</a></li>
+      <li id="dropdownWrapper" style="position: relative;">
+        <a href="#" id="dropdownLink">More ▾</a>
+        <ul class="dropdown" id="moreDropdown">
+          <li><a href="athletics.html">Athletics</a></li>
+          <li><a href="basketball.html">Basketball</a></li>
+          <li><a href="volleyball.html">Volleyball</a></li>
+          <li><a href="cricket.html">Cricket</a></li>
+          <li><a href="netball.html">Netball</a></li>
+        </ul>
+      </li>
+    </li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html" id="logoutLink">Logout</a></li>
+  </ul> 
+</nav>
+
+
+<form action="https://formspree.io/f/xdkzvvrn" method="POST">
+  <h2>WSU Volleyball Team Registration</h2>
+
+  <label for="fullname">Full Name <span class="required">*</span></label>
+  <input type="text" id="fullname" name="fullname" required>
+
+  <label for="studentNumber">Student Number <span class="required">*</span></label>
+  <input type="text" id="studentNumber" name="studentNumber" required>
+
+  <label for="dob">Date of Birth <span class="required">*</span></label>
+  <input type="date" id="dob" name="dob" required>
+
+  <label>Gender <span class="required">*</span></label>
+  <div class="checkbox-group">
+    <label><input type="radio" name="gender" value="Male" required> Male</label>
+    <label><input type="radio" name="gender" value="Female"> Female</label>
+    <label><input type="radio" name="gender" value="Other"> Other</label>
+  </div>
+
+  <label for="contact">Contact Number <span class="required">*</span></label>
+  <input type="text" id="contact" name="contact" required>
+
+  <label for="email">Email Address <span class="required">*</span></label>
+  <input type="email" id="email" name="email" required>
+
+  <label for="year">Current Year of Study</label>
+  <select id="year" name="year">
+    <option>1st</option>
+    <option>2nd</option>
+    <option>3rd</option>
+    <option>4th</option>
+    <option>Postgraduate</option>
+  </select>
+
+  <label for="faculty">Faculty / Department</label>
+  <input type="text" id="faculty" name="faculty">
+
+  <label>Have you played volleyball before? <span class="required">*</span></label>
+  <div class="checkbox-group">
+    <label><input type="radio" name="experience" value="Yes" required> Yes</label>
+    <label><input type="radio" name="experience" value="No"> No</label>
+  </div>
+
+  <label for="position">Preferred Position</label>
+  <select id="position" name="position">
+    <option>Outside Hitter</option>
+    <option>Opposite Hitter</option>
+    <option>Middle Blocker</option>
+    <option>Setter</option>
+    <option>Libero</option>
+    <option>Defensive Specialist</option>
+    <option>Undecided</option>
+  </select>
+
+  <label for="height">Height (e.g., 1.75m or 5'9")</label>
+  <input type="text" id="height" name="height">
+
+  <label for="spikeReach">Spike Reach (if known)</label>
+  <input type="text" id="spikeReach" name="spikeReach">
+
+  <label for="training">How often do you train per week?</label>
+  <input type="text" id="training" name="training">
+
+  <label>Do you have any medical conditions? <span class="required">*</span></label>
+  <div class="checkbox-group">
+    <label><input type="radio" name="medical" value="Yes" required> Yes</label>
+    <label><input type="radio" name="medical" value="No"> No</label>
+  </div>
+
+  <label for="conditionDetails">If yes, please explain</label>
+  <input type="text" id="conditionDetails" name="conditionDetails">
+
+  <label for="emergencyContact">Emergency Contact Name <span class="required">*</span></label>
+  <input type="text" id="emergencyContact" name="emergencyContact">
+
+  <label for="emergencyPhone">Emergency Contact Number <span class="required">*</span></label>
+  <input type="text" id="emergencyPhone" name="emergencyPhone">
+
+  <label for="relationship">Relationship <span class="required">*</span></label>
+  <input type="text" id="relationship" name="relationship">
+
+  <label>
+    <input type="checkbox" name="agreement" required>
+    I confirm that the information provided is true and I accept responsibility. <span class="required">*</span>
+  </label>
+
+  <label>
+    <input type="checkbox" name="code" required>
+    I agree to follow the volleyball team’s code of conduct and training rules. <span class="required">*</span>
+  </label>
+
+  <button type="submit">Submit Registration</button>
+</form>
+
+<!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+    <p>Developed to connect students with the Sports Department</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById("navLinks");
+      navLinks.classList.toggle("show");
+    }
+    const dropdownLink = document.getElementById('dropdownLink');
+    const moreDropdown = document.getElementById('moreDropdown');
+    const dropdownWrapper = document.getElementById('dropdownWrapper');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    dropdownLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropdownLink.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!dropdownWrapper.contains(e.target)) {
+        dropdownLink.classList.remove('active');
+      }
+    });
+
+    
+
+  dropdownLink.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the link from navigating
+    dropdownMenu.classList.toggle('show');
+  });
+
+  // Optional: Click outside to close the dropdown
+  document.addEventListener('click', function(event) {
+    const isClickInside = document.getElementById('dropdownWrapper').contains(event.target);
+    if (!isClickInside) {
+      dropdownMenu.classList.remove('show');
+    }
+  });
+
+  document.getElementById('logoutLink').addEventListener('click', function (event) {
+    event.preventDefault();
+    const confirmed = confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      window.location.href = this.href;
+    }
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Soccer Team Registration</title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="Style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+   <nav class="navbar">
+  <div class="nav-brand">
+    <a href="home.html">
+      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
+    </a>
+    <div class="hamburger" onclick="toggleMenu()">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+  </div>
+
+  
+   <ul class="nav-links" id="navLinks">
+     <li><a href="football.html">Football</a></li>
+      <li><a href="rugby.html">Rugby</a></li>
+      <li><a href="upcoming.html">Upcoming Matches</a></li>
+      <li id="dropdownWrapper" style="position: relative;">
+        <a href="#" id="dropdownLink">More ▾</a>
+        <ul class="dropdown" id="moreDropdown">
+          <li><a href="athletics.html">Athletics</a></li>
+          <li><a href="basketball.html">Basketball</a></li>
+          <li><a href="volleyball.html">Volleyball</a></li>
+          <li><a href="cricket.html">Cricket</a></li>
+          <li><a href="netball.html">Netball</a></li>
+        </ul>
+      </li>
+    </li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html" id="logoutLink">Logout</a></li>
+  </ul> 
+</nav>
+
+<form action="https://formspree.io/f/meokwwbk" method="POST">
+  <h2>WSU Soccer Team Registration</h2>
+
+  <label for="fullname">Full Name <span class="required">*</span></label>
+  <input type="text" id="fullname" name="fullname" required>
+
+  <label for="studentNumber">Student Number <span class="required">*</span></label>
+  <input type="text" id="studentNumber" name="studentNumber" required>
+
+  <label for="dob">Date of Birth <span class="required">*</span></label>
+  <input type="date" id="dob" name="dob" required>
+
+  <label>Gender <span class="required">*</span></label>
+  <div class="checkbox-group">
+    <label><input type="radio" name="gender" value="Male" required> Male</label>
+    <label><input type="radio" name="gender" value="Female"> Female</label>
+    <label><input type="radio" name="gender" value="Other"> Other</label>
+  </div>
+
+  <label for="contact">Contact Number <span class="required">*</span></label>
+  <input type="text" id="contact" name="contact" required>
+
+  <label for="email">Email Address <span class="required">*</span></label>
+  <input type="email" id="email" name="email" required>
+
+  <label for="year">Current Year of Study</label>
+  <select id="year" name="year">
+    <option>1st</option>
+    <option>2nd</option>
+    <option>3rd</option>
+    <option>4th</option>
+    <option>Postgraduate</option>
+  </select>
+
+  <label for="faculty">Faculty / Department</label>
+  <input type="text" id="faculty" name="faculty">
+
+  <label>Have you played on a soccer team before? <span class="required">*</span></label>
+  <div class="checkbox-group">
+    <label><input type="radio" name="experience" value="Yes" required> Yes</label>
+    <label><input type="radio" name="experience" value="No"> No</label>
+  </div>
+
+  <label for="previousTeam">If yes, where?</label>
+  <input type="text" id="previousTeam" name="previousTeam">
+
+  <label for="position">Preferred Playing Position</label>
+  <select id="position" name="position">
+    <option>Goalkeeper</option>
+    <option>Center Back</option>
+    <option>Left Back</option>
+    <option>Right Back</option>
+    <option>Midfielder</option>
+    <option>Forward</option>
+    <option>Left Winger</option>
+    <option>Right Winger</option>
+  </select>
+
+  <label for="injuries">Previous Injuries (if any)</label>
+  <input type="text" id="injuries" name="injuries">
+
+  <label for="training">How often do you train/play soccer weekly?</label>
+  <input type="text" id="training" name="training">
+
+  <label>Do you have any medical conditions? <span class="required">*</span></label>
+  <div class="checkbox-group">
+    <label><input type="radio" name="medical" value="Yes" required> Yes</label>
+    <label><input type="radio" name="medical" value="No"> No</label>
+  </div>
+
+  <label for="conditionDetails">If yes, please explain</label>
+  <input type="text" id="conditionDetails" name="conditionDetails">
+
+  <label for="emergencyContact">Emergency Contact Name <span class="required">*</span></label>
+  <input type="text" id="emergencyContact" name="emergencyContact">
+
+  <label for="emergencyPhone">Emergency Contact Number <span class="required">*</span></label>
+  <input type="text" id="emergencyPhone" name="emergencyPhone">
+
+  <label for="relationship">Relationship <span class="required">*</span></label>
+  <input type="text" id="relationship" name="relationship">
+
+  <label>
+    <input type="checkbox" name="agreement" required>
+    I confirm that the information above is true and accept responsibility. <span class="required">*</span>
+  </label>
+
+  <label>
+    <input type="checkbox" name="code" required>
+    I agree to follow the team’s rules and code of conduct. <span class="required">*</span>
+  </label>
+
+  <button type="submit">Submit Registration</button>
+</form>
+
+<!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+    <p>Developed to connect students with the Sports Department</p>
+  </footer>
+  <script>
+    document.addEventListener('click', function (e) {
+    if (!dropdownWrapper.contains(e.target)) {
+      dropdownWrapper.classList.remove('active');
+    }
+  });
+
+  document.getElementById('logoutLink').addEventListener('click', function (event) {
+    event.preventDefault();
+    const confirmed = confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      window.location.href = this.href;
+    }
+  });
+  </script>
+</body>
+</html>

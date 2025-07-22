@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WSU Sports Upcoming Matches</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f5;
+      margin: 0;
+      padding: 0;
+      padding-top: 80px; /* space for navbar */
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      color: #333;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      appearance: none;
+      cursor: pointer;
+      outline: none;
+      width: 250px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    .match-list {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .match {
+      border-bottom: 1px solid #ddd;
+      padding: 20px 0;
+    }
+
+    .match:last-child {
+      border-bottom: none;
+    }
+
+    .match strong {
+      color: #1a237e;
+    }
+
+    .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #000;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin-left: 30px;
+  margin-right: 2%;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 20px;
+  height: 5px;
+  background: #fff;
+  border-radius: 2px;
+  border-radius: 2px;
+      margin-right: 25px;
+}
+
+/* Hide links and stack on small screens */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #000;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+}
+
+
+    /* .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 4px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      margin-right: 25px;
+    } */
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      background-color: rgb(57, 52, 52);
+      list-style: none;
+      padding: 10px;
+      top: 100%;
+      left: 0;
+      z-index: 999;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .dropdown li a {
+      color: #ffffff;
+      text-decoration: none;
+      display: block;
+      padding: 5px 10px;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+/* Mobile View */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    background: #0a0a0a7f;
+    padding: 10px 0;
+  }
+
+  .nav-links li {
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+  <div class="nav-brand">
+    <a href="home.html">
+      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img" style="height: 50px;">
+    </a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Navigation Links -->
+  <ul class="nav-links" id="navLinks">
+    <li><a href="football.html">Football</a></li>
+    <li><a href="rugby.html">Rugby</a></li>
+    <li><a href="cricket.html">Upcoming Matches</a></li>
+    <li id="dropdownWrapper" style="position: relative;">
+      <a href="#" id="dropdownLink">More ▾</a>
+      <ul class="dropdown" id="moreDropdown">
+        <li><a href="athletics.html">Athletics</a></li>
+        <li><a href="basketball.html">Basketball</a></li>
+        <li><a href="volleyball.html">Volleyball</a></li>
+        <li><a href="cricket.html">Cricket</a></li>
+        <li><a href="netball.html">Netball</a></li>
+      </ul>
+    </li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html" id="logoutLink">Logout</a></li>
+  </ul>
+</nav>
+
+
+
+  <h1>Upcoming WSU Sports Matches</h1>
+
+  <select id="sportSelect" onchange="showMatches()">
+    <option value="football">Football</option>
+    <option value="rugby">Rugby</option>
+    <option value="cricket">Cricket</option>
+    <option value="basketball">Basketball</option>
+    <option value="netball">Netball</option>
+    <option value="athletics">Athletics</option>
+  </select>
+
+  <div class="match-list" id="matchList"></div>
+
+  <script>
+    const matchData = {
+      football: [
+        { date: "2025-06-22", opponent: "University of Fort Hare", venue: "WSU Stadium" },
+        { date: "2025-06-29", opponent: "Rhodes University", venue: "Away" }
+      ],
+      rugby: [
+        { date: "2025-06-24", opponent: "UFH Bulls", venue: "WSU Rugby Field" },
+        { date: "2025-07-01", opponent: "NMU Lions", venue: "Nelson Mandela Stadium" }
+      ],
+      cricket: [
+        { date: "2025-06-25", opponent: "UCT Cricket Club", venue: "WSU Oval" },
+        { date: "2025-07-02", opponent: "UWC Warriors", venue: "Cape Town" }
+      ],
+      basketball: [
+        { date: "2025-06-23", opponent: "TUT Titans", venue: "WSU Indoor Arena" }
+      ],
+      netball: [
+        { date: "2025-06-26", opponent: "CUT Stars", venue: "WSU Court 1" }
+      ],
+      athletics: [
+        { date: "2025-06-30", opponent: "All Universities (Track Meet)", venue: "WSU Track & Field" }
+      ]
+    };
+
+    function showMatches() {
+      const selectedSport = document.getElementById('sportSelect').value;
+      const matches = matchData[selectedSport];
+      const matchList = document.getElementById('matchList');
+      matchList.innerHTML = "";
+
+      if (!matches || matches.length === 0) {
+        matchList.innerHTML = "<p>No upcoming matches.</p>";
+        return;
+      }
+
+      matches.forEach(match => {
+        const div = document.createElement("div");
+        div.className = "match";
+        div.innerHTML = `<strong>Date:</strong> ${match.date} <br>
+                         <strong>Opponent:</strong> ${match.opponent} <br>
+                         <strong>Venue:</strong> ${match.venue}`;
+        matchList.appendChild(div);
+      });
+    }
+
+    window.onload = () => {
+      showMatches();
+
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      const dropdownLink = document.getElementById('dropdownLink');
+      const moreDropdown = document.getElementById('moreDropdown');
+      const dropdownWrapper = document.getElementById('dropdownWrapper');
+      const logoutLink = document.getElementById('logoutLink');
+
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+      });
+
+      dropdownLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        moreDropdown.classList.toggle('show');
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!dropdownWrapper.contains(e.target)) {
+          moreDropdown.classList.remove('show');
+        }
+      });
+
+      logoutLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (confirm("Are you sure you want to logout?")) {
+          window.location.href = this.href;
+        }
+      });
+    };
+  </script>
+</body>
+</html>

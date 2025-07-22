@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register Page</title>
+  <link rel="stylesheet" href="Style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1e1e20, #b1b1b6);
+      margin: 0;
+      padding-top: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="index.html">
+        <img src="Images/images.jpeg" alt="Logo" class="logo-img">
+      </a>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Login</a></li>
+      <li><a href="register.html" class="active">Register</a></li>
+      <li><a href="forgot.html">Forgot Password</a></li>
+    </ul>
+  </nav>
+
+  <!-- Register Container -->
+  <div class="register-container">
+    <h2>Register</h2>
+    <input type="text" id="name" placeholder="Name" />
+    <input type="text" id="surname" placeholder="Surname" />
+    <input type="text" id="student_number" placeholder="Student Number" />
+    <input type="password" id="password" placeholder="Create New Password" />
+    <input type="password" id="ConfirmPassword" placeholder="Confirm Password" />
+    <input type="text" id="contact_number" placeholder="Contact Number" />
+    <input type="email" id="Email" placeholder="StudentNo@mywsu.ac.za" />
+    <button onclick="register()">Register</button>
+    <div id="error" class="error"></div>
+  </div>
+
+  <!-- ✅ Supabase & Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // ✅ Now that Supabase is loaded, we can safely initialize it
+    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    function toggleMenu() {
+      const navLinks = document.getElementById("navLinks");
+      navLinks.classList.toggle("show");
+    }
+
+    async function register() {
+      const name = document.getElementById("name").value.trim();
+      const surname = document.getElementById("surname").value.trim();
+      const student_number = document.getElementById("student_number").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("ConfirmPassword").value;
+      const contact_number = document.getElementById("contact_number").value.trim();
+      const email = document.getElementById("Email").value.trim();
+      const messageEl = document.getElementById("error");
+
+      if (!name || !surname || !student_number || !email || !password || !confirmPassword || !contact_number) {
+        messageEl.textContent = '❌ Please fill in all required fields.';
+        messageEl.className = 'error';
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        messageEl.textContent = '❌ Passwords do not match.';
+        messageEl.className = 'error';
+        return;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        messageEl.textContent = '❌ Please enter a valid email address.';
+        messageEl.className = 'error';
+        return;
+      }
+
+      try {
+        const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
+
+        if (authError) {
+          messageEl.textContent = `❌ Signup error: ${authError.message}`;
+          messageEl.className = 'error';
+          return;
+        }
+
+        const userId = authData.user?.id;
+        if (!userId) {
+          messageEl.textContent = '❌ Failed to get user ID from Supabase.';
+          return;
+        }
+
+        const { error: insertError } = await supabase
+          .from("Users")
+          .insert([{ id: userId, name, surname, student_number, contact_number, email }]);
+
+        if (insertError) {
+          messageEl.textContent = `❌ Error saving user info: ${insertError.message}`;
+          messageEl.className = 'error';
+          return;
+        }
+
+        messageEl.textContent = "✅ Registration successful! Please check your email to confirm your account.";
+        messageEl.className = "success";
+
+        // Clear form
+        document.getElementById("name").value = "";
+        document.getElementById("surname").value = "";
+        document.getElementById("student_number").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("ConfirmPassword").value = "";
+        document.getElementById("contact_number").value = "";
+        document.getElementById("Email").value = "";
+
+        // Redirect to login page after registration
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      } catch (error) {
+        messageEl.textContent = `❌ Unexpected error: ${error.message}`;
+        messageEl.className = 'error';
+      }
+    }
+  </script>
+</body>
+</html>
