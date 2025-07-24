@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Forgot Password</title>
+  <title>Reset Password</title>
   <link rel="stylesheet" href="Style.css">
+</head>
+<body>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,7 +18,7 @@
       align-items: center;
       min-height: 100vh;
     }
-    .container {
+    .register-container {
       background-color: white;
       padding: 2rem;
       border-radius: 10px;
@@ -31,7 +33,13 @@
       text-align: center;
       margin-bottom: 1.5rem;
     }
-    input[type="email"] {
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="password"] {
       width: 100%;
       padding: 0.7rem;
       margin: 0.5rem 0;
@@ -51,59 +59,84 @@
     button:hover {
       background-color: #3b40b3;
     }
-    .success {
-      color: green;
-      text-align: center;
-      margin-top: 1rem;
-    }
     .error {
       color: red;
       text-align: center;
       margin-top: 1rem;
     }
+    .success {
+      color: green;
+      text-align: center;
+      margin-top: 1rem;
+    }
   </style>
-</head>
-<body>
 
-  <div class="container">
-    <h2>Forgot Your Password?</h2>
-    <input type="email" id="resetEmail" placeholder="Enter your email" required />
-    <button onclick="sendResetLink()">Send Reset Link</button>
-    <div id="resetMsg" class="success"></div>
-    <div id="resetError" class="error"></div>
+  <div class="register-container">
+    <h2>Reset Your Password</h2>
+    <form id="resetForm">
+      <input type="password" id="newPassword" placeholder="New Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+      <button type="submit">Set New Password</button>
+      <div id="error" class="error"></div>
+      <div id="success" class="success"></div>
+    </form>
   </div>
 
-  <!-- Supabase JS -->
+  <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+
   <script>
     // Supabase credentials
     const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function sendResetLink() {
-      const email = document.getElementById("resetEmail").value.trim();
-      const msg = document.getElementById("resetMsg");
-      const err = document.getElementById("resetError");
+    // Get session from URL on page load (important for recovery)
+    window.addEventListener('DOMContentLoaded', async () => {
+      const { data, error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
 
-      msg.textContent = '';
-      err.textContent = '';
+      if (error || !data.session) {
+        document.getElementById('resetForm').style.display = 'none';
+        document.getElementById('error').textContent = 'Invalid or expired reset link.';
+        return;
+      }
+    });
 
-      if (!email) {
-        err.textContent = 'Please enter your email address.';
+    // Handle password reset form submission
+    const form = document.getElementById('resetForm');
+    const errorDiv = document.getElementById('error');
+    const successDiv = document.getElementById('success');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      errorDiv.textContent = '';
+      successDiv.textContent = '';
+
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!newPassword || !confirmPassword) {
+        errorDiv.textContent = 'Please fill in both fields.';
         return;
       }
 
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://ree0417.github.io/Human_Computer_Interaction/reset.html'
-      });
+      if (newPassword !== confirmPassword) {
+        errorDiv.textContent = 'Passwords do not match.';
+        return;
+      }
+
+      successDiv.textContent = 'Processing...';
+
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
 
       if (error) {
-        err.textContent = error.message;
+        errorDiv.textContent = error.message;
+        successDiv.textContent = '';
       } else {
-        msg.textContent = 'Password reset link sent! Check your email.';
+        successDiv.textContent = 'Password updated! You can now log in.';
+        form.reset();
       }
-    }
+    });
   </script>
 </body>
 </html>
