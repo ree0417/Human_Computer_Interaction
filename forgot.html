@@ -5,208 +5,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Forgot Password</title>
   <link rel="stylesheet" href="Style.css">
-</head>
-<body>
-    <style>
-     body {
+  <style>
+    body {
       font-family: Arial, sans-serif;
       background: linear-gradient(to right, #1e1e20, #b1b1b6);
       margin: 0;
-      padding-top: 80px; /* Leave space for navbar */
+      padding-top: 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
     }
+    .container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      width: 300px;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      background-color: #2f2f32;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    button:hover {
+      background-color: #3b40b3;
+    }
+    .success {
+      color: green;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
 
-    #scrollTopBtn {
-  display: none;
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  z-index: 99;
-  width: 56px;
-  height: 56px;
-  border: none;
-  outline: none;
-  background: none;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  transition: transform 0.2s, box-shadow 0.2s;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-#scrollTopBtn svg {
-  display: block;
-  width: 48px;
-  height: 48px;
-}
-#scrollTopBtn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.28);
-}
+  <div class="container">
+    <h2>Forgot Your Password?</h2>
+    <input type="email" id="resetEmail" placeholder="Enter your email" required />
+    <button onclick="sendResetLink()">Send Reset Link</button>
+    <div id="resetMsg" class="success"></div>
+    <div id="resetError" class="error"></div>
+  </div>
 
-@media (max-width: 900px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0 16px;
-  }
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background: #222;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    border-radius: 0 0 8px 8px;
-    z-index: 100;
-  }
-  .nav-links.show {
-    display: flex;
-  }
-  .nav-links li {
-    width: 100%;
-    text-align: left;
-    padding: 16px 24px;
-    border-bottom: 1px solid #333;
-  }
-  .nav-brand {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .hamburger {
-    display: block;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    margin-left: auto;
-  }
-  .hamburger span {
-    display: block;
-    height: 4px;
-    width: 28px;
-    background: #fff;
-    margin: 6px 0;
-    border-radius: 2px;
-    transition: 0.3s;
-  }
-}
-@media (min-width: 901px) {
-  .hamburger {
-    display: none;
-  }
-  .nav-links {
-    display: flex !important;
-    position: static;
-    flex-direction: row;
-    background: none;
-    box-shadow: none;
-    border-radius: 0;
-  }
-}
-    </style>
-
-     <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="nav-brand">
-  <a href="index.html">
-    <img src="Images/images.jpeg" alt="Logo" class="logo-img">
-  </a>
-  <div class="hamburger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-</div>
-
-<ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Login</a></li>
-      <li><a href="register.html">Register</a></li>
-      <li><a href="forgot.html" class="active">Forgot Password</a></li>
-    </ul>
-  </nav>
-
-  <!-- Forgot Container -->
-<div class="register-container">
-  <h2>Verify Email</h2>
-  <form id="otpForm">
-    <input type="email" id="Email" placeholder="StudentNumber@mywsu.ac.za" required />
-    <button type="submit">Get Code</button>
-    <div id="error" class="error"></div>
-    <div id="success" class="success"></div>
-  </form>
-</div>
-
-<!-- Scroll-to-Top Button -->
-<button id="scrollTopBtn" title="Go to top">
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="16" cy="16" r="16" fill="#333"/>
-    <path d="M16 10 L16 22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-    <path d="M10 16 L16 10 L22 16" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
-  </svg>
-</button>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-<script>
-// Scroll-to-Top Button
-window.onscroll = function() {
-  const btn = document.getElementById("scrollTopBtn");
-  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-    btn.style.display = "flex";
-  } else {
-    btn.style.display = "none";
-  }
-};
-document.getElementById("scrollTopBtn").onclick = function() {
-  window.scrollTo({top: 0, behavior: 'smooth'});
-};
-
-// Hamburger menu
-function toggleMenu() {
-  const navLinks = document.getElementById("navLinks");
-  navLinks.classList.toggle("active");
-}
-const hamburger = document.querySelector('.hamburger');
-if (hamburger) {
-  hamburger.addEventListener('click', toggleMenu);
-}
-
-// Supabase password reset
-const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+  <script>
+    // Supabase credentials
+    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-const otpForm = document.getElementById('otpForm');
-const errorDiv = document.getElementById('error');
-const successDiv = document.getElementById('success');
+    async function sendResetLink() {
+      const email = document.getElementById("resetEmail").value.trim();
+      const msg = document.getElementById("resetMsg");
+      const err = document.getElementById("resetError");
 
-otpForm.addEventListener('submit', async function(e) {
-  e.preventDefault();
-  errorDiv.textContent = '';
-  successDiv.textContent = '';
-  const email = document.getElementById('Email').value.trim();
-  if (!email) {
-    errorDiv.textContent = 'Please enter your email.';
-    return;
-  }
-  successDiv.textContent = 'Processing...';
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
-  if (error) {
-    errorDiv.textContent = error.message;
-    successDiv.textContent = '';
-  } else {
-    successDiv.textContent = 'A password reset link has been sent to your email.';
-  }
-});
-</script>
+      msg.textContent = '';
+      err.textContent = '';
 
+      if (!email) {
+        err.textContent = 'Please enter your email address.';
+        return;
+      }
+
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://ree0417.github.io/Human_Computer_Interaction/reset.html'
+      });
+
+      if (error) {
+        err.textContent = error.message;
+      } else {
+        msg.textContent = 'Password reset link sent! Check your email.';
+      }
+    }
+  </script>
 </body>
 </html>
-
