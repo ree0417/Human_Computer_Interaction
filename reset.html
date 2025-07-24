@@ -125,7 +125,7 @@
         return;
       }
 
-      successDiv.textContent = 'Processing...';
+      successDiv.textContent = 'Submitting...';
 
       const { error } = await supabase.auth.updateUser({ password: newPassword });
 
@@ -133,8 +133,12 @@
         errorDiv.textContent = error.message;
         successDiv.textContent = '';
       } else {
-        successDiv.textContent = 'Password updated! You can now log in.';
-        form.reset();
+        successDiv.textContent = 'Password updated🎉! You can now log in.';
+form.reset();
+setTimeout(() => {
+  window.location.href = 'login.html'; // update to your actual login page path
+}, 2000); // wait 2 seconds before redirecting
+
       }
     });
   </script>
