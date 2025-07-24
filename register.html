@@ -16,21 +16,59 @@
       align-items: center;
       min-height: 100vh;
     }
+
+    .register-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #333;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .register-container input,
+    .register-container button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+    }
+
+    .strength-indicator {
+      margin-top: 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .strength-weak {
+      color: red;
+    }
+
+    .strength-medium {
+      color: orange;
+    }
+
+    .strength-strong {
+      color: green;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="nav-brand">
       <a href="index.html">
         <img src="Images/images.jpeg" alt="Logo" class="logo-img">
       </a>
-      <div class="hamburger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
     </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Login</a></li>
@@ -39,13 +77,13 @@
     </ul>
   </nav>
 
-  <!-- Register Container -->
   <div class="register-container">
     <h2>Register</h2>
     <input type="text" id="name" placeholder="Name" />
     <input type="text" id="surname" placeholder="Surname" />
     <input type="text" id="student_number" placeholder="Student Number" />
-    <input type="password" id="password" placeholder="Create New Password" />
+    <input type="password" id="password" placeholder="Create New Password" oninput="checkPasswordStrength()" />
+    <div id="passwordStrength" class="strength-indicator"></div>
     <input type="password" id="ConfirmPassword" placeholder="Confirm Password" />
     <input type="text" id="contact_number" placeholder="Contact Number" />
     <input type="email" id="Email" placeholder="StudentNo@mywsu.ac.za" />
@@ -53,17 +91,36 @@
     <div id="error" class="error"></div>
   </div>
 
-  <!-- ✅ Supabase & Script -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-    // ✅ Now that Supabase is loaded, we can safely initialize it
+    // Supabase credentials
     const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    function toggleMenu() {
-      const navLinks = document.getElementById("navLinks");
-      navLinks.classList.toggle("show");
+    function checkPasswordStrength() {
+      const password = document.getElementById("password").value;
+      const strengthEl = document.getElementById("passwordStrength");
+
+      let strength = 0;
+      if (password.length >= 6) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[\W]/.test(password)) strength++;
+
+      if (!password) {
+        strengthEl.textContent = "";
+        strengthEl.className = "strength-indicator";
+      } else if (strength <= 1) {
+        strengthEl.textContent = "Weak password";
+        strengthEl.className = "strength-indicator strength-weak";
+      } else if (strength === 2 || strength === 3) {
+        strengthEl.textContent = "Medium strength";
+        strengthEl.className = "strength-indicator strength-medium";
+      } else if (strength >= 4) {
+        strengthEl.textContent = "Strong password";
+        strengthEl.className = "strength-indicator strength-strong";
+      }
     }
 
     async function register() {
@@ -76,49 +133,60 @@
       const email = document.getElementById("Email").value.trim();
       const messageEl = document.getElementById("error");
 
+      // Validation
       if (!name || !surname || !student_number || !email || !password || !confirmPassword || !contact_number) {
-        messageEl.textContent = '❌ Please fill in all required fields.';
-        messageEl.className = 'error';
+        messageEl.textContent = '❌ Please fill in all fields.';
         return;
       }
 
-      if (password !== confirmPassword) {
-        messageEl.textContent = '❌ Passwords do not match.';
-        messageEl.className = 'error';
+      // Student number must be 9 digits
+      const studentNumberPattern = /^\d{9}$/;
+      if (!studentNumberPattern.test(student_number)) {
+        messageEl.textContent = '❌ Student number must be exactly 9 digits.';
         return;
       }
 
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(email)) {
-        messageEl.textContent = '❌ Please enter a valid email address.';
-        messageEl.className = 'error';
-        return;
-      }
+      // Passwords match
+if (password !== confirmPassword) {
+  messageEl.textContent = '❌ Passwords do not match.';
+  return;
+}
+
+// ✅ Contact number must be 10 digits and start with 06, 07, or 08
+const contactPattern = /^(06|07|08)\d{8}$/;
+if (!contactPattern.test(contact_number)) {
+  messageEl.textContent = '❌ Contact number must be 10 digits!';
+  return;
+}
+
+// ✅ Email must match format
+const expectedEmail = `${student_number}@mywsu.ac.za`;
+if (email.toLowerCase() !== expectedEmail.toLowerCase()) {
+  messageEl.textContent = `❌ Email must match student number (e.g. ${expectedEmail})`;
+  return;
+}
+
 
       try {
         const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
-
         if (authError) {
-          // Do not show any error message
+          messageEl.textContent = "❌ " + authError.message;
           return;
         }
 
         const userId = authData.user?.id;
-        if (!userId) {
-          // Do not show any error message
-          return;
-        }
+        if (!userId) return;
 
         const { error: insertError } = await supabase
           .from("Users")
           .insert([{ id: userId, name, surname, student_number, contact_number, email }]);
 
         if (insertError) {
-          // Do not show any error message
+          messageEl.textContent = "❌ Failed to save additional user info.";
           return;
         }
 
-        messageEl.textContent = "✅ Registration successful! Please check your email to confirm your account.";
+        messageEl.textContent = "✅ Registration successful! Redirecting...";
         messageEl.className = "success";
 
         // Clear form
@@ -130,12 +198,12 @@
         document.getElementById("contact_number").value = "";
         document.getElementById("Email").value = "";
 
-        // Redirect to login page after registration
+        // Redirect to login page
         setTimeout(() => {
           window.location.href = "index.html";
-        }, 2000);
+        }, 2500);
       } catch (error) {
-        // Do not show any error message
+        messageEl.textContent = "❌ Something went wrong. Try again.";
       }
     }
   </script>
