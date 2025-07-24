@@ -18,6 +18,98 @@
       align-items: center;
       min-height: 100vh;
     }
+
+    #scrollTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 99;
+  width: 56px;
+  height: 56px;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  transition: transform 0.2s, box-shadow 0.2s;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+#scrollTopBtn svg {
+  display: block;
+  width: 48px;
+  height: 48px;
+}
+#scrollTopBtn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.28);
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 16px;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: #222;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    border-radius: 0 0 8px 8px;
+    z-index: 100;
+  }
+  .nav-links.show {
+    display: flex;
+  }
+  .nav-links li {
+    width: 100%;
+    text-align: left;
+    padding: 16px 24px;
+    border-bottom: 1px solid #333;
+  }
+  .nav-brand {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+  }
+  .hamburger span {
+    display: block;
+    height: 4px;
+    width: 28px;
+    background: #fff;
+    margin: 6px 0;
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+}
+@media (min-width: 901px) {
+  .hamburger {
+    display: none;
+  }
+  .nav-links {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
     </style>
 
      <!-- Navigation Bar -->
@@ -48,19 +140,73 @@
     <input type="email" id="Email" placeholder="StudentNumber@mywsu.ac.za" required />
     <button type="submit">Get Code</button>
     <div id="error" class="error"></div>
+    <div id="success" class="success"></div>
   </form>
 </div>
 
+<!-- Scroll-to-Top Button -->
+<button id="scrollTopBtn" title="Go to top">
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="16" cy="16" r="16" fill="#333"/>
+    <path d="M16 10 L16 22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    <path d="M10 16 L16 10 L22 16" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </svg>
+</button>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 <script>
-  function toggleMenu() {
-      const navLinks = document.getElementById("navLinks");
-      navLinks.classList.toggle("show");
-    }
+// Scroll-to-Top Button
+window.onscroll = function() {
+  const btn = document.getElementById("scrollTopBtn");
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btn.style.display = "flex";
+  } else {
+    btn.style.display = "none";
+  }
+};
+document.getElementById("scrollTopBtn").onclick = function() {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+};
 
+// Hamburger menu
+function toggleMenu() {
+  const navLinks = document.getElementById("navLinks");
+  navLinks.classList.toggle("active");
+}
+const hamburger = document.querySelector('.hamburger');
+if (hamburger) {
+  hamburger.addEventListener('click', toggleMenu);
+}
+
+// Supabase password reset
+const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+const otpForm = document.getElementById('otpForm');
+const errorDiv = document.getElementById('error');
+const successDiv = document.getElementById('success');
+
+otpForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  errorDiv.textContent = '';
+  successDiv.textContent = '';
+  const email = document.getElementById('Email').value.trim();
+  if (!email) {
+    errorDiv.textContent = 'Please enter your email.';
+    return;
+  }
+  successDiv.textContent = 'Processing...';
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  if (error) {
+    errorDiv.textContent = error.message;
+    successDiv.textContent = '';
+  } else {
+    successDiv.textContent = 'A password reset link has been sent to your email.';
+  }
+});
 </script>
 
 </body>
 </html>
 
-  
