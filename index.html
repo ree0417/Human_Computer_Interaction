@@ -68,37 +68,43 @@
     }
 
     async function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const errorDiv = document.getElementById("error");
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const errorDiv = document.getElementById("error");
+  const loginBtn = document.getElementById("loginBtn");
 
-    if (!email || !password) {
-      errorDiv.textContent = "❌ Please enter both email and password.";
-      errorDiv.className = "error";
-      return;
-    }
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      errorDiv.textContent = "❌ Login failed: " + error.message;
-      errorDiv.className = "error";
-    } else {
-      errorDiv.textContent = "✅ Login successful!";
-      errorDiv.className = "success";
-      setTimeout(() => {
-        window.location.href = "home.html";
-      }, 1500);
-    }
+  if (!email || !password) {
+    errorDiv.textContent = "❌ Please enter both email and password.";
+    errorDiv.className = "error";
+    return;
   }
 
-  function register() {
-    // Optional: redirect to register page or open register modal
-    window.location.href = "register.html";
+  loginBtn.textContent = "Logging in..."; // Show logging in message
+  loginBtn.disabled = true; // Optional: disable button to prevent multiple clicks
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  });
+
+  if (error) {
+    errorDiv.textContent = "❌ Login failed: " + error.message;
+    errorDiv.className = "error";
+    loginBtn.textContent = "Login";
+    loginBtn.disabled = false;
+  } else {
+     errorDiv.textContent = "✅ Login Successful " + error.message;
+    errorDiv.className = "success";
+    loginBtn.textContent = "Welcome...";
+    // Optional delay before redirect
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 1500);
   }
+
+  
+}
+
   </script>
 </body>
 </html>
