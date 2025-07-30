@@ -292,6 +292,29 @@ form.addEventListener("submit", async (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = "Submitting...";
 
+  // Check for duplicate email or student number
+  const { data: existing, error: checkError } = await supabase
+    .from("CricketRegistrations")
+    .select("id")
+    .or(`email.eq.${email},studentNumber.eq.${studentNumber}`);
+
+  if (checkError) {
+    alert("❌ Something went wrong while checking for duplicates.");
+    console.error(checkError);
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
+    return;
+  }
+
+  if (existing && existing.length > 0) {
+    alert("❌ A user with this email or student number already exists.");
+    document.querySelector('input[name="email"]').value = "";
+    document.querySelector('input[name="studentNumber"]').value = "";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit";
+    return;
+  }
+
   try {
     const formData = new FormData(form);
     const fullname = formData.get("fullname").trim();
