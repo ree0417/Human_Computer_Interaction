@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Athletics Team Registration Form</title>
+  <title>Volleyball Team Registration</title>
   <link rel="stylesheet" href="Style.css">
   <link rel="stylesheet" href="home.css">
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-      background: #f2f2f2;
+      background: #f9f9f9;
     }
     
     #scrollTopBtn {
@@ -106,8 +106,7 @@
   </style>
 </head>
 <body>
-
-    <nav class="navbar">
+        <nav class="navbar">
   <div class="nav-brand">
     <a href="home.html">
       <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
@@ -137,17 +136,14 @@
     </li>
     <li><a href="contact.html">Contact</a></li>
     <li><a href="index.html" id="logoutLink">Logout</a></li>
-  </ul>
-
-  
-
-
-  
+  </ul> 
 </nav>
-<form id="athleticsForm"  method="POST">
-  <h2>WSU Athletics Registration</h2>
 
-  <label for="fullname">Full Name <span class="required">*</span></label>
+
+<form id="volleyballForm" method="POST">
+  <h2>WSU Volleyball Team Registration</h2>
+
+  <label for="fullname">Full Name & Surname<span class="required">*</span></label>
   <input type="text" id="fullname" name="fullname" required>
 
   <label for="studentNumber">Student Number <span class="required">*</span></label>
@@ -181,32 +177,28 @@
   <label for="faculty">Faculty / Department</label>
   <input type="text" id="faculty" name="faculty">
 
-  <label>Have you competed in athletics before? <span class="required">*</span></label>
+  <label>Have you played volleyball before? <span class="required">*</span></label>
   <div class="checkbox-group">
     <label><input type="radio" name="experience" value="Yes" required> Yes</label>
     <label><input type="radio" name="experience" value="No"> No</label>
   </div>
 
-  <label for="previousTeam">If yes, where?</label>
-  <input type="text" id="previousTeam" name="previousTeam">
-
-  <label for="event">Preferred Event(s)</label>
-  <select id="event" name="event" multiple size="5">
-    <option>100m</option>
-    <option>200m</option>
-    <option>400m</option>
-    <option>800m</option>
-    <option>1500m</option>
-    <option>Long Jump</option>
-    <option>High Jump</option>
-    <option>Shot Put</option>
-    <option>Javelin</option>
-    <option>Discus</option>
+  <label for="position">Preferred Position</label>
+  <select id="position" name="position">
+    <option>Outside Hitter</option>
+    <option>Opposite Hitter</option>
+    <option>Middle Blocker</option>
+    <option>Setter</option>
+    <option>Libero</option>
+    <option>Defensive Specialist</option>
+    <option>Undecided</option>
   </select>
-  <small>Hold Ctrl (Cmd on Mac) to select multiple events</small>
 
-  <label for="personalBest">Personal Best Time/Distance (if known)</label>
-  <input type="text" id="personalBest" name="personalBest">
+  <label for="height">Height (e.g., 1.75m or 5'9")</label>
+  <input type="text" id="height" name="height">
+
+  <label for="spikeReach">Spike Reach (if known)</label>
+  <input type="text" id="spikeReach" name="spikeReach">
 
   <label for="training">How often do you train per week?</label>
   <input type="text" id="training" name="training">
@@ -231,12 +223,12 @@
 
   <label>
     <input type="checkbox" name="agreement" required>
-    I confirm that the information above is accurate and I accept responsibility. <span class="required">*</span>
+    I confirm that the information provided is true and I accept responsibility. <span class="required">*</span>
   </label>
 
   <label>
     <input type="checkbox" name="code" required>
-    I agree to follow the athletics team’s code of conduct and training schedule. <span class="required">*</span>
+    I agree to follow the volleyball team’s code of conduct and training rules. <span class="required">*</span>
   </label>
 
   <button type="submit">Submit Registration</button>
@@ -251,38 +243,9 @@
   </svg>
 </button>
 
-<!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
-    <p>Developed to connect students with the Sports Department</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script>
-function toggleMenu() {
-  const navLinks = document.getElementById("navLinks");
-  navLinks.classList.toggle("active");
-}
-const hamburger = document.querySelector('.hamburger');
-if (hamburger) {
-  hamburger.addEventListener('click', toggleMenu);
-}
-
-    document.addEventListener('click', function (e) {
-    if (!dropdownWrapper.contains(e.target)) {
-      dropdownWrapper.classList.remove('active');
-    }
-  });
-
-  document.getElementById('logoutLink').addEventListener('click', function (event) {
-    event.preventDefault();
-    const confirmed = confirm("Are you sure you want to logout?");
-    if (confirmed) {
-      window.location.href = this.href;
-    }
-  });
-
-  window.onscroll = function() {
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+window.onscroll = function() {
   const btn = document.getElementById("scrollTopBtn");
   if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
     btn.style.display = "flex";
@@ -293,84 +256,137 @@ if (hamburger) {
 document.getElementById("scrollTopBtn").onclick = function() {
   window.scrollTo({top: 0, behavior: 'smooth'});
 };
+</script>
 
- // Supabase setup
-  const supabaseUrl = "https://mqvjbgnipsjygmpwidnq.supabase.co";
-  const supabaseKey =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y";
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+<!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+    <p>Developed to connect students with the Sports Department</p>
+  </footer>
 
-   document.getElementById("athleticsForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById("navLinks");
+      navLinks.classList.toggle("active");
+    }
+    const hamburger = document.querySelector('.hamburger');
+    if (hamburger) {
+      hamburger.addEventListener('click', toggleMenu);
+    }
 
-    const form = e.target;
-    const submitBtn = form.querySelector("button[type='submit']");
+    const dropdownLink = document.getElementById('dropdownLink');
+    const moreDropdown = document.getElementById('moreDropdown');
+    const dropdownWrapper = document.getElementById('dropdownWrapper');
+
+    dropdownLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropdownLink.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!dropdownWrapper.contains(e.target)) {
+        dropdownLink.classList.remove('active');
+      }
+    });
+
+    
+
+  dropdownLink.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the link from navigating
+    dropdownMenu.classList.toggle('show');
+  });
+
+  // Optional: Click outside to close the dropdown
+  document.addEventListener('click', function(event) {
+    const isClickInside = document.getElementById('dropdownWrapper').contains(event.target);
+    if (!isClickInside) {
+      dropdownMenu.classList.remove('show');
+    }
+  });
+
+  document.getElementById('logoutLink').addEventListener('click', function (event) {
+    event.preventDefault();
+    const confirmed = confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      window.location.href = this.href;
+    }
+  });
+  
+
+  // Supabase credentials {Initialize Supabase client}
+    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+
+  const form = document.getElementById("volleyballForm");
+  const submitBtn = form.querySelector("button[type='submit']");
+
+  form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  try {
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
 
     const formData = new FormData(form);
+    const email = formData.get("email").trim();
+    const studentNumber = formData.get("studentNumber").trim();
+    const contact = formData.get("contact").trim();
+    const emergencyPhone = formData.get("emergencyPhone").trim();
 
-const email = formData.get('email');
-const studentNumber = formData.get('studentNumber');
+    // ✅ Validation: Student number = 9 digits
+    if (!/^\d{9}$/.test(studentNumber)) {
+      alert("❌ Student number must be exactly 9 digits.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit";
+      return;
+    }
 
-// Check for existing email or student number
-const { data: existing, error: fetchError } = await supabase
-  .from("Athletics")
-  .select("*")
-  .or(`email.eq.${email},studentNumber.eq.${studentNumber}`);
+    // ✅ Validation: Email must match studentNumber@mywsu.ac.za
+    const expectedEmail = `${studentNumber}@mywsu.ac.za`;
+    if (email !== expectedEmail) {
+      alert(`❌ Email must be: ${expectedEmail}`);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit";
+      return;
+    }
 
-if (fetchError) {
-  alert("Error checking duplicates: " + fetchError.message);
-  submitBtn.disabled = false;
-  submitBtn.textContent = "Submit";
-  return;
-}
+    // ✅ Validation: Emergency phone must start with 06, 07, or 08 and be 10 digits
+    if (!/^(06|07|08)\d{8}$/.test(emergencyPhone)) {
+      alert("❌ Emergency contact number must start with 06, 07, or 08 and be 10 digits.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit";
+      return;
+    }
 
-if (existing.length > 0) {
-  alert("❌ A user with this email or student number already exists.");
+    // ✅ Insert into Supabase
+    const { error: insertError } = await supabase
+      .from("volleyball")
+      .insert({
+        fullname: formData.get("fullname"),
+        studentNumber,
+        dob: formData.get("dob"),
+        gender: formData.get("gender"),
+        contact,
+        email,
+        year: formData.get("year"),
+        faculty: formData.get("faculty"),
+        experience: formData.get("experience"),
+        position: formData.get("position"),
+        height: formData.get("height"),
+        spikeReach: formData.get("spikeReach"),
+        training: formData.get("training"),
+        medical: formData.get("medical"),
+        conditionDetails: formData.get("conditionDetails"),
+        emergencyContact: formData.get("emergencyContact"),
+        emergencyPhone,
+        relationship: formData.get("relationship"),
+      });
 
-  // Reset email & student number
-  form.querySelector('input[name="email"]').value = "";
-  form.querySelector('input[name="studentNumber"]').value = "";
-  form.querySelector('input[name="email"]').focus();
-
-  // Reset button
-  submitBtn.disabled = false;
-  submitBtn.textContent = "Submit";
-  return;
-}
-
-const data = {
-  fullname: formData.get('fullname'),
-  studentNumber,
-  dob: formData.get('dob'),
-  gender: formData.get('gender'),
-  contact: formData.get('contact'),
-  email,
-  year: formData.get('year'),
-  faculty: formData.get('faculty'),
-  experience: formData.get('experience'),
-  previousTeam: formData.get('previousTeam'),
-  event: formData.getAll('event'),
-  personalBest: formData.get('personalBest'),
-  training: formData.get('training'),
-  medical: formData.get('medical'),
-  conditionDetails: formData.get('conditionDetails'),
-  emergencyContact: formData.get('emergencyContact'),
-  emergencyPhone: formData.get('emergencyPhone'),
-  relationship: formData.get('relationship'),
-  agreement: formData.get('agreement') === 'on',
-  code: formData.get('code') === 'on',
-};
-    try {
-    const { data: inserted, error } = await supabase
-      .from("Athletics")
-      .insert([data])
-      .select();
-
-    if (error) {
-      console.error("Insert error:", error);
-      alert("❌ Could not submit. Please try again later.");
+    if (insertError) {
+      console.error("Insert error:", insertError);
+      alert("❌ Could not submit. Please check your info or try again later.");
     } else {
       alert("✅ Thank you for your application! We will get back to you as soon as we have the final decision on your application.");
       form.reset();
@@ -380,6 +396,7 @@ const data = {
     alert("Unexpected error: " + err.message);
   }
 
+  // ✅ Always reset button
   submitBtn.disabled = false;
   submitBtn.textContent = "Submit";
 });
