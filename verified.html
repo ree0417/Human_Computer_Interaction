@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Account Verified</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    #message {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      margin: 30px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="message">Verifying your account...</div>
+
+  <script>
+    // Supabase credentials {Initialize Supabase client}
+    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function checkSession() {
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (session && session.user?.email_confirmed_at) {
+        document.getElementById("message").textContent = "✅ You're now verified! Redirecting to login...";
+        setTimeout(() => {
+          window.location.href = "index.html"; // Your login page
+        }, 2500);
+      } else {
+        document.getElementById("message").textContent = "⚠️ Verification failed or already completed.";
+      }
+    }
+
+    checkSession();
+  </script>
+</body>
+</html>
