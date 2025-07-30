@@ -1,113 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Page</title>
-  <link rel="stylesheet" href="Style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    // Use the same Supabase credentials as register.html
-    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-  </script>
-</head>
-<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Login Role</title>
   <style>
-    /* Page styles */
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #1e1e20, #b1b1b6);
-      margin: 0;
-      padding-top: 80px; /* Leave space for navbar */
-      display: flex;
-      flex-direction: column;
-      /* align-items: center; */
-      min-height: 100vh;
+      text-align: center;
+      padding: 50px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .role-button {
+      padding: 15px 30px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      background-color: #28292a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .role-button:hover {
+      background-color: #7e868d;
     }
   </style>
+</head>
+<body>
+  <h1>Choose Your Login Role</h1>
+  <button class="role-button" onclick="redirect('user')">Login as User</button>
+  <button class="role-button" onclick="redirect('admin')">Login as Admin</button>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="nav-brand">
-      <a href="index.html">
-        <img src="Images/images.jpeg" alt="Logo" class="logo-img">
-      </a>
-      <div class="hamburger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html" class="active">Login</a></li>
-      <li><a href="register.html">Register</a></li>
-
-    </ul>
-  </nav>
-
-  <!-- Login Container -->
-  <div class="login-container">
-    <h2>Login</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <div id="error" class="error"></div>
-    <button id="loginBtn" onclick="login()">Login</button>
-
-
-    <a href="register.html"><button>Register</button></a>
-    <a href="forgot.html"><p>Forgot Password?</p></a>
-  </div>
-
-  
-  <!-- Script -->
   <script>
-   function toggleMenu() {
-      const navLinks = document.getElementById("navLinks");
-      navLinks.classList.toggle("show");
+    function redirect(role) {
+      if (role === 'admin') {
+        window.location.href = 'admin.html';
+      } else if (role === 'user') {
+        window.location.href = 'login.html';
+      }
     }
-
-    async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const errorDiv = document.getElementById("error");
-  const loginBtn = document.getElementById("loginBtn");
-
-  if (!email || !password) {
-    errorDiv.textContent = "❌ Please enter both email and password.";
-    errorDiv.className = "error";
-    return;
-  }
-
-  loginBtn.textContent = "Logging in..."; // Show logging in message
-  loginBtn.disabled = true; // Optional: disable button to prevent multiple clicks
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: password,
-  });
-
-  if (error) {
-    errorDiv.textContent = "❌ Login failed: " + error.message;
-    errorDiv.className = "error";
-    loginBtn.textContent = "Login";
-    loginBtn.disabled = false;
-  } else {
-    errorDiv.textContent = "✅ Login successful!";
-    errorDiv.className = "success";
-    loginBtn.textContent = "Welcome...";
-    // Optional delay before redirect
-    setTimeout(() => {
-      window.location.href = "home.html";
-    }, 1500);
-  }
-
-  
-}
-
   </script>
 </body>
 </html>
