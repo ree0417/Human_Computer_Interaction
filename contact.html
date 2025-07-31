@@ -126,37 +126,35 @@
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="nav-brand">
-      <a href="upcoming.html">
-        <img src="Images/images.jpeg" alt="WSU Logo" />
-      </a>
+ <nav class="navbar">
+  <div class="nav-brand">
+    <a href="home.html">
+      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
+    </a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-
-    <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="football.html">Football</a></li>
-      <li><a href="rugby.html">Rugby</a></li>
-      <li><a href="cricket.html">Cricket</a></li>
-      <li id="dropdownWrapper" style="position: relative;">
-        <a href="#" id="dropdownLink">More ▾</a>
-        <ul class="dropdown" id="moreDropdown">
-          <li><a href="athletics.html">Athletics</a></li>
-          <li><a href="basketball.html">Basketball</a></li>
-          <li><a href="volleyball.html">Volleyball</a></li>
-          <li><a href="netball.html">Netball</a></li>
-        </ul>
-      </li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="index.html" id="logoutLink">Logout</a></li>
-    </ul>
-  </nav>
-
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="football.html">Football</a></li>
+    <li><a href="rugby.html">Rugby</a></li>
+    <li><a href="upcoming.html">Upcoming Matches</a></li>
+    <li id="dropdownWrapper" style="position: relative;">
+      <a href="#" id="dropdownLink">More ▾</a>
+      <ul class="dropdown" id="moreDropdown">
+        <li><a href="athletics.html">Athletics</a></li>
+        <li><a href="basketball.html">Basketball</a></li>
+        <li><a href="volleyball.html">Volleyball</a></li>
+        <li><a href="cricket.html">Cricket</a></li>
+        <li><a href="netball.html">Netball</a></li>
+      </ul>
+    </li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html" id="logoutLink">Logout</a></li>
+  </ul> 
+</nav>
   <h1>
     Oops! 🤦‍♂️ We currently do not have contact information for the sports
     management office. We'll keep you updated once we have. Danko!! 😉
