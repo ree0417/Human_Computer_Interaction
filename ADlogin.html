@@ -60,13 +60,8 @@
       return;
     }
 
-    const { error: signInError } = await supabase.auth.signInWithOtp({
-  email: actualEmail,
-  options: {
-    emailRedirectTo: 'https://ree0417.github.io/Human_Computer_Interaction/admin.html'
- // ← change this to your actual hosted login page
-  }
-});
+    // Send magic link for login to the actual email
+    const { error: signInError } = await supabase.auth.signInWithOtp({ email: actualEmail });
 
     if (signInError) {
       errorEl.textContent = 'Failed to send login link: ' + signInError.message;
