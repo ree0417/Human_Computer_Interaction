@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; }
+    button { background: #1d1e1e; color: white; border: none; cursor: pointer; }
+    button:hover { background: #606568; }
+    #message { margin-top: 15px; color: green; }
+    #error { margin-top: 15px; color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>Admin Login</h1>
+  <input type="email" id="email" placeholder="Enter your admin email" required />
+  <button onclick="sendMagicLink()">Send Login Link</button>
+
+  <div id="message"></div>
+  <div id="error"></div>
+
+<script>
+  // Use the same Supabase credentials as register.html
+    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function sendMagicLink() {
+    let inputEmail = document.getElementById('email').value.trim().toLowerCase();
+    const messageEl = document.getElementById('message');
+    const errorEl = document.getElementById('error');
+    messageEl.textContent = '';
+    errorEl.textContent = '';
+
+    if (!inputEmail.startsWith('admin')) {
+      errorEl.textContent = "Invalid email format. Please enter a valid email.";
+      return;
+    }
+
+    // Remove the 'admin' prefix to get the real email
+    const actualEmail = inputEmail.slice(5);
+
+    if (!actualEmail) {
+      errorEl.textContent = "Invalid email format. Please enter a valid email.";
+      return;
+    }
+
+    // Check if actualEmail is in admin whitelist
+    const { data, error } = await supabase
+      .from('AdminEmails')
+      .select('email')
+      .eq('email', actualEmail)
+      .single();
+
+    if (error || !data) {
+      errorEl.textContent = 'Email is not authorized for admin access.';
+      return;
+    }
+
+    // Send magic link for login to the actual email
+    const { error: signInError } = await supabase.auth.signInWithOtp({ email: actualEmail });
+
+    if (signInError) {
+      errorEl.textContent = 'Failed to send login link: ' + signInError.message;
+      return;
+    }
+
+    messageEl.textContent = 'Check your email for the login link!';
+  }
+
+  // After login, Supabase redirects back here with session in URL
+  window.onload = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session) {
+      const userEmail = session.user.email.toLowerCase();
+
+      // Check user email against whitelist (without any prefix here)
+      const { data, error } = await supabase
+        .from('AdminEmails')
+        .select('email')
+        .eq('email', userEmail)
+        .single();
+
+      if (error || !data) {
+        alert('You are not authorized as an admin.');
+        await supabase.auth.signOut();
+        window.location.href = 'ADlogin.html';
+        return;
+      }
+
+      // Redirect to admin dashboard
+      window.location.href = 'admin.html';
+    }
+  };
+</script>
+
+</body>
+</html>
