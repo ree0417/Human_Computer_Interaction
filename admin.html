@@ -340,7 +340,7 @@ function logout() {
 
   // Sign out from Supabase (if using authentication)
   supabase.auth.signOut().then(() => {
-    window.location.href = "login.html"; // Redirect to login page
+    window.location.href = "index.html"; // Redirect to login page
   }).catch((error) => {
     console.error("Logout failed:", error.message);
     alert("Failed to log out. Please try again.");
@@ -363,3 +363,4 @@ function toggleSidebar() {
 </footer>
 </body>
 </html>
+
