@@ -16,7 +16,7 @@
 
   <h1>Admin Login</h1>
   <input type="email" id="email" placeholder="Enter your admin email" required />
-  <button onclick="sendMagicLink()">Send Login Link</button>
+<button onclick="sendMagicLink()">Get Login Link</button>
 
   <div id="message"></div>
   <div id="error"></div>
@@ -60,8 +60,12 @@
       return;
     }
 
-    // Send magic link for login to the actual email
-    const { error: signInError } = await supabase.auth.signInWithOtp({ email: actualEmail });
+   const { error: signInError } = await supabase.auth.signInWithOtp({
+  email: actualEmail,
+  options: {
+    emailRedirectTo: 'https://ree0417.github.io/Human_Computer_Interaction/admin.html' // ← change this to your actual hosted login page
+  }
+});
 
     if (signInError) {
       errorEl.textContent = 'Failed to send login link: ' + signInError.message;
@@ -95,11 +99,19 @@
       // Redirect to admin dashboard
       window.location.href = 'admin.html';
     }
+
+    function sendMagicLink() {
+    const emailInput = document.getElementById('email');
+    const email = emailInput.value;
+
+    // Your logic to send the magic link goes here
+    console.log("Sending magic link to:", email);
+
+    // ✅ Reset the input field
+    emailInput.value = '';
+  }
   };
 </script>
 
 </body>
 </html>
-
-
-
