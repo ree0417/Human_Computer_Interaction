@@ -4,255 +4,267 @@
   <meta charset="UTF-8" />
   <title>Admin Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="Style.css">
   <style>
-    /* === Base Styles === */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f9f9f9;
-  margin-left: 220px;
-  transition: margin-left 0.3s ease;
-  overflow-x: hidden;
-}
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+      margin-left: 220px;
+      transition: margin-left 0.3s ease;
+      overflow-x: hidden;
+    }
 
-h1 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
 
-button,
-a.button {
-  padding: 10px 20px;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #1d1e1e;
-  color: white;
-  text-decoration: none;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
+    button,
+    a.button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      display: inline-block;
+      background-color: #1d1e1e;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-button:hover,
-a.button:hover {
-  background-color: #606568;
-}
+    button:hover,
+    a.button:hover {
+      background-color: #606568;
+    }
 
-#welcome {
-  background-color: #e6f4ff;
-  border-left: 5px solid #0077cc;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  color: #333;
-}
+    #welcome {
+      background-color: #e6f4ff;
+      border-left: 5px solid #0077cc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      color: #333;
+    }
 
-#results {
-  background: #fff;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-}
+    #results {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
 
-.stat {
-  margin-bottom: 10px;
-  font-size: 18px;
-}
+    .stat {
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
 
-hr {
-  border: none;
-  border-top: 2px solid #ccc;
-  margin: 20px 0;
-}
+    hr {
+      border: none;
+      border-top: 2px solid #ccc;
+      margin: 20px 0;
+    }
 
-/* === Sidebar Styles === */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 100vh;
-  background-color: #1d1e1e;
-  color: #fff;
-  padding-top: 20px;
-  z-index: 999;
-  transition: transform 0.3s ease;
-}
+    /* === Sidebar === */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 100vh;
+      background-color: #1d1e1e;
+      color: #fff;
+      padding-top: 20px;
+      z-index: 999;
+      transition: transform 0.3s ease;
+    }
 
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
-  margin-bottom: 30px;
-}
+    .sidebar-header {
+      padding: 0 15px;
+      margin-bottom: 30px;
+    }
 
-.sidebar a {
-  display: block;
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 20px;
-  transition: background 0.3s;
-}
+    .sidebar a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      transition: background 0.3s;
+    }
 
-.sidebar a:hover {
-  background-color: #333;
-}
+    .sidebar a:hover {
+      background-color: #333;
+    }
 
-#toggleBtn {
-  display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-}
+    #sidebarToggle {
+      display: none;
+      background: #1d1e1e;
+      color: white;
+      font-size: 24px;
+      border: none;
+      padding: 10px 15px;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1001;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-/* === Announcement Section === */
-#announcement {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-top: 30px;
-  max-width: 600px;
-}
+    /* === Announcement Section === */
+    #announcement {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+      max-width: 600px;
+    }
 
-#announcement h1 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #333;
-}
+    #announcement h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-#announcement p {
-  color: #555;
-  margin-bottom: 15px;
-}
+    #announcement p {
+      color: #555;
+      margin-bottom: 15px;
+    }
 
-#announcementForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    #announcementForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-#announcementText {
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.3s;
-  width: 100%;
-}
+    #announcementText {
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
 
-#announcementText:focus {
-  border-color: #007bff;
-  outline: none;
-}
+    #announcementText:focus {
+      border-color: #007bff;
+      outline: none;
+    }
 
-#announcementForm button {
-  background-color: #1d1e1e;
-  color: #fff;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+    #announcementForm button {
+      background-color: #1d1e1e;
+      color: #fff;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-#announcementForm button:hover {
-  background-color: #606568;
-}
+    #announcementForm button:hover {
+      background-color: #606568;
+    }
 
-#announcementStatus {
-  margin-top: 10px;
-  font-style: italic;
-  color: green;
-}
+    #announcementStatus {
+      margin-top: 10px;
+      font-style: italic;
+      color: green;
+    }
 
-/* === Footer === */
-footer {
-  text-align: center;
-  margin-top: 40px;
-  color: #777;
-  font-size: 14px;
-}
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #777;
+      font-size: 14px;
+    }
 
-/* === Responsive Media Queries === */
-@media (max-width: 768px) {
-  body {
-    padding: 15px;
-    margin-left: 0;
-  }
+    /* === Responsive Media Queries === */
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+        margin-left: 0;
+      }
 
-  h1 {
-    font-size: 20px;
-  }
+      h1 {
+        font-size: 20px;
+      }
 
-  #toggleBtn {
-    display: block;
-  }
+      #sidebarToggle {
+        display: block;
+      }
 
-  .sidebar {
-    transform: translateX(-100%);
-    width: 220px;
-  }
+      .sidebar {
+        transform: translateX(-100%);
+      }
 
-  .sidebar.show {
-    transform: translateX(0);
-  }
+      .sidebar.show {
+        transform: translateX(0);
+      }
 
-  body.sidebar-open {
-    margin-left: 0;
-  }
+      body.sidebar-open {
+        overflow: hidden;
+      }
 
-  #announcement {
-    width: 100%;
-    max-width: 100%;
-  }
+      #announcement,
+      button,
+      a.button {
+        width: 100%;
+        font-size: 16px;
+      }
 
-  button,
-  a.button {
-    width: 100%;
-    font-size: 16px;
-  }
-}
-</style>
+      #announcementText {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <h1 style="margin-top: 20px;color: #e6f4ff;">Admin Dashboard</h1>
+  <!-- Toggle Sidebar Button -->
+  <button id="sidebarToggle" onclick="toggleSidebar()">☰</button>
 
-    <button id="toggleBtn" onclick="toggleSidebar()">☰</button>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1 style="margin-top: 20px;color: #e6f4ff;">Admin Dashboard</h1>
+    </div>
+    <a href="#" onclick="loadStats()">📊 Load Stats</a>
+    <a href="#announcement">📢 Announcements</a>
+    <a href="#" onclick="logout()">🚪 Logout</a>
   </div>
-  <a href="#" onclick="loadStats()">📊 Load Stats</a>
-  <a href="#announcement">📢 Announcements</a>
-  <a href="#" onclick="logout()">🚪 Logout</a>
-</div>
 
-
-  
-
+  <!-- Main Content -->
   <h1>Admin Dashboard</h1>
+<div id="welcome">
+  <h3>👋 Welcome to the WSU Sports Management Admin Dashboard</h3>
+  <p>Hello Admin!</p>
+  <p>
+    You're now logged into the central hub for managing sports registrations, announcements, and student engagement at Walter Sisulu University.
+  </p>
+  <p>Use this dashboard to:</p>
+  <ul>
+     <li>Monitor registrations across all sports codes</li>
+     <li>Post important announcements</li>
+     <li>Keep students informed and updated</li>
+  </ul>
+  <p>
+    Thank you for helping us keep WSU’s sporting community organized, active, and connected!
+  </p>
+</div>
+<hr>
 
-  <div id="welcome">👋 Welcome, Admin! Use this dashboard to monitor registrations and manage data.</div>
-
-  <hr>
 
   <div id="instruction">
     <h1>Instruction</h1>
-    <p>Click the button below to load the total number of registered students across all sports.You can post new announcements to keep students updated</p>
+    <p>Click the button below to load the total number of registered students across all sports. You can post new announcements to keep students updated.</p>
   </div>
 
   <button id="load" onclick="loadStats()">Load Users</button>
@@ -268,99 +280,78 @@ footer {
     </form>
     <div id="announcementStatus"></div>
   </div>
+
   <hr>
   <button id="logoutBtn" onclick="logout()">Logout</button>
 
+  <footer style="background-color: #000000;">
+    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+    <p>Developed to connect students with the Sports Department</p>
+  </footer>
+
   <script>
-  // Supabase credentials {Initialize Supabase client}
+    // Supabase credentials
     const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  async function loadStats() {
-  const button = document.getElementById("load");
-  const resultsDiv = document.getElementById("results");
+    async function loadStats() {
+      const button = document.getElementById("load");
+      const resultsDiv = document.getElementById("results");
 
-  // Show loading state
-  button.textContent = "Loading stats...";
-  button.disabled = true;
-  resultsDiv.innerHTML = "";
+      button.textContent = "Loading stats...";
+      button.disabled = true;
+      resultsDiv.innerHTML = "";
 
-  const tables = {
-    Netball: "Netball_Registration",
-    Rugby: "rugby",
-    Athletics: "Athletics",
-    Cricket: "CricketRegistrations",
-    Basketball: "basketball",
-    Football: "football",
-    Volleyball: "volleyball",
-  };
+      const tables = {
+        Netball: "Netball_Registration",
+        Rugby: "rugby",
+        Athletics: "Athletics",
+        Cricket: "CricketRegistrations",
+        Basketball: "basketball",
+        Football: "football",
+        Volleyball: "volleyball",
+      };
 
-  let total = 0;
-  const stats = {};
+      let total = 0;
+      const stats = {};
 
-  for (const [label, table] of Object.entries(tables)) {
-    const { count, error } = await supabase
-      .from(table)
-      .select("*", { count: "exact", head: true });
+      for (const [label, table] of Object.entries(tables)) {
+        const { count, error } = await supabase
+          .from(table)
+          .select("*", { count: "exact", head: true });
 
-    if (error) {
-      console.error(`Error loading ${label}:`, error.message);
-      stats[label] = "❌ Error";
-    } else {
-      stats[label] = count;
-      total += count;
+        stats[label] = error ? "❌ Error" : count;
+        if (!error) total += count;
+      }
+
+      resultsDiv.innerHTML = `
+        <hr>
+        <div class="stat">✅ ${total} Students Registered</div>
+        ${Object.entries(stats).map(([sport, value]) => `<div class="stat">${sport}: ${value}</div>`).join('')}
+        <br>
+        <a class="button" href="download.html">Download All</a>
+        <a class="button" href="view-netball.html">View Netball Registrations</a>
+      `;
+
+      button.textContent = "Load Users";
+      button.disabled = false;
     }
-  }
 
-  // Show the results
-  resultsDiv.innerHTML = `
-    <hr>
-    <div class="stat">✅ ${total} Students Registered</div>
-    <div class="stat">🏐 Netball: ${stats.Netball}</div>
-    <div class="stat">🏉 Rugby: ${stats.Rugby}</div>
-    <div class="stat">🏃 Athletics: ${stats.Athletics}</div>
-    <div class="stat">🏏 Cricket: ${stats.Cricket}</div>
-    <div class="stat">🏀 Basketball: ${stats.Basketball}</div>
-    <div class="stat">⚽ Football: ${stats.Football}</div>
-    <div class="stat">🏐 Volleyball: ${stats.Volleyball}</div>
-    <br>
-    <a class="button" href="download.html">Download All</a>
-    <a class="button" href="view-netball.html">View Netball Registrations</a>
-  `;
+    function logout() {
+      supabase.auth.signOut().then(() => {
+        window.location.href = "ADlogin.html";
+      }).catch((error) => {
+        console.error("Logout failed:", error.message);
+        alert("Failed to log out. Please try again.");
+      });
+    }
 
-  // Restore button state
-  button.textContent = "Load Users";
-  button.disabled = false;
-}
-
-function logout() {
-  // Optional: clear any stored session if you are using local/session storage
-  // localStorage.clear();
-
-  // Sign out from Supabase (if using authentication)
-  supabase.auth.signOut().then(() => {
-    window.location.href = "index.html"; // Redirect to login page
-  }).catch((error) => {
-    console.error("Logout failed:", error.message);
-    alert("Failed to log out. Please try again.");
-  });
-}
-
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const body = document.body;
-  sidebar.classList.toggle("collapsed");
-  body.classList.toggle("collapsed");
-}
-
-
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("show");
+      document.body.classList.toggle("sidebar-open");
+    }
   </script>
-<!-- Footer -->
-  <footer>
-  <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
-  <p>Developed to connect students with the Sports Department</p>
-</footer>
 </body>
 </html>
-
