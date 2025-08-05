@@ -381,7 +381,7 @@
 
     function logout() {
       supabase.auth.signOut().then(() => {
-        window.location.href = "ADlogin.html";
+        window.location.href = "index.html";
       }).catch((error) => {
         console.error("Logout failed:", error.message);
         alert("Failed to log out. Please try again.");
@@ -421,3 +421,4 @@
   </script>
 </body>
 </html>
+
