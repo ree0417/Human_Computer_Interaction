@@ -54,7 +54,8 @@
       color: #333;
     }
 
-    #results {
+    #results,
+    #netballResults {
       background: #fff;
       padding: 20px;
       margin-top: 20px;
@@ -72,7 +73,6 @@
       margin: 20px 0;
     }
 
-    /* === Sidebar === */
     .sidebar {
       position: fixed;
       top: 0;
@@ -118,7 +118,6 @@
       cursor: pointer;
     }
 
-    /* === Announcement Section === */
     #announcement {
       background-color: #f9f9f9;
       padding: 20px;
@@ -187,7 +186,6 @@
       font-size: 14px;
     }
 
-    /* === Responsive Media Queries === */
     @media (max-width: 768px) {
       body {
         padding: 15px;
@@ -228,10 +226,8 @@
   </style>
 </head>
 <body>
-  <!-- Toggle Sidebar Button -->
   <button id="sidebarToggle" onclick="toggleSidebar()">☰</button>
 
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h1 style="margin-top: 20px;color: #e6f4ff;">Admin Dashboard</h1>
@@ -241,26 +237,20 @@
     <a href="#" onclick="logout()">🚪 Logout</a>
   </div>
 
-  <!-- Main Content -->
   <h1>Admin Dashboard</h1>
-<div id="welcome">
-  <h3>👋 Welcome to the WSU Sports Management Admin Dashboard</h3>
-  <p>Hello Admin!</p>
-  <p>
-    You're now logged into the central hub for managing sports registrations, announcements, and student engagement at Walter Sisulu University.
-  </p>
-  <p>Use this dashboard to:</p>
-  <ul>
-     <li>Monitor registrations across all sports codes</li>
-     <li>Post important announcements</li>
-     <li>Keep students informed and updated</li>
-  </ul>
-  <p>
-    Thank you for helping us keep WSU’s sporting community organized, active, and connected!
-  </p>
-</div>
-<hr>
-
+  <div id="welcome">
+    <h3>👋 Welcome to the WSU Sports Management Admin Dashboard</h3>
+    <p>Hello Admin!</p>
+    <p>You're now logged into the central hub for managing sports registrations, announcements, and student engagement at Walter Sisulu University.</p>
+    <p>Use this dashboard to:</p>
+    <ul>
+      <li>Monitor registrations across all sports codes</li>
+      <li>Post important announcements</li>
+      <li>Keep students informed and updated</li>
+    </ul>
+    <p>Thank you for helping us keep WSU’s sporting community organized, active, and connected!</p>
+  </div>
+  <hr>
 
   <div id="instruction">
     <h1>Instruction</h1>
@@ -269,6 +259,31 @@
 
   <button id="load" onclick="loadStats()">Load Users</button>
   <div id="results"></div>
+
+  <hr>
+  <h2>📋 View Sport Registrations</h2>
+
+<button onclick="viewRegistrations('Netball_Registration', 'netballResults', 'fullname', 'studentNumber')">View Netball</button>
+<div id="netballResults"></div>
+
+<button onclick="viewRegistrations('rugby', 'rugbyResults', 'fullname', 'studentNumber')">View Rugby</button>
+<div id="rugbyResults"></div>
+
+<button onclick="viewRegistrations('Athletics', 'athleticsResults', 'fullname', 'studentNumber')">View Athletics</button>
+<div id="athleticsResults"></div>
+
+<button onclick="viewRegistrations('CricketRegistrations', 'cricketResults', 'fullname', 'studentNumber')">View Cricket</button>
+<div id="cricketResults"></div>
+
+<button onclick="viewRegistrations('basketball', 'basketballResults', 'fullname', 'studentNumber')">View Basketball</button>
+<div id="basketballResults"></div>
+
+<button onclick="viewRegistrations('football', 'footballResults', 'fullname', 'studentNumber')">View Football</button>
+<div id="footballResults"></div>
+
+<button onclick="viewRegistrations('volleyball', 'volleyballResults', 'fullname', 'studentNumber')">View Volleyball</button>
+<div id="volleyballResults"></div>
+
   <hr>
 
   <div id="announcement">
@@ -290,7 +305,6 @@
   </footer>
 
   <script>
-    // Supabase credentials
     const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
@@ -331,12 +345,39 @@
         ${Object.entries(stats).map(([sport, value]) => `<div class="stat">${sport}: ${value}</div>`).join('')}
         <br>
         <a class="button" href="download.html">Download All</a>
-        <a class="button" href="view-netball.html">View Netball Registrations</a>
       `;
 
       button.textContent = "Load Users";
       button.disabled = false;
     }
+
+    async function viewRegistrations(tableName, resultContainerId, nameColumn, numberColumn) {
+  const resultDiv = document.getElementById(resultContainerId);
+  resultDiv.innerHTML = "Loading...";
+
+  const { data, error } = await supabase
+    .from(tableName)
+    .select(`${nameColumn}, ${numberColumn}`);
+
+  if (error) {
+    resultDiv.innerHTML = `<span style="color:red">❌ Error fetching data: ${error.message}</span>`;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    resultDiv.innerHTML = "No registrations found.";
+    return;
+  }
+
+  let tableHTML = `<h3>${tableName.replace(/_/g, ' ')} Registrations</h3><table border='1' cellpadding='8'><tr><th>Name</th><th>Student Number</th></tr>`;
+  data.forEach(item => {
+    tableHTML += `<tr><td>${item[nameColumn]}</td><td>${item[numberColumn]}</td></tr>`;
+  });
+  tableHTML += "</table>";
+
+  resultDiv.innerHTML = tableHTML;
+}
+
 
     function logout() {
       supabase.auth.signOut().then(() => {
@@ -352,6 +393,31 @@
       sidebar.classList.toggle("show");
       document.body.classList.toggle("sidebar-open");
     }
+
+    // ✅ Post announcement on form submit
+  document.getElementById("announcementForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = document.getElementById("announcementText");
+  const message = input.value.trim();
+
+  if (!message) {
+    alert("Please enter a message.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("announcements")
+    .insert([{ message }]); // ✅ Fix here
+
+  if (error) {
+    document.getElementById("announcementStatus").innerText = "❌ Failed to post announcement.";
+    console.error(error.message);
+  } else {
+    document.getElementById("announcementStatus").innerText = "✅ Announcement posted successfully.";
+    input.value = ""; // Reset input
+  }
+});
+
   </script>
 </body>
 </html>
