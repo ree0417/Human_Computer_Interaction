@@ -1,176 +1,745 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Athletics Team Registration Form</title>
-  <link rel="stylesheet" href="Style.css">
-  <link rel="stylesheet" href="home.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Athletics Team Registration | WSU Sports Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f2f2f2;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
+    :root {
+      
+      
+      --accent: #f59e0b;
+      --light: #f8fafc;
+      --dark: #0f172a;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --success: #10b981;
+      --error: #ef4444;
+      --transition: all 0.3s ease;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 40px;
+      
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      
+    }
+    
+    /* Header */
+    .header {
+      background-color: rgb(12, 12, 12);
+      box-shadow: var(--shadow);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      color: #f4f2f2;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .brand-text {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .brand-text span {
+      color: var(--secondary);
+    }
+    
+    .nav-brand {
+      display: flex;
+      align-items: left;
+    }
+
+    .logo-img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 10px;
+    }
+
+    /* Hero Section */
+.hero {
+  background: url('atlhetics/Viwe-Jingqi-2-1.jpg') center/cover no-repeat, rgb(61, 61, 61);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optional: keep the angled overlay effect */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* dark overlay */
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  position: relative;
+  z-index: 2;
+  opacity: 0.9;
+}
+
+.hero-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+  color: var(--accent);
+}
+
+    
+    /* Registration Form */
+    .registration-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    
+    .form-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 800px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    
+    .form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .form-title {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .form-subtitle {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .required {
+      color: var(--error);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--light-gray);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 8px;
+    }
+    
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .checkbox-group input {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin: 30px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-gray);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      color: var(--accent);
+    }
+    
+    .agreement-group {
+      background: var(--light);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    .agreement-group label {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .agreement-group input {
+      margin-top: 4px;
+      min-width: 18px;
+    }
+    
+    .submit-btn {
+      background: black;
+      color: white;
+      border: none;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: block;
+      margin: 30px auto 0;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: var(--shadow);
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    /* Form Feedback */
+    #formFeedback {
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 25px;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .success {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+    
+    .error {
+      background-color: rgba(239, 68, 68, 0.15);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+    
+    /* Scroll to top button */
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 99;
+      width: 56px;
+      height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.396);
+      color: white;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
+      font-size: 1.5rem;
+    }
+    
+    #scrollTopBtn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-5px);
+    }
+    
+    /* Footer */
+    .footer {
+      background: black;
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+    }
+    
+    .footer-content {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+    
+    .footer-text {
+      margin-bottom: 10px;
+      color: var(--light-gray);
+    }
+    
+    .footer-copyright {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--light-gray);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .form-card {
+        padding: 25px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .form-title {
+        font-size: 1.6rem;
+      }
+      
+      .brand-text {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .hero {
+        padding: 40px 0;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-card {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-
-    <nav class="navbar">
-  <div class="nav-brand">
-    <a href="home.html">
-      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
-    </a>
-    <div class="hamburger" onclick="toggleMenu()">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
-  </div>
-
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-content">
+      <div class="nav-brand">
+        <a href="athletics.html"><img src="Images/images.jpeg" alt="WSU Logo" class="logo-img"></a>
+        <div class="brand-text">Sports Hub</div>
+      </div>
+      <div>
+        <a href="home.html" class="btn btn-secondary" style="padding: 10px 20px; background: grey; color: white; border-radius: 8px; text-decoration: none;">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </header>
   
-   <ul class="nav-links" id="navLinks">
-     <li><a href="football.html">Football</a></li>
-      <li><a href="rugby.html">Rugby</a></li>
-      <li><a href="upcoming.html">Upcoming Matches</a></li>
-      <li id="dropdownWrapper" style="position: relative;">
-        <a href="#" id="dropdownLink">More ▾</a>
-        <ul class="dropdown" id="moreDropdown">
-          <li><a href="athletics.html">Athletics</a></li>
-          <li><a href="basketball.html">Basketball</a></li>
-          <li><a href="volleyball.html">Volleyball</a></li>
-          <li><a href="cricket.html">Cricket</a></li>
-          <li><a href="netball.html">Netball</a></li>
-        </ul>
-      </li>
-    </li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="index.html" id="logoutLink">Logout</a></li>
-  </ul>
-
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-icon">
+        <i class="fas fa-running"></i>
+      </div>
+      <h1 class="hero-title">WSU Athletics Team Registration</h1>
+      <p class="hero-subtitle">Join our competitive athletics program and represent Walter Sisulu University in track and field events</p>
+    </div>
+  </section>
   
-
-
+  <!-- Registration Form -->
+  <section class="registration-section container">
+    <div class="form-card">
+      <div class="form-header">
+        <h2 class="form-title"><i class="fas fa-file-alt"></i> Registration Form</h2>
+        <p class="form-subtitle">Fill out the form below to apply for the WSU Athletics Team</p>
+      </div>
+      
+      <form id="athleticsForm" method="POST">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fullname"><i class="fas fa-user"></i> Full Name <span class="required">*</span></label>
+            <input type="text" id="fullname" name="fullname" class="form-control" placeholder="John Doe" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="studentNumber"><i class="fas fa-id-card"></i> Student Number <span class="required">*</span></label>
+            <input type="text" id="studentNumber" name="studentNumber" class="form-control" placeholder="12345678" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="dob"><i class="fas fa-birthday-cake"></i> Date of Birth <span class="required">*</span></label>
+            <input type="date" id="dob" name="dob" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-venus-mars"></i> Gender <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <label><input type="radio" name="gender" value="Male" required> Male</label>
+              <label><input type="radio" name="gender" value="Female"> Female</label>
+              <label><input type="radio" name="gender" value="Other"> Other</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact"><i class="fas fa-phone"></i> Contact Number <span class="required">*</span></label>
+            <input type="text" id="contact" name="contact" class="form-control" placeholder="+27 123 456 7890" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email Address <span class="required">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="student@wsu.ac.za" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="year"><i class="fas fa-graduation-cap"></i> Current Year of Study</label>
+            <select id="year" name="year" class="form-control">
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>4th Year</option>
+              <option>Postgraduate</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="faculty"><i class="fas fa-building"></i> Faculty / Department</label>
+            <input type="text" id="faculty" name="faculty" class="form-control" placeholder="Faculty of Science">
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-running"></i> Athletics Experience</h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label><i class="fas fa-history"></i> Previous Experience <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <label><input type="radio" name="experience" value="Yes" required> Yes</label>
+              <label><input type="radio" name="experience" value="No"> No</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="previousTeam"><i class="fas fa-medal"></i> Previous Club/Team</label>
+            <input type="text" id="previousTeam" name="previousTeam" class="form-control" placeholder="Where did you compete?">
+          </div>
+          
+          <div class="form-group">
+            <label for="personalBest"><i class="fas fa-stopwatch"></i> Personal Best (if known)</label>
+            <input type="text" id="personalBest" name="personalBest" class="form-control" placeholder="e.g., 100m: 10.8s">
+          </div>
+          
+          <div class="form-group">
+            <label for="training"><i class="fas fa-calendar-check"></i> Weekly Training</label>
+            <input type="text" id="training" name="training" class="form-control" placeholder="How often do you train?">
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-medal"></i> Preferred Events</h3>
+        
+        <div class="event-grid" id="eventGrid">
+          <div class="event-card" data-event="100m">100m Sprint</div>
+          <div class="event-card" data-event="200m">200m Sprint</div>
+          <div class="event-card" data-event="400m">400m Sprint</div>
+          <div class="event-card" data-event="800m">800m Run</div>
+          <div class="event-card" data-event="1500m">1500m Run</div>
+          <div class="event-card" data-event="5000m">5000m Run</div>
+          <div class="event-card" data-event="Long Jump">Long Jump</div>
+          <div class="event-card" data-event="High Jump">High Jump</div>
+          <div class="event-card" data-event="Shot Put">Shot Put</div>
+          <div class="event-card" data-event="Discus">Discus</div>
+          <div class="event-card" data-event="Javelin">Javelin</div>
+          <div class="event-card" data-event="Hurdles">Hurdles</div>
+        </div>
+        <input type="hidden" id="events" name="events">
+        
+        <h3 class="section-title"><i class="fas fa-heartbeat"></i> Medical Information</h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label><i class="fas fa-file-medical"></i> Medical Conditions <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <label><input type="radio" name="medical" value="Yes" required> Yes</label>
+              <label><input type="radio" name="medical" value="No"> No</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="conditionDetails"><i class="fas fa-stethoscope"></i> Condition Details</label>
+            <input type="text" id="conditionDetails" name="conditionDetails" class="form-control" placeholder="If yes, please explain">
+          </div>
+          
+          <div class="form-group">
+            <label for="injuries"><i class="fas fa-wheelchair"></i> Previous Injuries</label>
+            <input type="text" id="injuries" name="injuries" class="form-control" placeholder="Any previous injuries?">
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-exclamation-triangle"></i> Emergency Contact</h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="emergencyContact"><i class="fas fa-user-friends"></i> Emergency Contact <span class="required">*</span></label>
+            <input type="text" id="emergencyContact" name="emergencyContact" class="form-control" placeholder="Full Name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="emergencyPhone"><i class="fas fa-phone-alt"></i> Contact Number <span class="required">*</span></label>
+            <input type="text" id="emergencyPhone" name="emergencyPhone" class="form-control" placeholder="+27 123 456 7890" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="relationship"><i class="fas fa-link"></i> Relationship <span class="required">*</span></label>
+            <input type="text" id="relationship" name="relationship" class="form-control" placeholder="Parent, Guardian, etc." required>
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-file-signature"></i> Agreements</h3>
+        
+        <div class="agreement-group">
+          <label>
+            <input type="checkbox" name="agreement" required>
+            <span>I confirm that the information above is accurate and I accept responsibility. <span class="required">*</span></span>
+          </label>
+          
+          <label>
+            <input type="checkbox" name="code" required>
+            <span>I agree to follow the team's rules and code of conduct. <span class="required">*</span></span>
+          </label>
+        </div>
+        
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i class="fas fa-paper-plane"></i> Submit Registration
+        </button>
+        
+        <div id="formFeedback"></div>
+      </form>
+    </div>
+    
+    <div class="form-card">
+      <h2 class="form-title"><i class="fas fa-info-circle"></i> About Our Athletics Program</h2>
+      <p>The WSU Athletics Team competes in university leagues and tournaments across the region. Our program includes:</p>
+      <ul style="margin: 20px 0; padding-left: 30px;">
+        <li>Professional coaching from experienced track and field specialists</li>
+        <li>Specialized training programs for sprinters, distance runners, and field athletes</li>
+        <li>Competitions against top university teams</li>
+        <li>Access to state-of-the-art athletic facilities</li>
+        <li>Strength and conditioning programs</li>
+        <li>Academic support tailored for student athletes</li>
+      </ul>
+      <p>For more information, contact our Athletics Coordinator at <strong>athletics@wsu.ac.za</strong> or call <strong>+27 47 502 2846</strong>.</p>
+    </div>
+  </section>
   
-</nav>
-<form action="https://formspree.io/f/xldnkkkg" method="POST">
-  <h2>WSU Athletics Registration</h2>
-
-  <label for="fullname">Full Name <span class="required">*</span></label>
-  <input type="text" id="fullname" name="fullname" required>
-
-  <label for="studentNumber">Student Number <span class="required">*</span></label>
-  <input type="text" id="studentNumber" name="studentNumber" required>
-
-  <label for="dob">Date of Birth <span class="required">*</span></label>
-  <input type="date" id="dob" name="dob" required>
-
-  <label>Gender <span class="required">*</span></label>
-  <div class="checkbox-group">
-    <label><input type="radio" name="gender" value="Male" required> Male</label>
-    <label><input type="radio" name="gender" value="Female"> Female</label>
-    <label><input type="radio" name="gender" value="Other"> Other</label>
-  </div>
-
-  <label for="contact">Contact Number <span class="required">*</span></label>
-  <input type="text" id="contact" name="contact" required>
-
-  <label for="email">Email Address <span class="required">*</span></label>
-  <input type="email" id="email" name="email" required>
-
-  <label for="year">Current Year of Study</label>
-  <select id="year" name="year">
-    <option>1st</option>
-    <option>2nd</option>
-    <option>3rd</option>
-    <option>4th</option>
-    <option>Postgraduate</option>
-  </select>
-
-  <label for="faculty">Faculty / Department</label>
-  <input type="text" id="faculty" name="faculty">
-
-  <label>Have you competed in athletics before? <span class="required">*</span></label>
-  <div class="checkbox-group">
-    <label><input type="radio" name="experience" value="Yes" required> Yes</label>
-    <label><input type="radio" name="experience" value="No"> No</label>
-  </div>
-
-  <label for="previousTeam">If yes, where?</label>
-  <input type="text" id="previousTeam" name="previousTeam">
-
-  <label for="event">Preferred Event(s)</label>
-  <select id="event" name="event" multiple size="5">
-    <option>100m</option>
-    <option>200m</option>
-    <option>400m</option>
-    <option>800m</option>
-    <option>1500m</option>
-    <option>Long Jump</option>
-    <option>High Jump</option>
-    <option>Shot Put</option>
-    <option>Javelin</option>
-    <option>Discus</option>
-  </select>
-  <small>Hold Ctrl (Cmd on Mac) to select multiple events</small>
-
-  <label for="personalBest">Personal Best Time/Distance (if known)</label>
-  <input type="text" id="personalBest" name="personalBest">
-
-  <label for="training">How often do you train per week?</label>
-  <input type="text" id="training" name="training">
-
-  <label>Do you have any medical conditions? <span class="required">*</span></label>
-  <div class="checkbox-group">
-    <label><input type="radio" name="medical" value="Yes" required> Yes</label>
-    <label><input type="radio" name="medical" value="No"> No</label>
-  </div>
-
-  <label for="conditionDetails">If yes, please explain</label>
-  <input type="text" id="conditionDetails" name="conditionDetails">
-
-  <label for="emergencyContact">Emergency Contact Name <span class="required">*</span></label>
-  <input type="text" id="emergencyContact" name="emergencyContact">
-
-  <label for="emergencyPhone">Emergency Contact Number <span class="required">*</span></label>
-  <input type="text" id="emergencyPhone" name="emergencyPhone">
-
-  <label for="relationship">Relationship <span class="required">*</span></label>
-  <input type="text" id="relationship" name="relationship">
-
-  <label>
-    <input type="checkbox" name="agreement" required>
-    I confirm that the information above is accurate and I accept responsibility. <span class="required">*</span>
-  </label>
-
-  <label>
-    <input type="checkbox" name="code" required>
-    I agree to follow the athletics team’s code of conduct and training schedule. <span class="required">*</span>
-  </label>
-
-  <button type="submit">Submit Registration</button>
-</form>
-
-<!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
-    <p>Developed to connect students with the Sports Department</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-running"></i>
+      </div>
+      <p class="footer-text">Walter Sisulu University Sports Hub</p>
+      <p class="footer-text">Nelson Mandela Drive, Mthatha, Eastern Cape, South Africa</p>
+      <p class="footer-text">Email: sports@wsu.ac.za | Phone: +27 47 502 2844</p>
+      <p class="footer-copyright">&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+    </div>
   </footer>
 
   <script>
-    document.addEventListener('click', function (e) {
-    if (!dropdownWrapper.contains(e.target)) {
-      dropdownWrapper.classList.remove('active');
+    // Event selection functionality
+    const eventCards = document.querySelectorAll('.event-card');
+    const eventsInput = document.getElementById('events');
+    const selectedEvents = new Set();
+    
+    eventCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const event = card.getAttribute('data-event');
+        
+        if (selectedEvents.has(event)) {
+          selectedEvents.delete(event);
+          card.classList.remove('selected');
+        } else {
+          selectedEvents.add(event);
+          card.classList.add('selected');
+        }
+        
+        // Update hidden input
+        eventsInput.value = Array.from(selectedEvents).join(',');
+      });
+    });
+    
+    // Form submission
+    document.getElementById('athleticsForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const feedbackEl = document.getElementById('formFeedback');
+      
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      
+      // Simulate form submission (in a real application, you would send to server)
+      setTimeout(() => {
+        // Show success message
+        feedbackEl.textContent = "✅ Thank you for your application! We will get back to you soon.";
+        feedbackEl.className = "success";
+        feedbackEl.style.display = "block";
+        
+        // Scroll to feedback
+        feedbackEl.scrollIntoView({ behavior: 'smooth' });
+        
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Registration';
+        
+        // Reset form after 5 seconds
+        setTimeout(() => {
+          this.reset();
+          feedbackEl.style.display = "none";
+          
+          // Reset events selection
+          eventCards.forEach(card => card.classList.remove('selected'));
+          selectedEvents.clear();
+          eventsInput.value = '';
+        }, 5000);
+      }, 1500);
+    });
+    
+    // Set max date for date of birth (16-40 years old)
+    const today = new Date();
+    const minDate = new Date();
+    minDate.setFullYear(today.getFullYear() - 40);
+    const maxDate = new Date();
+    maxDate.setFullYear(today.getFullYear() - 16);
+    
+    document.getElementById('dob').setAttribute('min', formatDate(minDate));
+    document.getElementById('dob').setAttribute('max', formatDate(maxDate));
+    
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
-  });
-
-  document.getElementById('logoutLink').addEventListener('click', function (event) {
-    event.preventDefault();
-    const confirmed = confirm("Are you sure you want to logout?");
-    if (confirmed) {
-      window.location.href = this.href;
-    }
-  });
   </script>
 </body>
 </html>
