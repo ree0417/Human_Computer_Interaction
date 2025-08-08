@@ -1,319 +1,798 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>WSU Sports Upcoming Matches</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upcoming Matches | WSU Sports Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f0f5;
+    * {
       margin: 0;
       padding: 0;
-      padding-top: 80px; /* space for navbar */
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+      --primary: #484848;
+      --primary-dark: #040404;
+      --secondary: #dc2626;
+      --accent: #f59e0b;
+      --light: #f8fafc;
+      --dark: #000000;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --success: #10b981;
+      --error: #ef4444;
+      --transition: all 0.3s ease;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    .header {
+      background-color: rgb(0, 0, 0);
+      box-shadow: var(--shadow);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .brand-text {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .brand-text span {
+      color: white;
     }
 
-    h1 {
+    .nav-brand {
+      display: flex;
+      align-items: left;
+    }
+
+    .logo-img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 10px;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: url('Images/istockphoto-2057752732-612x612.jpg') center/cover no-repeat, rgb(61, 61, 61);
+      color: white;
+      padding: 60px 0;
       text-align: center;
-      color: #333;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgb(0, 0, 0);
+      background-size: cover;
+      opacity: 0.3;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      position: relative;
+      z-index: 2;
+      opacity: 0.9;
+    }
+    
+    /* Filter Section */
+    .filter-section {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+    }
+    
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 20px;
     }
-
-    select {
+    
+    .filter-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .filter-controls {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-select {
       padding: 12px 16px;
       font-size: 16px;
       border-radius: 8px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      color: #333;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border: 1px solid var(--light-gray);
+      background-color: white;
+      color: var(--dark);
+      box-shadow: var(--shadow);
       appearance: none;
       cursor: pointer;
       outline: none;
-      width: 250px;
-      margin: 20px auto;
-      display: block;
+      min-width: 200px;
     }
-
-    .match-list {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 20px;
+    
+    .search-box {
+      position: relative;
+      min-width: 250px;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 40px;
+      font-size: 16px;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border: 1px solid var(--light-gray);
+      box-shadow: var(--shadow);
     }
-
-    .match {
-      border-bottom: 1px solid #ddd;
-      padding: 20px 0;
-    }
-
-    .match:last-child {
-      border-bottom: none;
-    }
-
-    .match strong {
-      color: #1a237e;
-    }
-
-    .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #000;
-  padding: 10px 20px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.nav-links {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  margin-left: 30px;
-  margin-right: 2%;
-}
-
-.nav-links li a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-}
-
-.hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 5px;
-}
-
-.hamburger span {
-  width: 20px;
-  height: 5px;
-  background: #fff;
-  border-radius: 2px;
-  border-radius: 2px;
-      margin-right: 25px;
-}
-
-/* Hide links and stack on small screens */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background: #000;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    padding: 10px;
-
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-}
-
-
-    /* .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 4px;
-    }
-
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: #fff;
-      border-radius: 2px;
-      margin-right: 25px;
-    } */
-
-    .dropdown {
-      display: none;
+    
+    .search-box i {
       position: absolute;
-      background-color: rgb(57, 52, 52);
-      list-style: none;
-      padding: 10px;
-      top: 100%;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    /* Match Cards */
+    .match-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    
+    .match-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .match-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .sport-banner {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .sport-banner::after {
+      content: "";
+      position: absolute;
+      top: 0;
       left: 0;
-      z-index: 999;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
     }
-
-    .dropdown li a {
-      color: #ffffff;
-      text-decoration: none;
-      display: block;
-      padding: 5px 10px;
+    
+    .sport-banner i {
+      position: relative;
+      z-index: 2;
+      font-size: 3rem;
+      margin-bottom: 10px;
     }
-
-    .dropdown.show {
-      display: block;
+    
+    .sport-banner .sport-name {
+      position: relative;
+      z-index: 2;
+      margin-left: 15px;
     }
-/* Mobile View */
-@media (max-width: 768px) {
-  .hamburger {
-    display: flex;
-  }
-
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    flex-direction: column;
-    width: 100%;
-    background: #0a0a0a7f;
-    padding: 10px 0;
-  }
-
-  .nav-links li {
-    text-align: center;
-    margin: 10px 0;
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-}
+    
+    .football-banner {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    }
+    
+    .rugby-banner {
+      background: linear-gradient(135deg, #dc2626, #f87171);
+    }
+    
+    .cricket-banner {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    }
+    
+    .basketball-banner {
+      background: linear-gradient(135deg, #10b981, #34d399);
+    }
+    
+    .netball-banner {
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    }
+    
+    .athletics-banner {
+      background: linear-gradient(135deg, #6366f1, #818cf8);
+    }
+    
+    .match-content {
+      padding: 25px;
+    }
+    
+    .match-date {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: var(--gray);
+    }
+    
+    .match-date i {
+      color: var(--accent);
+    }
+    
+    .match-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .team-info {
+      text-align: center;
+    }
+    
+    .team-logo {
+      width: 60px;
+      height: 60px;
+      background: var(--light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    
+    .vs-text {
+      font-weight: bold;
+      color: var(--gray);
+      margin: 0 15px;
+    }
+    
+    .match-venue {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      color: var(--gray);
+    }
+    
+    .match-venue i {
+      color: var(--accent);
+    }
+    
+    .match-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--light);
+    }
+    
+    /* Calendar Section */
+    .calendar-section {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+    }
+    
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .calendar-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .calendar-controls {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    
+    .calendar-day {
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      color: var(--gray);
+      background: var(--light);
+    }
+    
+    .calendar-cell {
+      height: 80px;
+      border: 1px solid var(--light-gray);
+      padding: 5px;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .calendar-cell:hover {
+      background: var(--light);
+    }
+    
+    .calendar-date {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .calendar-event {
+      font-size: 0.8rem;
+      background: var(--primary);
+      color: white;
+      padding: 2px 5px;
+      border-radius: 4px;
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Footer */
+    .footer {
+      background: black;
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+    }
+    
+    .footer-content {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+    
+    .footer-text {
+      margin-bottom: 10px;
+      color: var(--light-gray);
+    }
+    
+    .footer-copyright {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--light-gray);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .filter-controls {
+        flex-direction: column;
+      }
+      
+      .filter-select, .search-box {
+        width: 100%;
+      }
+      
+      .match-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .calendar-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .hero {
+        padding: 40px 0;
+      }
+      
+      .match-actions {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-
-  <nav class="navbar">
-  <div class="nav-brand">
-    <a href="home.html">
-      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img" style="height: 50px;">
-    </a>
-  </div>
-
-  <!-- Hamburger -->
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <!-- Navigation Links -->
-  <ul class="nav-links" id="navLinks">
-    <li><a href="football.html">Football</a></li>
-    <li><a href="rugby.html">Rugby</a></li>
-    <li><a href="cricket.html">Upcoming Matches</a></li>
-    <li id="dropdownWrapper" style="position: relative;">
-      <a href="#" id="dropdownLink">More ▾</a>
-      <ul class="dropdown" id="moreDropdown">
-        <li><a href="athletics.html">Athletics</a></li>
-        <li><a href="basketball.html">Basketball</a></li>
-        <li><a href="volleyball.html">Volleyball</a></li>
-        <li><a href="cricket.html">Cricket</a></li>
-        <li><a href="netball.html">Netball</a></li>
-      </ul>
-    </li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="index.html" id="logoutLink">Logout</a></li>
-  </ul>
-</nav>
-
-
-
-  <h1>Upcoming WSU Sports Matches</h1>
-
-  <select id="sportSelect" onchange="showMatches()">
-    <option value="football">Football</option>
-    <option value="rugby">Rugby</option>
-    <option value="cricket">Cricket</option>
-    <option value="basketball">Basketball</option>
-    <option value="netball">Netball</option>
-    <option value="athletics">Athletics</option>
-  </select>
-
-  <div class="match-list" id="matchList"></div>
-
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-content">
+      <div class="nav-brand">
+        <a href="home.html"><img src="Images/images.jpeg" alt="WSU Logo" class="logo-img"></a>
+        <div class="brand-text">Sports Hub</div>
+      </div>
+      <div>
+        <a href="home.html" class="btn btn-primary" style="text-decoration: none;">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">Upcoming WSU Sports Matches</h1>
+      <p class="hero-subtitle">Stay updated with all the upcoming matches and events across all sports at Walter Sisulu University</p>
+    </div>
+  </section>
+  
+  <!-- Filter Section -->
+  <section class="container">
+    <div class="filter-section">
+      <div class="filter-header">
+        <h2 class="filter-title">Match Schedule</h2>
+        <div class="filter-controls">
+          <select id="sportSelect" class="filter-select">
+            <option value="all">All Sports</option>
+            <option value="football">Football</option>
+            <option value="rugby">Rugby</option>
+            <option value="cricket">Cricket</option>
+            <option value="basketball">Basketball</option>
+            <option value="netball">Netball</option>
+            <option value="athletics">Athletics</option>
+          </select>
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search matches...">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Match Grid -->
+  <section class="container">
+    <div class="match-grid" id="matchGrid">
+      <!-- Match cards will be inserted here by JavaScript -->
+    </div>
+  </section>
+  
+  <!-- Calendar Section -->
+  <section class="container">
+    <div class="calendar-section">
+      <div class="calendar-header">
+        <h2 class="calendar-title">June 2025 Calendar</h2>
+        <div class="calendar-controls">
+          <button class="btn btn-outline"><i class="fas fa-chevron-left"></i></button>
+          <button class="btn btn-outline"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="calendar-grid">
+        <div class="calendar-day">Sun</div>
+        <div class="calendar-day">Mon</div>
+        <div class="calendar-day">Tue</div>
+        <div class="calendar-day">Wed</div>
+        <div class="calendar-day">Thu</div>
+        <div class="calendar-day">Fri</div>
+        <div class="calendar-day">Sat</div>
+        
+        <!-- Calendar cells will be generated by JavaScript -->
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-trophy"></i>
+      </div>
+      <p class="footer-text">Walter Sisulu University Sports Hub</p>
+      <p class="footer-text">Nelson Mandela Drive, Mthatha, Eastern Cape, South Africa</p>
+      <p class="footer-text">Email: sports@wsu.ac.za | Phone: +27 47 502 2844</p>
+      <p class="footer-copyright">&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+    </div>
+  </footer>
+  
   <script>
+    // Match data
     const matchData = {
       football: [
-        { date: "2025-06-22", opponent: "University of Fort Hare", venue: "WSU Stadium" },
-        { date: "2025-06-29", opponent: "Rhodes University", venue: "Away" }
+        { date: "2025-06-22", opponent: "University of Fort Hare", venue: "WSU Stadium", time: "15:00" },
+        { date: "2025-06-29", opponent: "Rhodes University", venue: "Away", time: "14:30" }
       ],
       rugby: [
-        { date: "2025-06-24", opponent: "UFH Bulls", venue: "WSU Rugby Field" },
-        { date: "2025-07-01", opponent: "NMU Lions", venue: "Nelson Mandela Stadium" }
+        { date: "2025-06-24", opponent: "UFH Bulls", venue: "WSU Rugby Field", time: "16:00" },
+        { date: "2025-07-01", opponent: "NMU Lions", venue: "Nelson Mandela Stadium", time: "15:00" }
       ],
       cricket: [
-        { date: "2025-06-25", opponent: "UCT Cricket Club", venue: "WSU Oval" },
-        { date: "2025-07-02", opponent: "UWC Warriors", venue: "Cape Town" }
+        { date: "2025-06-25", opponent: "UCT Cricket Club", venue: "WSU Oval", time: "10:00" },
+        { date: "2025-07-02", opponent: "UWC Warriors", venue: "Cape Town", time: "11:00" }
       ],
       basketball: [
-        { date: "2025-06-23", opponent: "TUT Titans", venue: "WSU Indoor Arena" }
+        { date: "2025-06-23", opponent: "TUT Titans", venue: "WSU Indoor Arena", time: "18:00" },
+        { date: "2025-06-30", opponent: "UJ Jaguars", venue: "WSU Indoor Arena", time: "19:00" }
       ],
       netball: [
-        { date: "2025-06-26", opponent: "CUT Stars", venue: "WSU Court 1" }
+        { date: "2025-06-26", opponent: "CUT Stars", venue: "WSU Court 1", time: "17:00" },
+        { date: "2025-07-03", opponent: "UP-Tuks", venue: "Away", time: "16:30" }
       ],
       athletics: [
-        { date: "2025-06-30", opponent: "All Universities (Track Meet)", venue: "WSU Track & Field" }
+        { date: "2025-06-30", opponent: "All Universities (Track Meet)", venue: "WSU Track & Field", time: "09:00" }
       ]
     };
-
-    function showMatches() {
-      const selectedSport = document.getElementById('sportSelect').value;
-      const matches = matchData[selectedSport];
-      const matchList = document.getElementById('matchList');
-      matchList.innerHTML = "";
-
-      if (!matches || matches.length === 0) {
-        matchList.innerHTML = "<p>No upcoming matches.</p>";
-        return;
-      }
-
-      matches.forEach(match => {
-        const div = document.createElement("div");
-        div.className = "match";
-        div.innerHTML = `<strong>Date:</strong> ${match.date} <br>
-                         <strong>Opponent:</strong> ${match.opponent} <br>
-                         <strong>Venue:</strong> ${match.venue}`;
-        matchList.appendChild(div);
-      });
-    }
-
-    window.onload = () => {
-      showMatches();
-
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('navLinks');
-      const dropdownLink = document.getElementById('dropdownLink');
-      const moreDropdown = document.getElementById('moreDropdown');
-      const dropdownWrapper = document.getElementById('dropdownWrapper');
-      const logoutLink = document.getElementById('logoutLink');
-
-      hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('show');
-      });
-
-      dropdownLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        moreDropdown.classList.toggle('show');
-      });
-
-      document.addEventListener('click', function (e) {
-        if (!dropdownWrapper.contains(e.target)) {
-          moreDropdown.classList.remove('show');
-        }
-      });
-
-      logoutLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (confirm("Are you sure you want to logout?")) {
-          window.location.href = this.href;
-        }
-      });
+    
+    // Sport icons and colors
+    const sportInfo = {
+      football: { icon: "fa-futbol", name: "Football", color: "football-banner" },
+      rugby: { icon: "fa-football-ball", name: "Rugby", color: "rugby-banner" },
+      cricket: { icon: "fa-baseball-ball", name: "Cricket", color: "cricket-banner" },
+      basketball: { icon: "fa-basketball-ball", name: "Basketball", color: "basketball-banner" },
+      netball: { icon: "fa-volleyball-ball", name: "Netball", color: "netball-banner" },
+      athletics: { icon: "fa-running", name: "Athletics", color: "athletics-banner" }
     };
+    
+    // Function to format date
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+    
+    // Function to render matches
+    function renderMatches(sport = "all") {
+      const matchGrid = document.getElementById("matchGrid");
+      matchGrid.innerHTML = "";
+      
+      // Loop through all sports
+      for (const sportType in matchData) {
+        if (sport !== "all" && sport !== sportType) continue;
+        
+        matchData[sportType].forEach(match => {
+          const info = sportInfo[sportType];
+          
+          const matchCard = document.createElement("div");
+          matchCard.className = "match-card";
+          
+          matchCard.innerHTML = `
+            <div class="sport-banner ${info.color}">
+              <i class="fas ${info.icon}"></i>
+              <div class="sport-name">${info.name}</div>
+            </div>
+            <div class="match-content">
+              <div class="match-date">
+                <i class="fas fa-calendar-alt"></i>
+                ${formatDate(match.date)} • ${match.time}
+              </div>
+              <div class="match-details">
+                <div class="team-info">
+                  <div class="team-logo">WSU</div>
+                  <div>WSU</div>
+                </div>
+                <div class="vs-text">VS</div>
+                <div class="team-info">
+                  <div class="team-logo">${match.opponent.substring(0, 3)}</div>
+                  <div>${match.opponent}</div>
+                </div>
+              </div>
+              <div class="match-venue">
+                <i class="fas fa-map-marker-alt"></i>
+                ${match.venue}
+              </div>
+              <div class="match-actions">
+                <button class="btn btn-primary"><i class="fas fa-calendar-plus"></i> Add to Calendar</button>
+                <button class="btn btn-outline"><i class="fas fa-share-alt"></i> Share</button>
+              </div>
+            </div>
+          `;
+          
+          matchGrid.appendChild(matchCard);
+        });
+      }
+      
+      // If no matches found
+      if (matchGrid.innerHTML === "") {
+        matchGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 15px; box-shadow: var(--shadow);">
+            <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
+            <h3>No Upcoming Matches</h3>
+            <p>There are no scheduled matches for the selected sport.</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Function to generate calendar
+    function generateCalendar() {
+      const calendarGrid = document.querySelector(".calendar-grid");
+      
+      // Clear existing cells (except days)
+      while (calendarGrid.children.length > 7) {
+        calendarGrid.removeChild(calendarGrid.lastChild);
+      }
+      
+      // Generate empty cells for June 2025 (June starts on Sunday)
+      for (let i = 1; i <= 30; i++) {
+        const cell = document.createElement("div");
+        cell.className = "calendar-cell";
+        cell.innerHTML = `<div class="calendar-date">${i}</div>`;
+        
+        // Add events to specific dates
+        if (i === 22) {
+          cell.innerHTML += `<div class="calendar-event">Football: UFH</div>`;
+        }
+        if (i === 23) {
+          cell.innerHTML += `<div class="calendar-event">Basketball: Titans</div>`;
+        }
+        if (i === 24) {
+          cell.innerHTML += `<div class="calendar-event">Rugby: UFH Bulls</div>`;
+        }
+        if (i === 25) {
+          cell.innerHTML += `<div class="calendar-event">Cricket: UCT</div>`;
+        }
+        if (i === 26) {
+          cell.innerHTML += `<div class="calendar-event">Netball: CUT</div>`;
+        }
+        if (i === 29) {
+          cell.innerHTML += `<div class="calendar-event">Football: Rhodes</div>`;
+        }
+        if (i === 30) {
+          cell.innerHTML += `<div class="calendar-event">Athletics Meet</div>`;
+          cell.innerHTML += `<div class="calendar-event">Basketball: Jaguars</div>`;
+        }
+        
+        calendarGrid.appendChild(cell);
+      }
+    }
+    
+    // Initialize page
+    document.addEventListener("DOMContentLoaded", () => {
+      renderMatches();
+      generateCalendar();
+      
+      // Filter by sport
+      document.getElementById("sportSelect").addEventListener("change", function() {
+        renderMatches(this.value);
+      });
+      
+      // Search functionality
+      document.getElementById("searchInput").addEventListener("input", function() {
+        const searchTerm = this.value.toLowerCase();
+        const matchCards = document.querySelectorAll(".match-card");
+        
+        matchCards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
