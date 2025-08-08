@@ -1,65 +1,187 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website Under Construction</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WSU Sports Hub - Login Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    body {
-      background-color: #f4f4f4;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #747474 0%, #080808 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
     }
 
     .container {
-      text-align: center;
       background-color: white;
-      padding: 40px 30px;
+      padding: 3rem;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 6px 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
       max-width: 500px;
+      text-align: center;
+      position: relative;
+    }
+
+    .logo-container {
+      margin-bottom: 2rem;
+    }
+
+    .logo-img {
+      height: 90px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
-      font-size: 28px;
-      color: #e67e22;
-      margin-bottom: 20px;
+      color: #1a1a1a;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
     }
 
-    p {
-      font-size: 18px;
-      color: #333;
-      line-height: 1.6;
+    .role-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
-    .signature {
-      margin-top: 25px;
-      font-weight: bold;
-      color: #2c3e50;
+    .role-button {
+      padding: 1.2rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .emoji {
-      font-size: 20px;
-      vertical-align: middle;
+    .role-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .role-button:hover::before {
+      left: 100%;
+    }
+
+    .role-button:hover {
+      background: linear-gradient(135deg, #3a3a3a 0%, #2c2c2c 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .role-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .footer {
+      margin-top: 2.5rem;
+      color: #666;
+      font-size: 0.9rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .container {
+        padding: 2rem;
+        width: 95%;
+        max-width: 400px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .role-button {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo-img {
+        height: 70px;
+      }
+
+      .role-button {
+        padding: 0.9rem 1.2rem;
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🚧Oops! Website Under Construction 🚧</h1>
-    <p>
-      Our technician is currently working behind the scenes to bring everything online.<br>
-      We’re making improvements and will be back shortly!
-    </p>
-    <p class="signature">
-      Thank you for your patience and understanding.<br>
-      — Rendzo Ntsanwisi <span class="emoji">👨‍💻</span>
-    </p>
+    <div class="logo-container">
+      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
+      <h1>WSU Sports Hub Login Portal</h1>
+    </div>
+    
+    <div class="role-buttons">
+      <button class="role-button" onclick="redirect('user')">
+        <i class="fas fa-user"></i> Login as User
+      </button>
+      <button class="role-button" onclick="redirect('admin')">
+        <i class="fas fa-user-shield"></i> Login as Administrator
+      </button>
+    </div>
+    
+    <div class="footer">
+      <p>&copy; 2025 Walter Sisulu University Sports Hub. All rights reserved.</p>
+    </div>
   </div>
+
+  <script>
+    function redirect(role) {
+      if (role === 'admin') {
+        window.location.href = 'ADlogin.html';
+      } else if (role === 'user') {
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
 </body>
 </html>
 
