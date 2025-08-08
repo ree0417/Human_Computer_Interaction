@@ -1,390 +1,811 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Rugby Team Registration Form</title>
-  <link rel="stylesheet" href="Style.css">
-  <link rel="stylesheet" href="home.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rugby Team Registration | WSU Sports Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f4f4f4;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
+    :root {
+      
+      --primary: #353535;
+      --primary-dark: #0c0c0c;
+      --accent: #f59e0b;
+      --light: #f8fafc;
+      --dark: #000000;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --success: #10b981;
+      --error: #ef4444;
+      --transition: all 0.3s ease;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 40px;
+      
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      
+    }
+    
+    /* Header */
+    .header {
+      background-color: rgb(12, 12, 12);
+      box-shadow: var(--shadow);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      color: #f4f2f2;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+      background-color: grey;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .brand-text {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .brand-text span {
+      color: white;
+    }
+    
+    .nav-brand {
+      display: flex;
+      align-items: left;
+    }
+
+    .logo-img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 10px;
+    }
+
+    /* Hero Section */
+.hero {
+  background: url('rugby/rugby-4796428_1280.jpg') center/cover no-repeat, rgb(61, 61, 61);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optional: keep the angled overlay effect */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* dark overlay */
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  position: relative;
+  z-index: 2;
+  opacity: 0.9;
+}
+
+.hero-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+  color: var(--accent);
+}
+
+    
+    /* Registration Form */
+    .registration-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    
+    .form-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 800px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .form-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    
+    .form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .form-title {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .form-subtitle {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .required {
+      color: var(--error);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--light-gray);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 8px;
+    }
+    
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .checkbox-group input {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin: 30px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-gray);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      color: var(--accent);
+    }
+    
+    .agreement-group {
+      background: var(--light);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    .agreement-group label {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .agreement-group input {
+      margin-top: 4px;
+      min-width: 18px;
+    }
+    
+    .submit-btn {
+      background: black;
+      color: white;
+      border: none;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: block;
+      margin: 30px auto 0;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: var(--shadow);
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    /* Form Feedback */
+    #formFeedback {
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 25px;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .success {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+    
+    .error {
+      background-color: rgba(239, 68, 68, 0.15);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+    
+    /* Scroll to top button */
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 99;
+      width: 56px;
+      height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.396);
+      color: white;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
+      font-size: 1.5rem;
+    }
+    
+    #scrollTopBtn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-5px);
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+    }
+    
+    .footer-content {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+    
+    .footer-text {
+      margin-bottom: 10px;
+      color: var(--light-gray);
+    }
+    
+    .footer-copyright {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--light-gray);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .form-card {
+        padding: 25px;
+      }
+      
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .form-title {
+        font-size: 1.6rem;
+      }
+      
+      .brand-text {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .hero {
+        padding: 40px 0;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-card {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
-
-    <nav class="navbar">
-  <div class="nav-brand">
-    <a href="home.html">
-      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
-    </a>
-    <div class="hamburger" onclick="toggleMenu()">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
-  </div>
-
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-content">
+      <div class="nav-brand">
+        <a href="rugby.html"><img src="Images/images.jpeg" alt="WSU Logo" class="logo-img"></a>
+        <div class="brand-text">Sports Hub</div>
+      </div>
+      <div>
+        <a href="home.html" class="btn btn-secondary" style="padding: 10px 20px; background: var(--primary); color: white; border-radius: 8px; text-decoration: none;">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </header>
   
-   <ul class="nav-links" id="navLinks">
-     <li><a href="football.html">Football</a></li>
-      <li><a href="rugby.html">Rugby</a></li>
-      <li><a href="upcoming.html">Upcoming Matches</a></li>
-      <li id="dropdownWrapper" style="position: relative;">
-        <a href="#" id="dropdownLink">More ▾</a>
-        <ul class="dropdown" id="moreDropdown">
-          <li><a href="athletics.html">Athletics</a></li>
-          <li><a href="basketball.html">Basketball</a></li>
-          <li><a href="volleyball.html">Volleyball</a></li>
-          <li><a href="cricket.html">Cricket</a></li>
-          <li><a href="netball.html">Netball</a></li>
-        </ul>
-      </li>
-    </li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="index.html" id="logoutLink">Logout</a></li>
-  </ul> 
-</nav>
-
-<style>
-@media (max-width: 900px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0 16px;
-  }
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background: #222;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    border-radius: 0 0 8px 8px;
-    z-index: 100;
-  }
-  .nav-links.show {
-    display: flex;
-  }
-  .nav-links li {
-    width: 100%;
-    text-align: left;
-    padding: 16px 24px;
-    border-bottom: 1px solid #333;
-  }
-  .nav-brand {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .hamburger {
-    display: block;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    margin-left: auto;
-  }
-  .hamburger span {
-    display: block;
-    height: 4px;
-    width: 28px;
-    background: #fff;
-    margin: 6px 0;
-    border-radius: 2px;
-    transition: 0.3s;
-  }
-}
-@media (min-width: 901px) {
-  .hamburger {
-    display: none;
-  }
-  .nav-links {
-    display: flex !important;
-    position: static;
-    flex-direction: row;
-    background: none;
-    box-shadow: none;
-    border-radius: 0;
-  }
-}
-</style>
-
-<form id="rugbyForm" action="https://formspree.io/f/mjkrddzv" method="post">
-  <h2>All Blacks Rugby Team Registration</h2>
-
-  <label for="fullname">Full Name <span class="required">*</span></label>
-  <input type="text" id="fullname" name="fullname" required>
-
-  <label for="studentNumber">Student Number <span class="required">*</span></label>
-  <input type="text" id="studentNumber" name="studentNumber" required>
-
-  <label for="dob">Date of Birth <span class="required">*</span></label>
-  <input type="date" id="dob" name="dob" required>
-
-  <label>Gender <span class="required">*</span></label>
-  <div class="checkbox-group">
-    <label><input type="radio" name="gender" value="Male" required> Male</label>
-    <label><input type="radio" name="gender" value="Female"> Female</label>
-    <label><input type="radio" name="gender" value="Other"> Other</label>
-  </div>
-
-  <label for="contact">Contact Number <span class="required">*</span></label>
-  <input type="text" id="contact" name="contact" required>
-
-  <label for="email">Email Address <span class="required">*</span></label>
-  <input type="email" id="email" name="email" required>
-
-  <label for="year">Current Year of Study</label>
-  <select id="year" name="year">
-    <option>1st</option>
-    <option>2nd</option>
-    <option>3rd</option>
-    <option>4th</option>
-    <option>Postgraduate</option>
-  </select>
-
-  <label for="faculty">Faculty / Department</label>
-  <input type="text" id="faculty" name="faculty">
-
-  <label>Have you played rugby before? <span class="required">*</span></label>
-  <div class="checkbox-group">
-    <label><input type="radio" name="experience" value="Yes" required> Yes</label>
-    <label><input type="radio" name="experience" value="No"> No</label>
-  </div>
-
-  <label for="previousTeam">If yes, where?</label>
-  <input type="text" id="previousTeam" name="previousTeam">
-
-  <label for="position">Preferred Playing Position</label>
-  <select id="position" name="position">
-    <option>Prop</option>
-    <option>Hooker</option>
-    <option>Lock</option>
-    <option>Flanker</option>
-    <option>Number 8</option>
-    <option>Scrum-half</option>
-    <option>Fly-half</option>
-    <option>Centre</option>
-    <option>Wing</option>
-    <option>Full-back</option>
-  </select>
-
-  <label for="injuries">Previous Injuries (if any)</label>
-  <input type="text" id="injuries" name="injuries">
-
-  <label for="training">How often do you train/play rugby weekly?</label>
-  <input type="text" id="training" name="training">
-
-  <label>Do you have any medical conditions? <span class="required">*</span></label>
-  <div class="checkbox-group">
-    <label><input type="radio" name="medical" value="Yes" required> Yes</label>
-    <label><input type="radio" name="medical" value="No"> No</label>
-  </div>
-
-  <label for="conditionDetails">If yes, please explain</label>
-  <input type="text" id="conditionDetails" name="conditionDetails">
-
-  <label for="emergencyContact">Emergency Contact Name <span class="required">*</span></label>
-  <input type="text" id="emergencyContact" name="emergencyContact">
-
-  <label for="emergencyPhone">Emergency Contact Number <span class="required">*</span></label>
-  <input type="text" id="emergencyPhone" name="emergencyPhone">
-
-  <label for="relationship">Relationship <span class="required">*</span></label>
-  <input type="text" id="relationship" name="relationship">
-
-  <label>
-    <input type="checkbox" name="agreement" required>
-    I confirm that the information above is accurate and I accept responsibility. <span class="required">*</span>
-  </label>
-
-  <label>
-    <input type="checkbox" name="code" required>
-    I agree to follow the team’s rules and code of conduct. <span class="required">*</span>
-  </label>
-
-  <button type="submit">Submit Registration</button>
-</form>
-
-<!-- Scroll-to-Top Button -->
-<button id="scrollTopBtn" title="Go to top">
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="16" cy="16" r="16" fill="#333"/>
-    <path d="M16 10 L16 22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-    <path d="M10 16 L16 10 L22 16" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
-  </svg>
-</button>
-<script>
-window.onscroll = function() {
-  const btn = document.getElementById("scrollTopBtn");
-  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-    btn.style.display = "flex";
-  } else {
-    btn.style.display = "none";
-  }
-};
-document.getElementById("scrollTopBtn").onclick = function() {
-  window.scrollTo({top: 0, behavior: 'smooth'});
-};
-
-function toggleMenu() {
-  const navLinks = document.getElementById("navLinks");
-  navLinks.classList.toggle("active");
-}
-const hamburger = document.querySelector('.hamburger');
-if (hamburger) {
-  hamburger.addEventListener('click', toggleMenu);
-}
-</script>
-<style>
-#scrollTopBtn {
-  display: none;
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  z-index: 99;
-  width: 56px;
-  height: 56px;
-  border: none;
-  outline: none;
-  background: none;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  transition: transform 0.2s, box-shadow 0.2s;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-#scrollTopBtn svg {
-  display: block;
-  width: 48px;
-  height: 48px;
-}
-#scrollTopBtn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.28);
-}
-</style>
-
-<!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
-    <p>Developed to connect students with the Sports Department</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="rugby-ball ball-1"></div>
+      <div class="rugby-ball ball-2"></div>
+      
+      <div class="hero-icon">
+        <i class="fas fa-football-ball"></i>
+      </div>
+      <h1 class="hero-title">WSU All Blacks Rugby Team Registration</h1>
+      <p class="hero-subtitle">Join our competitive rugby program and represent Walter Sisulu University in inter-university leagues and tournaments</p>
+    </div>
+  </section>
+  
+  <!-- Registration Form -->
+  <section class="registration-section container">
+    <div class="form-card">
+      <div class="form-header">
+        <h2 class="form-title"><i class="fas fa-file-alt"></i> Registration Form</h2>
+        <p class="form-subtitle">Fill out the form below to apply for the WSU Rugby Team</p>
+      </div>
+      
+      <form id="rugbyForm" method="POST">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fullname"><i class="fas fa-user"></i> Full Name <span class="required">*</span></label>
+            <input type="text" id="fullname" name="fullname" class="form-control" placeholder="John Doe" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="studentNumber"><i class="fas fa-id-card"></i> Student Number <span class="required">*</span></label>
+            <input type="text" id="studentNumber" name="studentNumber" class="form-control" placeholder="12345678" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="dob"><i class="fas fa-birthday-cake"></i> Date of Birth <span class="required">*</span></label>
+            <input type="date" id="dob" name="dob" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-venus-mars"></i> Gender <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <label><input type="radio" name="gender" value="Male" required> Male</label>
+              <label><input type="radio" name="gender" value="Female"> Female</label>
+              <label><input type="radio" name="gender" value="Other"> Other</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact"><i class="fas fa-phone"></i> Contact Number <span class="required">*</span></label>
+            <input type="text" id="contact" name="contact" class="form-control" placeholder="+27 123 456 7890" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email Address <span class="required">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="student@wsu.ac.za" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="year"><i class="fas fa-graduation-cap"></i> Current Year of Study</label>
+            <select id="year" name="year" class="form-control">
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>4th Year</option>
+              <option>Postgraduate</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="faculty"><i class="fas fa-building"></i> Faculty / Department</label>
+            <input type="text" id="faculty" name="faculty" class="form-control" placeholder="Faculty of Science">
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-football-ball"></i> Rugby Experience</h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label><i class="fas fa-history"></i> Previous Experience <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <label><input type="radio" name="experience" value="Yes" required> Yes</label>
+              <label><input type="radio" name="experience" value="No"> No</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="previousTeam"><i class="fas fa-users"></i> Previous Team/Club</label>
+            <input type="text" id="previousTeam" name="previousTeam" class="form-control" placeholder="Where did you play?">
+          </div>
+          
+          <div class="form-group">
+            <label for="position"><i class="fas fa-map-marker-alt"></i> Preferred Position</label>
+            <select id="position" name="position" class="form-control">
+              <option>Prop</option>
+              <option>Hooker</option>
+              <option>Lock</option>
+              <option>Flanker</option>
+              <option>Number 8</option>
+              <option>Scrum-half</option>
+              <option>Fly-half</option>
+              <option>Centre</option>
+              <option>Wing</option>
+              <option>Full-back</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="training"><i class="fas fa-calendar-check"></i> Weekly Training</label>
+            <input type="text" id="training" name="training" class="form-control" placeholder="How often do you train?">
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-heartbeat"></i> Medical Information</h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label><i class="fas fa-file-medical"></i> Medical Conditions <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <label><input type="radio" name="medical" value="Yes" required> Yes</label>
+              <label><input type="radio" name="medical" value="No"> No</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="conditionDetails"><i class="fas fa-stethoscope"></i> Condition Details</label>
+            <input type="text" id="conditionDetails" name="conditionDetails" class="form-control" placeholder="If yes, please explain">
+          </div>
+          
+          <div class="form-group">
+            <label for="injuries"><i class="fas fa-wheelchair"></i> Previous Injuries</label>
+            <input type="text" id="injuries" name="injuries" class="form-control" placeholder="Any previous injuries?">
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-exclamation-triangle"></i> Emergency Contact </h3>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="emergencyContact"><i class="fas fa-user-friends"></i> Emergency Contact Name<span class="required">*</span></label>
+            <input type="text" id="emergencyContact" name="emergencyContact" class="form-control" placeholder="Full Name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="emergencyPhone"><i class="fas fa-phone-alt"></i> Contact Number <span class="required">*</span></label>
+            <input type="text" id="emergencyPhone" name="emergencyPhone" class="form-control" placeholder="+27 123 456 7890" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="relationship"><i class="fas fa-link"></i> Relationship <span class="required">*</span></label>
+            <input type="text" id="relationship" name="relationship" class="form-control" placeholder="Parent, Guardian, etc." required>
+          </div>
+        </div>
+        
+        <h3 class="section-title"><i class="fas fa-file-signature"></i> Agreements</h3>
+        
+        <div class="agreement-group">
+          <label>
+            <input type="checkbox" name="agreement" required>
+            <span>I confirm that the information above is accurate and I accept responsibility. <span class="required">*</span></span>
+          </label>
+          
+          <label>
+            <input type="checkbox" name="code" required>
+            <span>I agree to follow the team's rules and code of conduct. <span class="required">*</span></span>
+          </label>
+        </div>
+        
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i class="fas fa-paper-plane"></i> Submit Registration
+        </button>
+        
+        <div id="formFeedback"></div>
+      </form>
+    </div>
+    
+    <div class="form-card">
+      <h2 class="form-title"><i class="fas fa-info-circle"></i> About Our Rugby Program</h2>
+      <p>The WSU All Blacks Rugby Team competes in university leagues and tournaments across the region. Our program includes:</p>
+      <ul style="margin: 20px 0; padding-left: 30px;">
+        <li>Professional coaching from experienced rugby specialists</li>
+        <li>Intensive training sessions focused on strength and strategy</li>
+        <li>Competitive matches against top university teams</li>
+        <li>Access to state-of-the-art rugby facilities and equipment</li>
+        <li>Team building and leadership development programs</li>
+        <li>Academic support tailored for student athletes</li>
+      </ul>
+      <p>For more information, contact our Rugby Coordinator at <strong>rugby@wsu.ac.za</strong> or call <strong>+27 47 502 2845</strong>.</p>
+    </div>
+  </section>
+  
+  <!-- Scroll to top button -->
+  <button id="scrollTopBtn" title="Go to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-football-ball"></i>
+      </div>
+      <p class="footer-text">Walter Sisulu University Sports Hub</p>
+      <p class="footer-text">Nelson Mandela Drive, Mthatha, Eastern Cape, South Africa</p>
+      <p class="footer-text">Email: sports@wsu.ac.za | Phone: +27 47 502 2844</p>
+      <p class="footer-copyright">&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+    </div>
   </footer>
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-  document.getElementById('logoutLink').addEventListener('click', function (event) {
-    event.preventDefault();
-    const confirmed = confirm("Are you sure you want to logout?");
-    if (confirmed) {
-      window.location.href = this.href;
-    }
-  });
-
-  // Supabase credentials {Initialize Supabase client}
+    // Initialize Supabase client
     const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-
-  
-  document.getElementById('logoutLink').addEventListener('click', function (event) {
-    event.preventDefault();
-    const confirmed = confirm("Are you sure you want to logout?");
-    if (confirmed) {
-      window.location.href = this.href;
-    }
-  });
-
-  document.querySelector('#rugbyForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Checking...";
-
-    const email = form.email.value;
-    const studentNumber = form.studentNumber.value;
-
-    // Check for duplicates
-    const { data: existing, error: fetchError } = await supabase
-      .from('rugby')
-      .select('*')
-      .or(`email.eq.${email},studentNumber.eq.${studentNumber}`);
-
-    if (fetchError) {
-      alert("Error checking duplicates: " + fetchError.message);
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Registration";
-      return;
-    }
-
-    if (existing.length > 0) {
-      alert("❌ A registration with this email or student number already exists.");
-
-      // Reset only email and student number
-      form.email.value = '';
-      form.studentNumber.value = '';
-      form.email.focus();
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Registration";
-      return;
-    }
-
-    // Prepare form data
-    const data = {
-      fullname: form.fullname.value,
-      studentNumber,
-      dob: form.dob.value,
-      gender: form.gender.value,
-      contact: form.contact.value,
-      email,
-      year: form.year.value,
-      faculty: form.faculty.value,
-      experience: form.experience.value,
-      previousTeam: form.previousTeam.value,
-      position: form.position.value,
-      injuries: form.injuries.value,
-      training: form.training.value,
-      medical: form.medical.value,
-      conditionDetails: form.conditionDetails.value,
-      emergencyContact: form.emergencyContact.value,
-      emergencyPhone: form.emergencyPhone.value,
-      relationship: form.relationship.value,
-      agreement: form.agreement.checked,
-      code: form.code.checked
+    
+    // DOM elements
+    const form = document.getElementById("rugbyForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const feedbackEl = document.getElementById("formFeedback");
+    
+    // Scroll to top button
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    
+    window.onscroll = function() {
+      if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+        scrollTopBtn.style.display = "block";
+      } else {
+        scrollTopBtn.style.display = "none";
+      }
     };
-
-    try {
-    const { data: inserted, error } = await supabase
-      .from("rugby")
-      .insert([data])
-      .select();
-
-    if (error) {
-      console.error("Insert error:", error);
-      alert("❌ Could not submit. Please try again later.");
-    } else {
-      alert("✅ Thank you for your application! We will get back to you as soon as we have the final decision on your application.");
-      form.reset();
+    
+    scrollTopBtn.addEventListener("click", function() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+    
+    // Form submission
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      
+      // Get form data
+      const formData = new FormData(form);
+      const studentNumber = formData.get("studentNumber").trim();
+      const email = formData.get("email").trim();
+      const contact = formData.get("contact").trim();
+      const emergencyPhone = formData.get("emergencyPhone").trim();
+      
+      try {
+        // Check for duplicates
+        const { data: existing, error: checkError } = await supabase
+          .from("rugby")
+          .select("id")
+          .or(`email.eq.${email},studentNumber.eq.${studentNumber}`);
+        
+        if (checkError) {
+          console.error("Check error:", checkError);
+          showFeedback("⚠️ Error checking existing entries.", "error");
+          resetSubmitButton();
+          return;
+        }
+        
+        if (existing.length > 0) {
+          showFeedback("❌ A user with this email or student number already exists.", "error");
+          resetSubmitButton();
+          return;
+        }
+        
+        // Insert data
+        const { error: insertError } = await supabase
+          .from("rugby")
+          .insert({
+            fullname: formData.get("fullname"),
+            studentNumber,
+            dob: formData.get("dob"),
+            gender: formData.get("gender"),
+            contact,
+            email,
+            year: formData.get("year"),
+            faculty: formData.get("faculty"),
+            experience: formData.get("experience"),
+            previousTeam: formData.get("previousTeam"),
+            position: formData.get("position"),
+            injuries: formData.get("injuries"),
+            training: formData.get("training"),
+            medical: formData.get("medical"),
+            conditionDetails: formData.get("conditionDetails"),
+            emergencyContact: formData.get("emergencyContact"),
+            emergencyPhone,
+            relationship: formData.get("relationship"),
+            agreement: formData.get("agreement"),
+            code: formData.get("code"),
+          });
+        
+        if (insertError) {
+          console.error("Insert error:", insertError);
+          showFeedback("❌ Could not submit. Please try again.", "error");
+        } else {
+          showFeedback("✅ Thank you for your application! We will get back to you soon.", "success");
+          form.reset(); // Reset the full form
+          
+          // Scroll to feedback
+          feedbackEl.scrollIntoView({ behavior: 'smooth' });
+        }
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        showFeedback("Unexpected error: " + err.message, "error");
+      }
+      
+      resetSubmitButton();
+    });
+    
+    function showFeedback(message, type) {
+      feedbackEl.textContent = message;
+      feedbackEl.className = type;
+      feedbackEl.style.display = "block";
+      
+      // Auto hide after 5 seconds
+      setTimeout(() => {
+        feedbackEl.style.display = "none";
+      }, 5000);
     }
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    alert("Unexpected error: " + err.message);
-  }
-
-  submitBtn.disabled = false;
-  submitBtn.textContent = "Submit";
-});
-
-</script>
+    
+    function resetSubmitButton() {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Registration';
+    }
+    
+    // Set max date for date of birth (18 years ago)
+    const today = new Date();
+    const minDate = new Date();
+    minDate.setFullYear(today.getFullYear() - 40);
+    const maxDate = new Date();
+    maxDate.setFullYear(today.getFullYear() - 16);
+    
+    document.getElementById('dob').setAttribute('min', formatDate(minDate));
+    document.getElementById('dob').setAttribute('max', formatDate(maxDate));
+    
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+  </script>
 </body>
 </html>
