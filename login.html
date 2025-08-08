@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Page</title>
+  <title>WSU Sports Hub - User Login</title>
   <link rel="stylesheet" href="Style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     // Use the same Supabase credentials as register.html
@@ -13,96 +14,359 @@
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
   </script>
-</head>
-<body>
   <style>
-    /* Page styles */
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #1e1e20, #b1b1b6);
+    * {
       margin: 0;
-      padding-top: 80px; /* Leave space for navbar */
-      display: flex;
-      flex-direction: column;
-      /* align-items: center; */
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+   body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #747474 0%, #080808 100%);
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
+      line-height: 1.6;
+      color: #000000;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .modern-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #000000, #333333);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-icon i {
+      font-size: 2rem;
+      color: white;
+    }
+
+    .modern-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .modern-header p {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
+    .floating-input {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .floating-input input {
+      width: 100%;
+      padding: 1rem 0.75rem 0.5rem;
+      border: none;
+      border-bottom: 2px solid #e5e7eb;
+      background: transparent;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .floating-input label {
+      position: absolute;
+      left: 0.75rem;
+      top: 1rem;
+      color: #9ca3af;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .floating-input input:focus + label,
+    .floating-input input:not(:placeholder-shown) + label {
+      top: 0.25rem;
+      font-size: 0.75rem;
+      color: #000000;
+      font-weight: 500;
+    }
+
+    .input-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #000000, #333333);
+      transition: width 0.3s ease;
+    }
+
+    .floating-input input:focus ~ .input-line {
+      width: 100%;
+    }
+
+    .modern-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #000000, #333333);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 1.5rem 0 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modern-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .modern-btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-divider {
+      margin: 1.5rem 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .form-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e5e7eb;
+    }
+
+    .form-divider span {
+      background: white;
+      padding: 0 1rem;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .link-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: transparent;
+      color: #000000;
+      border: 2px solid #000000;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .link-btn:hover {
+      background: #000000;
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .error {
+      background: #fee;
+      color: #c33;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      border: 1px solid #fcc;
+    }
+
+    .forgot-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: #000000;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .forgot-link:hover {
+      color: #333333;
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .login-container {
+        margin: 30px 20px;
+        padding: 2rem;
+      }
+      
+      .modern-header h2 {
+        font-size: 1.75rem;
+      }
+      
+      .header-icon {
+        width: 70px;
+        height: 70px;
+      }
+      
+      .header-icon i {
+        font-size: 1.75rem;
+      }
     }
   </style>
-
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="nav-brand">
-      <a href="login.html">
-        <img src="Images/images.jpeg" alt="Logo" class="logo-img">
-      </a>
-      <div class="hamburger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="login.html" class="active">Login</a></li>
-      <li><a href="register.html">Register</a></li>
-    </ul>
-  </nav>
-
-  <!-- Login Container -->
+</head>
+<body>
+  <!-- Modern Login Container -->
   <div class="login-container">
-    <h2>Login</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <div id="error" class="error"></div>
-    <button id="loginBtn" onclick="login()">Login</button>
-    <a href="register.html"><button>Register</button></a>
-    <a href="forgot.html"><p>Forgot Password?</p></a>
+    <div class="modern-header">
+      <div class="header-icon">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <h2>Welcome Back</h2>
+      <p>Sign in to access your WSU account</p>
+    </div>
+    
+    <div id="error" class="error" style="display: none;"></div>
+    
+    <div class="floating-input">
+      <input type="text" id="student_number" placeholder=" " required>
+      <label for="student_number">Student Number</label>
+      <div class="input-line"></div>
+    </div>
+    
+    <div class="floating-input">
+      <input type="email" id="email" placeholder=" " readonly>
+      <label for="email">Email Address</label>
+      <div class="input-line"></div>
+    </div>
+    
+    <div class="floating-input">
+      <input type="password" id="password" placeholder=" " required>
+      <label for="password">Password</label>
+      <div class="input-line"></div>
+    </div>
+    
+    <button id="loginBtn" class="modern-btn" onclick="login()">
+      <span class="btn-text">Sign In</span>
+    </button>
+    
+    <div class="form-divider">
+      <span>Don't have an account?</span>
+    </div>
+    
+    <a href="register.html">
+      <button class="link-btn">
+        Create New Account
+      </button>
+    </a>
+    
+    <a href="forgot.html" class="forgot-link">Forgot your password?</a>
   </div>
 
   
   <!-- Script -->
   <script>
-   function toggleMenu() {
-      const navLinks = document.getElementById("navLinks");
-      navLinks.classList.toggle("show");
+    async function login() {
+      const studentNumber = document.getElementById("student_number").value.trim();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorDiv = document.getElementById("error");
+      const loginBtn = document.getElementById("loginBtn");
+      const originalBtnText = loginBtn.innerHTML;
+
+      // Reset error display
+      errorDiv.style.display = "none";
+      errorDiv.textContent = "";
+      
+      // Validate inputs
+      if (!studentNumber || !password) {
+        errorDiv.textContent = "Please enter both student number and password.";
+        errorDiv.className = "error";
+        errorDiv.style.display = "block";
+        return;
+      }
+      
+      // Validate student number format
+      if (!/^\d{9}$/.test(studentNumber)) {
+        errorDiv.textContent = "Student number must be exactly 9 digits.";
+        errorDiv.className = "error";
+        errorDiv.style.display = "block";
+        return;
+      }
+
+      // Show loading state
+      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+      loginBtn.disabled = true;
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
+
+        if (error) {
+          errorDiv.textContent = error.message;
+          errorDiv.className = "error";
+          errorDiv.style.display = "block";
+          loginBtn.innerHTML = originalBtnText;
+          loginBtn.disabled = false;
+        } else {
+          errorDiv.textContent = "Login successful!";
+          errorDiv.className = "success";
+          errorDiv.style.display = "block";
+          loginBtn.innerHTML = '<i class="fas fa-check"></i> Welcome...';
+          
+          // Redirect after delay
+          setTimeout(() => {
+            window.location.href = "home.html";
+          }, 1500);
+        }
+      } catch (err) {
+        errorDiv.textContent = "An unexpected error occurred. Please try again.";
+        errorDiv.className = "error";
+        errorDiv.style.display = "block";
+        loginBtn.innerHTML = originalBtnText;
+        loginBtn.disabled = false;
+      }
     }
 
-    async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const errorDiv = document.getElementById("error");
-  const loginBtn = document.getElementById("loginBtn");
-
-  if (!email || !password) {
-    errorDiv.textContent = "❌ Please enter both email and password.";
-    errorDiv.className = "error";
-    return;
-  }
-
-  loginBtn.textContent = "Logging in..."; // Show logging in message
-  loginBtn.disabled = true; // Optional: disable button to prevent multiple clicks
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: password,
-  });
-
-  if (error) {
-    errorDiv.textContent = "❌ Login failed: " + error.message;
-    errorDiv.className = "error";
-    loginBtn.textContent = "Login";
-    loginBtn.disabled = false;
-  } else {
-    errorDiv.textContent = "✅ Login successful!";
-    errorDiv.className = "success";
-    loginBtn.textContent = "Welcome...";
-    // Optional delay before redirect
-    setTimeout(() => {
-      window.location.href = "home.html";
-    }, 1500);
-  }  
-}
-
+    // Auto-populate email when student number is entered
+    document.getElementById('student_number').addEventListener('input', function() {
+      const studentNumber = this.value.trim();
+      const emailField = document.getElementById('email');
+      
+      if (studentNumber) {
+        emailField.value = studentNumber + '@mywsu.ac.za';
+      } else {
+        emailField.value = '';
+      }
+    });
   </script>
 </body>
 </html>
