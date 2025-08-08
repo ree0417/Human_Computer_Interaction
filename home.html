@@ -1,191 +1,952 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WSU Institution Sports Hub</title>
-  <link href="Style.css" rel="stylesheet">
-  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1c1d1e;
+      --primary-dark: #0a0a0a;
+      --secondary: #dc2626;
+      --accent: #0b0b0b;
+      --light: #f8fafc;
+      --dark: #000000;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --transition: all 0.3s ease;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
 
-  
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navigation Styles - Enhanced with Hamburger */
+    .navbar {
+      background-color: rgb(0, 0, 0);
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      position: relative;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: left;
+    }
+
+    .logo-img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 10px;
+    }
+
+    .brand-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 25px;
+      position: relative;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 8px 0;
+      position: relative;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background-color: rgba(48, 45, 45, 0.307);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: rgba(48, 45, 45, 0.307);
+      box-shadow: var(--shadow);
+      border-radius: 5px;
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: var(--transition);
+      z-index: 100;
+    }
+
+    .dropdown li {
+      margin: 0;
+      width: 100%;
+    }
+
+    .dropdown a {
+      display: flex;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .dropdown li:last-child a {
+      border-bottom: none;
+    }
+
+    #dropdownWrapper:hover .dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .logout-link {
+      color: var(--secondary) !important;
+    }
+
+    /* Enhanced Hamburger Menu */
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      width: 40px;
+      height: 40px;
+      position: relative;
+      z-index: 1001;
+      padding: 8px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: rgb(255, 255, 255);
+      border-radius: 3px;
+      transition: var(--transition);
+      position: absolute;
+      left: 8px;
+    }
+
+    .hamburger span:nth-child(1) {
+      top: 12px;
+    }
+
+    .hamburger span:nth-child(2) {
+      top: 18px;
+    }
+
+    .hamburger span:nth-child(3) {
+      top: 24px;
+    }
+
+    /* Active state for hamburger */
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    /* Hero Section Styles */
+    .hero {
+      background: url('Images/people-6027028_1280.jpg') center/cover no-repeat, rgb(61, 61, 61);
+      position: relative;
+      height: 85vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      margin-top: 80px;
+
+    }
+
+    /* @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    } */
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      color: white;
+      text-align: center;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.2;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      font-weight: 300;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: var(--transition);
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background-color: #080808;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    /* Purpose Section */
+    .purpose-section {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+      color: var(--primary);
+      font-size: 2.2rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background-color: var(--accent);
+    }
+
+    .purpose-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .purpose-content p {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      color: var(--gray);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .feature {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .feature:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .feature h3 {
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    /* Sports Grid */
+    .sports-section {
+      padding: 80px 0;
+      background-color: #f8fafc;
+    }
+
+    .sports-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .sport-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .sport-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .sport-img {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .sport-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .sport-card:hover .sport-img img {
+      transform: scale(1.05);
+    }
+
+    .sport-type {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--primary);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .sport-content {
+      padding: 25px;
+    }
+
+    .sport-content h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sport-content h3 i {
+      color: var(--accent);
+    }
+
+    .sport-content p {
+      margin-bottom: 20px;
+      color: var(--gray);
+    }
+
+    .sport-link {
+      display: inline-block;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .sport-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .sport-link:hover::after {
+      width: 100%;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--primary-dark);
+      color: white;
+      padding: 60px 0 20px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-column h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .footer-column p {
+      margin-bottom: 15px;
+      color: var(--light-gray);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: var(--light-gray);
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a:hover {
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .footer-links i {
+      color: var(--accent);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--light-gray);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Styles - Enhanced */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Navigation for mobile */
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background:  rgba(48, 45, 45, 0.307);
+        flex-direction: column;
+        box-shadow: var(--shadow);
+        padding: 20px;
+        z-index: 999;
+      }
+
+      .nav-links.active {
+        display: flex;
+        animation: slideDown 0.4s ease forwards;
+      }
+
+      .nav-links li {
+        margin: 10px 0;
+        margin-left: 0;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      /* Dropdown adjustments */
+      #dropdownWrapper {
+        position: static;
+      }
+
+      .dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        display: none;
+        width: 100%;
+        margin-top: 10px;
+        padding-left: 20px;
+      }
+
+      .dropdown.active {
+        display: block;
+        animation: fadeIn 0.3s ease forwards;
+      }
+
+      .dropdown li {
+        margin: 5px 0;
+      }
+
+      .dropdown a {
+        padding: 8px 0;
+        border-bottom: none;
+      }
+
+      /* Hero section */
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Features */
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        height: 70vh;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        max-height: 0;
+      }
+      to {
+        opacity: 1;
+        max-height: 500px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <!-- Navigation Bar -->
   <nav class="navbar">
-  <div class="nav-brand">
-    <a href="home.html">
-      <img src="Images/images.jpeg" alt="WSU Logo" class="logo-img">
-    </a>
-    <div class="hamburger" onclick="toggleMenu()">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
-  </div>
-
-  
-   <ul class="nav-links" id="navLinks">
-     <li><a href="football.html">Football</a></li>
-      <li><a href="rugby.html">Rugby</a></li>
-      <li><a href="upcoming.html">Upcoming Matches</a></li>
-      <li id="dropdownWrapper" style="position: relative;">
-        <a href="#" id="dropdownLink">More ▾</a>
-        <ul class="dropdown" id="moreDropdown">
-          <li><a href="athletics.html">Athletics</a></li>
-          <li><a href="basketball.html">Basketball</a></li>
-          <li><a href="volleyball.html">Volleyball</a></li>
-          <li><a href="cricket.html">Cricket</a></li>
-          <li><a href="netball.html">Netball</a></li>
-        </ul>
-      </li>
-    </li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="index.html" id="logoutLink">Logout</a></li>
-  </ul> 
-</nav>
-  
-
-
-  <!-- Welcome Section -->
-  <section style="text-align: center;">
-    <div style="max-width: 800px; margin: 0 auto;">
-      <h1>Welcome to the Walter Sisulu University Sports Hub!</h1>
-      <p>
-        Whether you’re a passionate athlete, a curious newcomer, or a supporter of WSU’s vibrant sports culture,
-        this platform connects you to everything sports-related at our institution.
-      </p>
-      <h2>Purpose of This Website</h2>
-      <p>The site improves communication between students and the Sports Department. Here, you can:</p>
-      <ul style="text-align: left; max-width: 600px; margin: 20px auto;">
-        <li>Stay updated on training sessions, announcements, and match schedules</li>
-        <li>Register for different sports and events</li>
-        <li>Find coach and coordinator contact details</li>
-        <li>Access results, schedules, and resources</li>
-        <li>Send feedback or questions to the sports team</li>
+    <div class="container nav-container">
+      <div class="nav-brand">
+        <a href="home.html"><img src="Images/images.jpeg" alt="WSU Logo" class="logo-img"></a>
+        <div class="brand-text">Sports Hub</div>
+      </div>
+      
+      <ul class="nav-links" id="navLinks">
+        <li><a href="upcoming.html"><i class="fas fa-calendar-alt"></i> Upcoming Matches</a></li>
+        <li id="dropdownWrapper">
+          <a href="#" id="dropdownLink" class="dropdown-trigger"><i class="fas fa-plus"></i> Sports</a>
+          <ul class="dropdown" id="moreDropdown">
+            <li><a href="football.html"><i class="fas fa-futbol"></i> Football</a></li>
+            <li><a href="rugby.html"><i class="fas fa-football-ball"></i> Rugby</a></li>
+            <li><a href="athletics.html"><i class="fas fa-running"></i> Athletics</a></li>
+            <li><a href="basketball.html"><i class="fas fa-basketball-ball"></i> Basketball</a></li>
+            <li><a href="cricket.html"><i class="fas fa-baseball-ball"></i> Cricket</a></li>
+            <li><a href="netball.html"><i class="fas fa-volleyball-ball"></i> Netball</a></li>
+            <li><a href="volleyball.html"><i class="fas fa-volleyball-ball"></i> Volleyball</a></li>
+          </ul>
+        </li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="index.html" id="logoutLink" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
-      <p><strong>Together let’s build a stronger and more connected WSU sports community! 🏆</strong></p>
+      
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Walter Sisulu University Sports Hub</h1>
+      <p class="hero-subtitle">Where passion meets performance - Your gateway to excellence in university sports</p>
+      
+      <div class="cta-buttons">
+        <a href="#sports" class="btn btn-primary">Explore Sports</a>
+        <a href="upcoming.html" class="btn btn-secondary">View Schedule</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purpose Section -->
+  <section class="purpose-section">
+    <div class="container">
+      <h2 class="section-title">Our Mission</h2>
+      <div class="purpose-content">
+        <p>The WSU Sports Hub is the central platform connecting athletes, coaches, and supporters across all campuses. We're dedicated to fostering excellence, building community, and celebrating our sporting achievements.</p>
+        <p>Through this platform, we streamline communication, enhance engagement, and provide essential resources for our sports community.</p>
+        
+        <div class="features">
+          <div class="feature">
+            <i class="fas fa-calendar-check"></i>
+            <h3>Schedule Management</h3>
+            <p>Access training sessions, match schedules, and important events all in one place.</p>
+          </div>
+          <div class="feature">
+            <i class="fas fa-user-plus"></i>
+            <h3>Easy Registration</h3>
+            <p>Register for sports teams and events with our streamlined process.</p>
+          </div>
+          <div class="feature">
+            <i class="fas fa-users"></i>
+            <h3>Community Building</h3>
+            <p>Connect with fellow athletes, coaches, and supporters across campuses.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Sports Sections -->
-  <section>
-    <h3 style="text-align: center;">⚽ Football</h3>
-    <div style="text-align: center;">
-      <img src="football/default.jpg" alt="WSU Football" style="max-width: 100%;">
+  <section class="sports-section" id="sports">
+    <div class="container">
+      <h2 class="section-title">Featured Sports</h2>
+      <div class="sports-grid">
+        <!-- Football -->
+        <div class="sport-card">
+          <div class="sport-img">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzFlM2E4YSI+PC9yZWN0Pjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+Rm9vdGJhbGw8L3RleHQ+PC9zdmc+" alt="Football">
+            <span class="sport-type">Team Sport</span>
+          </div>
+          <div class="sport-content">
+            <h3><i class="fas fa-futbol"></i> Football</h3>
+            <p>Join our competitive football program with dedicated coaches and weekly training sessions. Opportunities for inter-university leagues and tournaments.</p>
+            <a href="football.html" class="sport-link">Join the Club →</a>
+          </div>
+        </div>
+        
+        <!-- Rugby -->
+        <div class="sport-card">
+          <div class="sport-img">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2RjMjYyNiI+PC9yZWN0Pjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+UnVnYnk8L3RleHQ+PC9zdmc+" alt="Rugby">
+            <span class="sport-type">Team Sport</span>
+          </div>
+          <div class="sport-content">
+            <h3><i class="fas fa-football-ball"></i> Rugby</h3>
+            <p>Experience the physical challenge and strategic gameplay of rugby. Our team competes in regular matches and welcomes players of all experience levels.</p>
+            <a href="rugby.html" class="sport-link">Join the Team →</a>
+          </div>
+        </div>
+        
+        <!-- Cricket -->
+        <div class="sport-card">
+          <div class="sport-img">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2Y1OWUwYiI+PC9yZWN0Pjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+Q3JpY2tldDwvdGV4dD48L3N2Zz4=" alt="Cricket">
+            <span class="sport-type">Team Sport</span>
+          </div>
+          <div class="sport-content">
+            <h3><i class="fas fa-baseball-ball"></i> Cricket</h3>
+            <p>Join our cricket program that brings together tactical thinking and precision. Opportunities for batsmen, bowlers, and all-rounders.</p>
+            <a href="cricket.html" class="sport-link">Join the Team →</a>
+          </div>
+        </div>
+        
+        <!-- Athletics -->
+        <div class="sport-card">
+          <div class="sport-img">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzFlM2E4YSI+PC9yZWN0Pjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+QXRobGV0aWNzPC90ZXh0Pjwvc3ZnPg==" alt="Athletics">
+            <span class="sport-type">Individual Sport</span>
+          </div>
+          <div class="sport-content">
+            <h3><i class="fas fa-running"></i> Athletics</h3>
+            <p>Compete in track and field events including sprinting, long-distance running, and jumping. Prepare for regional and national competitions.</p>
+            <a href="athletics.html" class="sport-link">Join Athletics →</a>
+          </div>
+        </div>
+        
+        <!-- Basketball -->
+        <div class="sport-card">
+          <div class="sport-img">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2RjMjYyNiI+PC9yZWN0Pjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+QmFza2V0YmFsbDwvdGV4dD48L3N2Zz4=" alt="Basketball">
+            <span class="sport-type">Team Sport</span>
+          </div>
+          <div class="sport-content">
+            <h3><i class="fas fa-basketball-ball"></i> Basketball</h3>
+            <p>Experience high-energy, fast-paced gameplay that teaches teamwork and decision-making under pressure. Join our male or female teams.</p>
+            <a href="basketball.html" class="sport-link">Join the Team →</a>
+          </div>
+        </div>
+        
+        <!-- Volleyball -->
+        <div class="sport-card">
+          <div class="sport-img">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2Y1OWUwYiI+PC9yZWN0Pjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+Vm9sbGV5YmFsbDwvdGV4dD48L3N2Zz4=" alt="Volleyball">
+            <span class="sport-type">Team Sport</span>
+          </div>
+          <div class="sport-content">
+            <h3><i class="fas fa-volleyball-ball"></i> Volleyball</h3>
+            <p>Join one of our fastest-growing sports that values teamwork, agility, and strategy. Competitive and recreational opportunities available.</p>
+            <a href="volleyball.html" class="sport-link">Join Volleyball →</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <p style="text-align: center;">Football is one of the most active sports on campus. With dedicated coaches and weekly training sessions,<br> students get the chance to improve their skills and compete in inter-university leagues and tournaments.<br> The football program helps students build endurance, teamwork, and discipline while also having fun. <a href="football.html"> click here</a> to join the club.</p>
-  </section>
-
-  <section>
-    <h3 style="text-align: center;">🏉 Rugby</h3>
-    <div style="text-align: center;">
-      <img src="rugby/images (1).jpeg" alt="WSU Rugby" style="max-width: 100%;">
-    </div>
-    <p style="text-align: center;">Rugby is for those who enjoy physical challenge and strategic gameplay. It teaches strength,<br> cooperation, and resilience. Our rugby team participates in regular matches and tournaments,<br> and welcomes both experienced players and those new to the sport. <a href="rugby.html">click here</a> to join the team.</p>
-  </section>
-
-  <section>
-    <h3 style="text-align: center;">🏏 Cricket</h3>
-    <div style="text-align: center;">
-      <img src="cricket/images (1).jpeg" alt="WSU Cricket" style="max-width: 100%;">
-    </div>
-    <p style="text-align: center;">Cricket is a popular sport that brings together tactical thinking and precision. Whether you're a batsman,<br> bowler, or an all-rounder, you'll find opportunities to compete in friendly matches and varsity leagues.<br> Coaching and practice nets are provided for skill development. <a href="cricket.html">click here</a> to join the team.</p>
-  </section>
-
-  <section>
-    <h3 style="text-align: center;">🏃 Athletics</h3>
-    <div style="text-align: center;">
-      <img src="atlhetics/wsu-sports-facilities.jpg" alt="WSU Athletics" style="width: 50%; border-radius: 8px;">
-    </div>
-    <p style="text-align: center;">Athletics includes a variety of track and field events, such as sprinting, long-distance running,<br> high jump, and more. It's ideal for students who are goal-oriented and self-motivated.<br> Our athletics program also helps prepare students for regional and national competitions. <a href="athletics.html">click here</a> to join the team.</p>
-  </section>
-
-  <section>
-    <h3 style="text-align: center;">🏀 Basketball</h3>
-    <div style="text-align: center;">
-      <img src="basketball/WSU_SHOOTING_GUARD_CHINA-BOUND_AS_PART_OF_USSA_NATIONAL_SQUAD_1.jpg" alt="WSU Basketball" style="width: 50%; border-radius: 8px;">
-    </div>
-    <p style="text-align: center;">Basketball is a high-energy, fast-paced game that teaches teamwork, coordination, and<br> decision-making under pressure. Students can join male or female teams<br> and participate in campus leagues, inter-university games, and casual matches. <a href="basketball.html">click here</a> to join the team.</p>
-  </section>
-
-  <section>
-    <h3 style="text-align: center;">🏐 Volleyball</h3>
-    <div style="text-align: center;">
-      <img src="vollyball/images.jpeg" alt="WSU Volleyball" style="max-width: 100%; border-radius: 8px;">
-    </div>
-    <p style="text-align: center;">Volleyball is one of the fast-growing sports at Walter Sisulu University, bringing together students who<br> value teamwork, agility, and strategy. The sport encourages both competitive<br> and recreational play, allowing students of all skill levels to participate and improve. <a href="volleyball.html">click here</a> to join the team.</p>
-  </section>
-
-  <section>
-    <h3 style="text-align: center;">🏐 Netball</h3>
-    <div style="text-align: center;">
-      <img src="netball/WSU_NETBALL_BLOWS_COMPETITION_AWAY_AT_USSA_CHAMPS_TO_GAIN_PROMOTION.jpg" alt="WSU Netball" style="width: 50%; border-radius: 8px;">
-    </div>
-    <p style="text-align: center;">Netball is especially popular among female students, but open to everyone interested.<br> The sport emphasizes quick reflexes, positioning, <br> and communication. Our netball team competes at different levels and welcomes new players every semester. <a href="netball.html">click here</a> to join the team.</p>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
-    <p>Developed to connect students with the Sports Department</p>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>About Us</h3>
+          <p>The WSU Sports Hub is dedicated to promoting excellence in university sports and fostering a vibrant athletic community across all campuses.</p>
+          <p>Our mission is to support athletes, coaches, and supporters in achieving their sporting goals.</p>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="football.html"><i class="fas fa-futbol"></i> Football</a></li>
+            <li><a href="rugby.html"><i class="fas fa-football-ball"></i> Rugby</a></li>
+            <li><a href="upcoming.html"><i class="fas fa-calendar-alt"></i> Upcoming Matches</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Info</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Walter Sisulu University</p>
+          <p>Nelson Mandela Drive, Mthatha</p>
+          <p>Eastern Cape, South Africa</p>
+          <p><i class="fas fa-phone"></i> +27 47 502 2844</p>
+          <p><i class="fas fa-envelope"></i> sports@wsu.ac.za</p>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
+        <p>Developed to connect students with the Sports Department</p>
+      </div>
+    </div>
   </footer>
 
-  <!-- Script -->
+  <!-- JavaScript -->
   <script>
+    // Mobile menu toggle
     function toggleMenu() {
-      const navLinks = document.getElementById("navLinks");
-      navLinks.classList.toggle("show");
-    }
-    const dropdownLink = document.getElementById('dropdownLink');
-    const moreDropdown = document.getElementById('moreDropdown');
-    const dropdownWrapper = document.getElementById('dropdownWrapper');
-
-    hamburger.addEventListener('click', () => {
+      const navLinks = document.getElementById('navLinks');
+      const hamburger = document.getElementById('hamburger');
       navLinks.classList.toggle('active');
-    });
+      hamburger.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
+    }
 
-    dropdownLink.addEventListener('click', function (e) {
+    // Dropdown toggle
+    function toggleDropdown(e) {
       e.preventDefault();
-      e.stopPropagation();
-      dropdownLink.classList.toggle('active');
-    });
+      const dropdown = document.getElementById('moreDropdown');
+      dropdown.classList.toggle('active');
+    }
 
-    document.addEventListener('click', function (e) {
-      if (!dropdownWrapper.contains(e.target)) {
-        dropdownLink.classList.remove('active');
+    // Close dropdown when clicking outside
+    function closeDropdowns(e) {
+      const dropdown = document.getElementById('moreDropdown');
+      if (!e.target.closest('#dropdownWrapper') && dropdown.classList.contains('active')) {
+        dropdown.classList.remove('active');
       }
+    }
+
+    // Initialize elements
+    const dropdownLink = document.getElementById('dropdownLink');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    const logoutLink = document.getElementById('logoutLink');
+
+    // Event listeners
+    if (dropdownLink) {
+      dropdownLink.addEventListener('click', toggleDropdown);
+    }
+
+    if (hamburger) {
+      hamburger.addEventListener('click', toggleMenu);
+    }
+
+    document.addEventListener('click', closeDropdowns);
+
+    // Logout confirmation
+    if (logoutLink) {
+      logoutLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        const confirmed = confirm('Are you sure you want to logout?');
+        if (confirmed) {
+          window.location.href = this.href;
+        }
+      });
+    }
+
+    // Close mobile menu when clicking on links
+    const navLinkItems = document.querySelectorAll('.nav-links a:not(.dropdown-trigger)');
+    navLinkItems.forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
     });
 
-    
-
-  dropdownLink.addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent the link from navigating
-    dropdownMenu.classList.toggle('show');
-  });
-
-  // Optional: Click outside to close the dropdown
-  document.addEventListener('click', function(event) {
-    const isClickInside = document.getElementById('dropdownWrapper').contains(event.target);
-    if (!isClickInside) {
-      dropdownMenu.classList.remove('show');
-    }
-  });
-
-    document.addEventListener('click', function (e) {
-    if (!dropdownWrapper.contains(e.target)) {
-      dropdownWrapper.classList.remove('active');
-    }
-  });
-
-  document.getElementById('logoutLink').addEventListener('click', function (event) {
-    event.preventDefault();
-    const confirmed = confirm("Are you sure you want to logout?");
-    if (confirmed) {
-      window.location.href = this.href;
-    }
-  });
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
   </script>
-
-  
 </body>
 </html>
