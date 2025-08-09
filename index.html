@@ -1,4 +1,4 @@
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -185,3 +185,242 @@
 </body>
 </html>
 
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WSU Sports Hub — Coming Soon</title>
+  <meta name="theme-color" content="#0b3d91"/>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --accent:#0b3d91;
+      --accent-2:#0f83f3;
+      --muted:#6b7280;
+      --shadow: 0 10px 30px rgba(11,61,145,0.08);
+      --radius:14px;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);
+      color:#0b1220;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:920px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
+
+    @media (max-width:880px){
+      .wrap{grid-template-columns:1fr; padding:0 8px}
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), var(--card));
+      border-radius: var(--radius);
+      padding:36px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      min-height:260px;
+    }
+
+    .headline{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:10px;
+    }
+
+    .logo {
+      width:64px;
+      height:64px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:700;
+      font-size:22px;
+      box-shadow: 0 6px 18px rgba(11,61,145,0.15);
+    }
+
+    h1{
+      font-size:1.6rem;
+      margin:0;
+      color:var(--accent);
+      letter-spacing:-0.01em;
+    }
+
+    p.lead{
+      margin:14px 0 6px;
+      color:var(--muted);
+      font-size:1rem;
+      line-height:1.5;
+    }
+
+    .eta {
+      display:inline-block;
+      margin-top:18px;
+      background:linear-gradient(90deg, rgba(11,61,145,0.08), rgba(15,131,243,0.06));
+      color:var(--accent);
+      padding:12px 16px;
+      border-radius:10px;
+      font-weight:700;
+      box-shadow: inset 0 -1px 0 rgba(11,61,145,0.03);
+    }
+
+    .note{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    .right {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .badge {
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:white;
+      padding:28px;
+      border-radius:18px;
+      box-shadow: 0 18px 40px rgba(11,61,145,0.16);
+      text-align:center;
+      min-width:220px;
+    }
+
+    .badge h2{
+      margin:0;
+      font-size:1.25rem;
+      letter-spacing:-0.01em;
+    }
+
+    .time {
+      margin-top:10px;
+      font-weight:800;
+      font-size:1.05rem;
+    }
+
+    .subtle{
+      margin-top:8px;
+      font-size:0.9rem;
+      opacity:0.92;
+    }
+
+    .links{
+      margin-top:20px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:10px;
+      text-decoration:none;
+      color:white;
+      background:var(--accent);
+      font-weight:700;
+      box-shadow:0 8px 24px rgba(11,61,145,0.12);
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(11,61,145,0.12);
+      box-shadow:none;
+      font-weight:600;
+    }
+    .btn:hover{ transform: translateY(-4px) }
+
+    .small{
+      font-size:0.85rem;
+      color:var(--muted);
+      margin-top:14px;
+    }
+
+    /* subtle animated lines */
+    .card::after{
+      content:"";
+      position:absolute;
+      right:-40%;
+      top:-30%;
+      width:220px;
+      height:220px;
+      background: radial-gradient(circle at 30% 30%, rgba(15,131,243,0.08), transparent 40%);
+      transform:rotate(25deg);
+      pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main" aria-labelledby="title">
+    <section class="card" aria-labelledby="title">
+      <div class="headline">
+        <div class="logo" aria-hidden="true">WSU</div>
+        <div>
+          <h1 id="title">Website Under Construction</h1>
+          <div style="color:var(--muted);font-size:0.95rem;margin-top:6px">
+            We're working behind the scenes to bring the new WSU Sports Hub online.
+          </div>
+        </div>
+      </div>
+
+      <p class="lead">
+        Our team is finalizing content, improving performance, and running final tests to make sure everything works smoothly.
+      </p>
+
+      <div class="eta" role="status" aria-live="polite">
+        The site will be <strong>online by 17:00 on 09/08/2025</strong>.
+      </div>
+
+      <p class="note">
+        Thank you for your patience. We appreciate your support — see you soon!
+      </p>
+
+      <div class="links" aria-hidden="false">
+        <a class="btn" href="mailto:sports@wsu.ac.za"><span aria-hidden="true">✉️</span> Contact Us</a>
+        <a class="btn secondary" href="#" onclick="return false;">Learn More</a>
+      </div>
+
+      <p class="small">
+        For urgent enquiries call: <strong>+27 47 502 2846</strong>
+      </p>
+    </section>
+
+    <aside class="card right" aria-label="Coming soon badge">
+      <div class="badge">
+        <h2>Coming Soon</h2>
+        <div class="time">17:00 — 09/08/2025</div>
+        <div class="subtle">Africa/Johannesburg time</div>
+      </div>
+    </aside>
+  </main>
+</body>
+</html>
