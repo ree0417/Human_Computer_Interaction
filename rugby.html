@@ -195,6 +195,22 @@
       gap: 15px;
     }
     
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+        .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
     .form-subtitle {
       color: var(--gray);
       font-size: 1.1rem;
@@ -449,10 +465,9 @@
         <div class="brand-text">Sports Hub</div>
       </div>
       <div>
-        <a href="home.html" class="btn btn-secondary" style="padding: 10px 20px; background: var(--primary); color: white; border-radius: 8px; text-decoration: none;">
-          <i class="fas fa-arrow-left"></i> Back to Home
+        <a href="home.html" class="btn btn-primary" style="text-decoration: none;">
+          <i class="fas fa-home"></i> 
         </a>
-      </div>
     </div>
   </header>
   
@@ -819,5 +834,3 @@
   </script>
 </body>
 </html>
-
-
