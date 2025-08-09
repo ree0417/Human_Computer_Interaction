@@ -146,6 +146,62 @@
   color: var(--accent);
 }
 
+.form-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 800px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .form-title {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    .form-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    /* Registration Form */
+    .registration-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+        .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
     /* Registration Form Styles */
     .form-container {
       max-width: 800px;
@@ -395,35 +451,36 @@
     }
 
     /* Footer */
-    /* Footer */
-    footer {
-      background: var(--primary-dark);
+    .footer {
+      background: black;
       color: white;
-      padding: 30px 20px;
-      text-align: center;
-      margin-top: 50px;
+      padding: 40px 0 20px;
+      margin-top: 60px;
     }
     
-    footer p {
+    .footer-content {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+    
+    .footer-text {
       margin-bottom: 10px;
       color: var(--light-gray);
     }
     
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .footer-logo img {
-      height: 40px;
-    }
-    
-    .footer-logo span {
-      font-size: 1.2rem;
-      font-weight: 700;
+    .footer-copyright {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--light-gray);
+      font-size: 0.9rem;
     }
 
     /* Responsive Styles */
@@ -510,10 +567,9 @@
         <div class="brand-text">Sports Hub</div>
       </div>
       <div>
-        <a href="home.html" class="btn btn-secondary" style="padding: 10px 20px; background: var(--primary); color: white; border-radius: 8px; text-decoration: none;">
-          <i class="fas fa-arrow-left"></i> Back to Home
+        <a href="home.html" class="btn btn-primary" style="text-decoration: none;">
+          <i class="fas fa-home"></i> 
         </a>
-      </div>
     </div>
   </header>
 
@@ -724,6 +780,23 @@
       <button type="submit">Submit Registration</button>
     </form>
   </div>
+<br>
+  <section class="registration-section container">
+    <div class="form-card">
+  <h2 class="form-title"><i class="fas fa-basketball-ball"></i> About Our Netball Program</h2>
+  <p>The WSU Netball Team is a competitive and dynamic squad that proudly represents the university in regional and national tournaments. Our program offers:</p>
+  <ul style="margin: 20px 0; padding-left: 30px;">
+    <li>Expert coaching from experienced netball professionals</li>
+    <li>Specialized training for all positions including shooters, mid-court, and defenders</li>
+    <li>Regular participation in inter-university leagues and championships</li>
+    <li>Access to top-quality indoor and outdoor netball courts</li>
+    <li>Strength, agility, and endurance training programs</li>
+    <li>Academic and personal development support for student-athletes</li>
+  </ul>
+  <p>For more information, contact our Netball Coordinator at <strong>netball@wsu.ac.za</strong> or call <strong>+27 47 502 2846</strong>.</p>
+</div>
+</section>
+
 
   <!-- Scroll-to-Top Button -->
   <button id="scrollTopBtn" title="Go to top">
@@ -734,13 +807,17 @@
   </button>
 
   <!-- Footer -->
-  <footer>
-    <div class="footer-logo">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0xNi44IDguN0E0IDQgMCAwIDAgMTIgNGE0IDQgMCAwIDAtNC44IDQuN0E0IDQgMCAwIDAgMTIgMTJhNCA0IDAgMCAwIDQuOC0zLjN6Ij48L3BhdGg+PHBhdGggZD0iTTEyIDR2OCI+PC9wYXRoPjwvc3ZnPg==" alt="WSU Logo">
-      <span>WSU Sports Hub</span>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-futbol"></i>
+      </div>
+      <p class="footer-text">Walter Sisulu University Sports Hub</p>
+      <p class="footer-text">Nelson Mandela Drive, Mthatha, Eastern Cape, South Africa</p>
+      <p class="footer-text">Email: sports@wsu.ac.za | Phone: +27 47 502 2844</p>
+      <p class="footer-copyright">&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
     </div>
-    <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
-    <p>Developed to connect students with the Sports Department</p>
   </footer>
 
   <script>
@@ -850,5 +927,3 @@
   </script>
 </body>
 </html>
-
-
