@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -321,7 +320,7 @@
 
             <div class="input-group">
               <label for="contact_number">Contact Number</label>
-              <input id="contact_number" type="text" class="form-input" placeholder="0123456789" />
+              <input id="contact_number" type="text" class="form-input" placeholder="0712345678" />
             </div>
           </div>
 
@@ -376,10 +375,11 @@
       const registerbtn = document.getElementById("registerbtn");
       const originalBtnText = registerbtn.innerHTML;
 
-      // Reset error display
-      messageEl.style.display = "none";
-      messageEl.textContent = "";
-      messageEl.className = "error";
+      // Reset error display properly
+messageEl.style.display = "none";
+messageEl.innerHTML = "";
+messageEl.className = "alert alert-error"; // default to error look
+
 
       // Validation
       if (!name || !surname || !student_number || !email || !password || !confirmPassword || !contact_number) {
@@ -468,33 +468,28 @@
           return;
         }
 
-                  // Success message
-          messageEl.innerHTML = '<i class="fas fa-check-circle alert-icon"></i> Registration successful! Check your email for verification.';
-          messageEl.className = "alert alert-success";
-          messageEl.style.display = "flex";
-          
-          // Change button state
-          registerbtn.innerHTML = '<i class="fas fa-check"></i> Registered!';
-          registerbtn.disabled = true;
-          
-          // Redirect after 2 seconds
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2000);
+        // Success message
+messageEl.innerHTML = '<i class="fas fa-check-circle alert-icon"></i> Registration successful! Check your email for verification.';
+messageEl.className = "alert alert-success";
+messageEl.style.display = "flex";
 
-        // Reset form
-        document.getElementById("name").value = "";
-        document.getElementById("surname").value = "";
-        document.getElementById("student_number").value = "";
-        document.getElementById("Email").value = "";
-        document.getElementById("password").value = "";
-        document.getElementById("ConfirmPassword").value = "";
-        document.getElementById("contact_number").value = "";
+// Change button state
+registerbtn.innerHTML = '<i class="fas fa-check"></i> Registered!';
+registerbtn.disabled = true;
 
-        // Redirect to login
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 2500);
+// Clear form
+document.getElementById("name").value = "";
+document.getElementById("surname").value = "";
+document.getElementById("student_number").value = "";
+document.getElementById("Email").value = "";
+document.getElementById("password").value = "";
+document.getElementById("ConfirmPassword").value = "";
+document.getElementById("contact_number").value = "";
+
+// Redirect after 2 seconds
+setTimeout(() => {
+  window.location.href = "login.html";
+}, 2000);
 
       } catch (error) {
         messageEl.textContent = "An unexpected error occurred. Please try again.";
@@ -520,4 +515,3 @@
 </body>
 
 </html>
-
