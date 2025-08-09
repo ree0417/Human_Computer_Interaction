@@ -467,12 +467,19 @@
           return;
         }
 
-        // Success!
-        alert("Go to your email to verify your account.");
-        messageEl.textContent = "Registration successful! Redirecting...";
-        messageEl.className = "success";
-        messageEl.style.display = "block";
-        registerbtn.innerHTML = '<i class="fas fa-check"></i> Registered!';
+                  // Success message
+          messageEl.innerHTML = '<i class="fas fa-check-circle alert-icon"></i> Registration successful! Check your email for verification.';
+          messageEl.className = "alert alert-success";
+          messageEl.style.display = "flex";
+          
+          // Change button state
+          registerbtn.innerHTML = '<i class="fas fa-check"></i> Registered!';
+          registerbtn.disabled = true;
+          
+          // Redirect after 2 seconds
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
 
         // Reset form
         document.getElementById("name").value = "";
@@ -1026,3 +1033,4 @@
 </body>
 
 </html>
+
