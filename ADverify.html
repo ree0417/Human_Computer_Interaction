@@ -15,8 +15,9 @@
 <body>
 
   <h1>Admin Login</h1>
+  <input type="email" id="email" placeholder="Enter admin email" required />
   <input type="password" id="password" placeholder="Enter admin password" required />
-  <button onclick="loginWithPassword()">Login</button>
+  <button onclick="loginWithEmailAndPassword()">Login</button>
 
   <div id="message"></div>
   <div id="error"></div>
@@ -28,7 +29,8 @@
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function loginWithPassword() {
+    async function loginWithEmailAndPassword() {
+      const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
       const messageEl = document.getElementById('message');
       const errorEl = document.getElementById('error');
@@ -36,28 +38,29 @@
       messageEl.textContent = '';
       errorEl.textContent = '';
 
-      if (!password) {
-        errorEl.textContent = 'Please enter the admin password.';
+      if (!email || !password) {
+        errorEl.textContent = 'Please enter both email and password.';
         return;
       }
 
-      // Fetch the stored admin password from the database
+      // Fetch admin credentials for matching email
       const { data, error } = await supabase
-        .from('AdminEmails') // assuming this table has only 1 row for admin credentials
-        .select('password')
+        .from('AdminEmails') // must have 'email' and 'password' columns
+        .select('email, password')
+        .eq('email', email)
         .maybeSingle();
 
       if (error || !data) {
-        console.error('Password fetch error:', error);
-        errorEl.textContent = 'Error verifying credentials.';
+        console.error('Fetch error:', error);
+        errorEl.textContent = '❌ Access denied. Email not found.';
         return;
       }
 
-      // Compare the entered password with stored password
+      // Compare entered password with stored one
       if (password === data.password) {
-        messageEl.textContent = '✅ Login successful!';
-        // Redirect to dashboard
-        // window.location.href = 'admin-dashboard.html';
+  messageEl.textContent = '✅ Login successful!';
+  // Redirect to admin.html
+  window.location.href = 'admin.html';
       } else {
         errorEl.textContent = '❌ Incorrect password.';
       }
