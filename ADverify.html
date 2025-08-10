@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; }
+    button { background: #1d1e1e; color: white; border: none; cursor: pointer; }
+    button:hover { background: #606568; }
+    #message { margin-top: 15px; color: green; }
+    #error { margin-top: 15px; color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>Admin Login</h1>
+  <input type="password" id="password" placeholder="Enter admin password" required />
+  <button onclick="loginWithPassword()">Login</button>
+
+  <div id="message"></div>
+  <div id="error"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script>
+  // Supabase credentials
+    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function loginWithPassword() {
+      const password = document.getElementById('password').value.trim();
+      const messageEl = document.getElementById('message');
+      const errorEl = document.getElementById('error');
+
+      messageEl.textContent = '';
+      errorEl.textContent = '';
+
+      if (!password) {
+        errorEl.textContent = 'Please enter the admin password.';
+        return;
+      }
+
+      // Fetch the stored admin password from the database
+      const { data, error } = await supabase
+        .from('AdminEmails') // assuming this table has only 1 row for admin credentials
+        .select('password')
+        .maybeSingle();
+
+      if (error || !data) {
+        console.error('Password fetch error:', error);
+        errorEl.textContent = 'Error verifying credentials.';
+        return;
+      }
+
+      // Compare the entered password with stored password
+      if (password === data.password) {
+        messageEl.textContent = '✅ Login successful!';
+        // Redirect to dashboard
+        // window.location.href = 'admin-dashboard.html';
+      } else {
+        errorEl.textContent = '❌ Incorrect password.';
+      }
+    }
+  </script>
+</body>
+</html>
