@@ -1,517 +1,508 @@
 
-<!DOCTYPE html>
-<html lang="en">
+  <!DOCTYPE html>
+  <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WSU Sports Hub - Registration</title>
-  <link rel="stylesheet" href="Style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WSU Sports Hub - Registration</title>
+    <link rel="stylesheet" href="Style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    // Use the same Supabase credentials as register.html
-    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-  </script>
-  <style>
-    /* Modern Page Styles */
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: linear-gradient(135deg, #747474 0%, #080808 100%);
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      line-height: 1.6;
-      color: #000000;
-    }
-
-
-
-    /* Main Content Area */
-    .main-content {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    /* Modern Registration Card */
-    .register-card {
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-      padding: 3rem;
-      width: 100%;
-      max-width: 800px;
-      margin: 0;
-      position: relative;
-    }
-
-    .register-header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-
-    .register-header h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: #000000;
-      margin: 0 0 0.5rem 0;
-      letter-spacing: -0.02em;
-    }
-
-    .register-header p {
-      color: #000000;
-      font-size: 1.1rem;
-      margin: 0;
-      font-weight: 400;
-      opacity: 0.7;
-    }
-
-    /* Modern Form Styling */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .form-column {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .input-group {
-      position: relative;
-      margin-bottom: 0;
-    }
-
-    .full-width {
-      grid-column: 1 / -1;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #000000;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.025em;
-      text-transform: uppercase;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 1rem;
-      border: 2px solid #000000;
-      border-radius: 4px;
-      font-size: 1rem;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-      background: #ffffff;
-      color: #000000;
-    }
-
-    .form-input:focus {
-      border-color: #000000;
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-      outline: none;
-      background: #ffffff;
-    }
-
-    .form-input[readonly] {
-      background-color: #f8f8f8;
-      color: #000000;
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-
-    .form-input::placeholder {
-      color: #666666;
-      font-weight: 400;
-    }
-
-    /* Password Strength Indicator */
-    .strength-indicator {
-      margin-top: 0.5rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-align: left;
-      padding-left: 0.25rem;
-    }
-
-    .strength-weak {
-      color: #ef4444;
-    }
-
-    .strength-medium {
-      color: #f59e0b;
-    }
-
-    .strength-strong {
-      color: #10b981;
-    }
-
-    /* Modern Button Styling */
-    .register-btn {
-      width: 100%;
-      padding: 1.2rem 1.5rem;
-      background: #000000;
-      color: #ffffff;
-      border: 2px solid #000000;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-top: 2rem;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .register-btn:hover {
-      background: #ffffff;
-      color: #000000;
-      border: 2px solid #000000;
-    }
-
-    .register-btn:active {
-      transform: scale(0.98);
-    }
-
-    .register-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Modern Alert Styling */
-    .alert {
-      padding: 1rem;
-      margin: 1.5rem 0;
-      border-radius: 12px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .alert-error {
-      background-color: #ffffff;
-      color: #000000;
-      border: 2px solid #000000;
-    }
-
-    .alert-success {
-      background-color: #000000;
-      color: #ffffff;
-      border: 2px solid #000000;
-    }
-
-    .alert-icon {
-      font-size: 1.1rem;
-    }
-
-    /* Footer Links */
-    .register-footer {
-      text-align: center;
-      margin-top: 2rem;
-      padding-top: 2rem;
-      border-top: 2px solid #000000;
-    }
-
-    .register-footer p {
-      color: #000000;
-      font-size: 0.9rem;
-      margin: 0;
-      font-weight: 500;
-    }
-
-    .register-footer a {
-      color: #000000;
-      text-decoration: underline;
-      font-weight: 700;
-      transition: all 0.3s ease;
-    }
-
-    .register-footer a:hover {
-      opacity: 0.7;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .main-content {
-        padding: 1rem;
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+      // Use the same Supabase credentials as register.html
+      const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    </script>
+    <style>
+      /* Modern Page Styles */
+      * {
+        box-sizing: border-box;
       }
 
-      .register-card {
+      body {
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: linear-gradient(135deg, #747474 0%, #080808 100%);
         margin: 0;
-        padding: 2rem 1.5rem;
+        padding: 0;
+        min-height: 100vh;
+        line-height: 1.6;
+        color: #000000;
       }
 
-      .register-header h1 {
-        font-size: 1.75rem;
+
+
+      /* Main Content Area */
+      .main-content {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
       }
 
-      .form-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      .form-input {
-        padding: 0.8rem;
-      }
-    }
-
-    @media (max-width: 480px) {
+      /* Modern Registration Card */
       .register-card {
-        padding: 1.5rem 1rem;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+        padding: 3rem;
+        width: 100%;
+        max-width: 800px;
+        margin: 0;
+        position: relative;
+      }
+
+      .register-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
       }
 
       .register-header h1 {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #000000;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: -0.02em;
       }
 
       .register-header p {
-        font-size: 0.875rem;
+        color: #000000;
+        font-size: 1.1rem;
+        margin: 0;
+        font-weight: 400;
+        opacity: 0.7;
       }
-    }
-  </style>
-</head>
 
-<body>
+      /* Modern Form Styling */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .form-column {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .input-group {
+        position: relative;
+        margin-bottom: 0;
+      }
+
+      .full-width {
+        grid-column: 1 / -1;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #000000;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.025em;
+        text-transform: uppercase;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #000000;
+        border-radius: 4px;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+        background: #ffffff;
+        color: #000000;
+      }
+
+      .form-input:focus {
+        border-color: #000000;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        outline: none;
+        background: #ffffff;
+      }
+
+      .form-input[readonly] {
+        background-color: #f8f8f8;
+        color: #000000;
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      .form-input::placeholder {
+        color: #666666;
+        font-weight: 400;
+      }
+
+      /* Password Strength Indicator */
+      .strength-indicator {
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-align: left;
+        padding-left: 0.25rem;
+      }
+
+      .strength-weak {
+        color: #ef4444;
+      }
+
+      .strength-medium {
+        color: #f59e0b;
+      }
+
+      .strength-strong {
+        color: #10b981;
+      }
+
+      /* Modern Button Styling */
+      .register-btn {
+        width: 100%;
+        padding: 1.2rem 1.5rem;
+        background: #000000;
+        color: #ffffff;
+        border: 2px solid #000000;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-top: 2rem;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .register-btn:hover {
+        background: #ffffff;
+        color: #000000;
+        border: 2px solid #000000;
+      }
+
+      .register-btn:active {
+        transform: scale(0.98);
+      }
+
+      .register-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Modern Alert Styling */
+      .alert {
+        padding: 1rem;
+        margin: 1.5rem 0;
+        border-radius: 12px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .alert-error {
+        background-color: #ffffff;
+        color: #000000;
+        border: 2px solid #000000;
+      }
+
+      .alert-success {
+        background-color: #000000;
+        color: #ffffff;
+        border: 2px solid #000000;
+      }
+
+      .alert-icon {
+        font-size: 1.1rem;
+      }
+
+      /* Footer Links */
+      .register-footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #000000;
+      }
+
+      .register-footer p {
+        color: #000000;
+        font-size: 0.9rem;
+        margin: 0;
+        font-weight: 500;
+      }
+
+      .register-footer a {
+        color: #000000;
+        text-decoration: underline;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+
+      .register-footer a:hover {
+        opacity: 0.7;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .main-content {
+          padding: 1rem;
+        }
+
+        .register-card {
+          margin: 0;
+          padding: 2rem 1.5rem;
+        }
+
+        .register-header h1 {
+          font-size: 1.75rem;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .form-input {
+          padding: 0.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .register-card {
+          padding: 1.5rem 1rem;
+        }
+
+        .register-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .register-header p {
+          font-size: 0.875rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
 
 
-  <!-- Registration Container -->
-  <div class="main-content">
-    <div class="register-card">
-      <div class="register-header">
-        <h1>WSU Registration</h1>
-        <p>Join the WSU Sports Hub community</p>
-      </div>
-
-      <form onsubmit="register(event)">
-        <div class="form-grid">
-          <div class="form-column">
-            <div class="input-group">
-              <label for="name">First Name</label>
-              <input id="name" type="text" class="form-input" placeholder="Enter your first name" />
-            </div>
-
-            <div class="input-group">
-              <label for="surname">Last Name</label>
-              <input id="surname" type="text" class="form-input" placeholder="Enter your last name" />
-            </div>
-
-            <div class="input-group">
-              <label for="student_number">Student Number</label>
-              <input id="student_number" type="text" class="form-input"
-                placeholder="Enter your 9-digit student number" />
-            </div>
-
-            <div class="input-group">
-              <label for="contact_number">Contact Number</label>
-              <input id="contact_number" type="text" class="form-input" placeholder="0712345678" />
-            </div>
-          </div>
-
-          <div class="form-column">
-            <div class="input-group">
-              <label for="Email">Email Address</label>
-              <input id="Email" type="email" class="form-input" placeholder="studentnumber@mywsu.ac.za" readonly />
-            </div>
-
-            <div class="input-group">
-              <label for="password">Password</label>
-              <input id="password" type="password" class="form-input" placeholder="Create a strong password" />
-            </div>
-
-            <div class="input-group">
-              <label for="ConfirmPassword">Confirm Password</label>
-              <input id="ConfirmPassword" type="password" class="form-input" placeholder="Confirm your password" />
-            </div>
-          </div>
+    <!-- Registration Container -->
+    <div class="main-content">
+      <div class="register-card">
+        <div class="register-header">
+          <h1>WSU Registration</h1>
+          <p>Join the WSU Sports Hub community</p>
         </div>
 
-        <div class="full-width">
-          <div id="error" class="alert alert-error" style="display: none;">
-            <i class="fas fa-exclamation-circle alert-icon"></i>
-            <span></span>
+        <form onsubmit="register(event)">
+          <div class="form-grid">
+            <div class="form-column">
+              <div class="input-group">
+                <label for="name">First Name</label>
+                <input id="name" type="text" class="form-input" placeholder="Enter your first name" />
+              </div>
+
+              <div class="input-group">
+                <label for="surname">Last Name</label>
+                <input id="surname" type="text" class="form-input" placeholder="Enter your last name" />
+              </div>
+
+              <div class="input-group">
+                <label for="student_number">Student Number</label>
+                <input id="student_number" type="text" class="form-input"
+                  placeholder="Enter your 9-digit student number" />
+              </div>
+
+              <div class="input-group">
+                <label for="contact_number">Contact Number</label>
+                <input id="contact_number" type="text" class="form-input" placeholder="0712345678" />
+              </div>
+            </div>
+
+            <div class="form-column">
+              <div class="input-group">
+                <label for="Email">Email Address</label>
+                <input id="Email" type="email" class="form-input" placeholder="studentnumber@mywsu.ac.za" readonly />
+              </div>
+
+              <div class="input-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" class="form-input" placeholder="Create a strong password" />
+              </div>
+
+              <div class="input-group">
+                <label for="ConfirmPassword">Confirm Password</label>
+                <input id="ConfirmPassword" type="password" class="form-input" placeholder="Confirm your password" />
+              </div>
+            </div>
           </div>
 
-          <button id="registerbtn" type="submit" class="register-btn">
-            <i class="fas fa-user-plus"></i> Register
-          </button>
-        </div>
-      </form>
+          <div class="full-width">
+            <div id="error" class="alert alert-error" style="display: none;">
+              <i class="fas fa-exclamation-circle alert-icon"></i>
+              <span></span>
+            </div>
 
-      <div class="register-footer">
-        <p>Already have an account? <a href="login.html">Sign in here</a></p>
+            <button id="registerbtn" type="submit" class="register-btn">
+              <i class="fas fa-user-plus"></i> Register
+            </button>
+          </div>
+        </form>
+
+        <div class="register-footer">
+          <p>Already have an account? <a href="login.html">Sign in here</a></p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    async function register(event) {
-      event.preventDefault(); // Prevent form reload
+    <script>
+      async function register(event) {
+        event.preventDefault(); // Prevent form reload
 
-      const name = document.getElementById("name").value.trim();
-      const surname = document.getElementById("surname").value.trim();
-      const student_number = document.getElementById("student_number").value.trim();
-      const email = document.getElementById("Email").value.trim();
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("ConfirmPassword").value;
-      const contact_number = document.getElementById("contact_number").value.trim();
-      const messageEl = document.getElementById("error");
-      const registerbtn = document.getElementById("registerbtn");
-      const originalBtnText = registerbtn.innerHTML;
+        const name = document.getElementById("name").value.trim();
+        const surname = document.getElementById("surname").value.trim();
+        const student_number = document.getElementById("student_number").value.trim();
+        const email = document.getElementById("Email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("ConfirmPassword").value;
+        const contact_number = document.getElementById("contact_number").value.trim();
+        const messageEl = document.getElementById("error");
+        const registerbtn = document.getElementById("registerbtn");
+        const originalBtnText = registerbtn.innerHTML;
 
-      // Reset error display properly
-messageEl.style.display = "none";
-messageEl.innerHTML = "";
-messageEl.className = "alert alert-error"; // default to error look
+        // Reset error display properly
+        messageEl.style.display = "none";
+        messageEl.innerHTML = "";
+        messageEl.className = "alert alert-error"; // default to error look
 
-
-      // Validation
-      if (!name || !surname || !student_number || !email || !password || !confirmPassword || !contact_number) {
-        messageEl.textContent = 'Please fill in all fields.';
-        messageEl.style.display = "block";
-        return;
-      }
-
-      // Student number must be 9 digits
-      if (!/^\d{9}$/.test(student_number)) {
-        messageEl.textContent = 'Student number must be exactly 9 digits.';
-        messageEl.style.display = "block";
-        return;
-      }
-
-      // Passwords match
-      if (password !== confirmPassword) {
-        messageEl.textContent = 'Passwords do not match.';
-        messageEl.style.display = "block";
-        return;
-      }
-
-      // Contact number validation
-      if (!/^(06|07|08)\d{8}$/.test(contact_number)) {
-        messageEl.textContent = 'Contact number must be 10 digits and start with 06, 07, or 08.';
-        messageEl.style.display = "block";
-        return;
-      }
-
-      // Email must match student number
-      const expectedEmail = `${student_number}@mywsu.ac.za`;
-      if (email.toLowerCase() !== expectedEmail.toLowerCase()) {
-        messageEl.textContent = `Email must match student number (e.g. ${expectedEmail})`;
-        messageEl.style.display = "block";
-        return;
-      }
-
-      // Show loading state
-      registerbtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
-      registerbtn.disabled = true;
-
-      try {
-        // Sign up user
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-
-        if (authError) {
-          messageEl.textContent = authError.message;
+        // Validation
+        if (!name || !surname || !student_number || !email || !password || !confirmPassword || !contact_number) {
+          messageEl.textContent = 'Please fill in all fields.';
           messageEl.style.display = "block";
-          registerbtn.innerHTML = originalBtnText;
-          registerbtn.disabled = false;
           return;
         }
 
-        const userId = authData.user?.id;
-        if (!userId) {
-          messageEl.textContent = "Unable to get user ID.";
+        if (!/^\d{9}$/.test(student_number)) {
+          messageEl.textContent = 'Student number must be exactly 9 digits.';
           messageEl.style.display = "block";
-          registerbtn.innerHTML = originalBtnText;
-          registerbtn.disabled = false;
           return;
         }
 
-        // Insert additional info
-        const { error: insertError } = await supabase
-          .from("Users")
-          .insert([
-            {
-              id: userId,
-              name,
-              surname,
-              student_number,
-              contact_number,
-              email,
-            },
-          ]);
-
-        if (insertError) {
-          messageEl.textContent = "Failed to save additional user info.";
+        if (password !== confirmPassword) {
+          messageEl.textContent = 'Passwords do not match.';
           messageEl.style.display = "block";
-          registerbtn.innerHTML = originalBtnText;
-          registerbtn.disabled = false;
-          alert("Could not submit. Please try again.");
           return;
         }
 
-        // Success message
-messageEl.innerHTML = '<i class="fas fa-check-circle alert-icon"></i> Registration successful! Check your email for verification.';
-messageEl.className = "alert alert-success";
-messageEl.style.display = "flex";
+        if (!/^(06|07|08)\d{8}$/.test(contact_number)) {
+          messageEl.textContent = 'Contact number must be 10 digits and start with 06, 07, or 08.';
+          messageEl.style.display = "block";
+          return;
+        }
 
-// Change button state
-registerbtn.innerHTML = '<i class="fas fa-check"></i> Registered!';
-registerbtn.disabled = true;
+        const expectedEmail = `${student_number}@mywsu.ac.za`;
+        if (email.toLowerCase() !== expectedEmail.toLowerCase()) {
+          messageEl.textContent = `Email must match student number (e.g. ${expectedEmail})`;
+          messageEl.style.display = "block";
+          return;
+        }
 
-// Clear form
-document.getElementById("name").value = "";
-document.getElementById("surname").value = "";
-document.getElementById("student_number").value = "";
-document.getElementById("Email").value = "";
-document.getElementById("password").value = "";
-document.getElementById("ConfirmPassword").value = "";
-document.getElementById("contact_number").value = "";
+        // Show loading state
+        registerbtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+        registerbtn.disabled = true;
 
-// Redirect after 2 seconds
-setTimeout(() => {
-  window.location.href = "login.html";
-}, 2000);
+        try {
+          // Sign up user with redirect link for verification
+          const { data: authData, error: authError } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: 'https://ree0417.github.io/Human_Computer_Interaction/login.html'
+            }
+          });
 
-      } catch (error) {
-        messageEl.textContent = "An unexpected error occurred. Please try again.";
-        messageEl.style.display = "block";
-        registerbtn.innerHTML = originalBtnText;
-        registerbtn.disabled = false;
-        console.error("Unexpected error:", error);
+          if (authError) {
+            messageEl.textContent = authError.message;
+            messageEl.style.display = "block";
+            registerbtn.innerHTML = originalBtnText;
+            registerbtn.disabled = false;
+            return;
+          }
+
+          const userId = authData.user?.id;
+          if (!userId) {
+            messageEl.textContent = "Unable to get user ID.";
+            messageEl.style.display = "block";
+            registerbtn.innerHTML = originalBtnText;
+            registerbtn.disabled = false;
+            return;
+          }
+
+          const { error: insertError } = await supabase
+            .from("Users")
+            .insert([
+              {
+                id: userId,
+                name,
+                surname,
+                student_number,
+                contact_number,
+                email,
+              },
+            ]);
+
+          if (insertError) {
+            console.error(insertError);
+            messageEl.textContent = "Failed to save additional user info.";
+            messageEl.style.display = "block";
+            registerbtn.innerHTML = originalBtnText;
+            registerbtn.disabled = false;
+            return;
+          }
+
+          // Success message
+          messageEl.innerHTML = '<i class="fas fa-check-circle alert-icon"></i> Registration successful! Check your email for verification.';
+          messageEl.className = "alert alert-success";
+          messageEl.style.display = "flex";
+
+          registerbtn.innerHTML = '<i class="fas fa-check"></i> Registered!';
+          registerbtn.disabled = true;
+
+          // Clear form
+          document.getElementById("name").value = "";
+          document.getElementById("surname").value = "";
+          document.getElementById("student_number").value = "";
+          document.getElementById("Email").value = "";
+          document.getElementById("password").value = "";
+          document.getElementById("ConfirmPassword").value = "";
+          document.getElementById("contact_number").value = "";
+
+          // Redirect after 2 seconds
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+
+        } catch (error) {
+          messageEl.textContent = "An unexpected error occurred. Please try again.";
+          messageEl.style.display = "block";
+          registerbtn.innerHTML = originalBtnText;
+          registerbtn.disabled = false;
+          console.error("Unexpected error:", error);
+        }
       }
-    }
 
-    // Auto-populate email when student number is entered
-    document.getElementById('student_number').addEventListener('input', function () {
-      const studentNumber = this.value.trim();
-      const emailField = document.getElementById('Email');
+      document.getElementById('student_number').addEventListener('input', function () {
+        const studentNumber = this.value.trim();
+        const emailField = document.getElementById('Email');
+        emailField.value = studentNumber ? studentNumber + '@mywsu.ac.za' : '';
+      });
+</script>
 
-      if (studentNumber) {
-        emailField.value = studentNumber + '@mywsu.ac.za';
-      } else {
-        emailField.value = '';
-      }
-    });
-  </script>
-</body>
+  </body>
 
-</html>
+  </html>
