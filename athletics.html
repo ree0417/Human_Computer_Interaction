@@ -766,6 +766,33 @@
       const day = String(date.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
     }
+
+    // Session timeout in milliseconds (e.g., 5 minutes = 300000ms)
+  const sessionTimeout = 3 * 60 * 1000; 
+  let sessionTimer;
+
+  function startSessionTimer() {
+    sessionTimer = setTimeout(() => {
+      alert("Your session has timed out due to inactivity.");
+      // Redirect to login page (or homepage)
+      window.location.href = "index.html"; 
+    }, sessionTimeout);
+  }
+
+  function resetSessionTimer() {
+    clearTimeout(sessionTimer);
+    startSessionTimer();
+  }
+
+  // Start the timer when page loads
+  startSessionTimer();
+
+  // Reset timer on user interactions
+  document.addEventListener("mousemove", resetSessionTimer);
+  document.addEventListener("keydown", resetSessionTimer);
+  document.addEventListener("click", resetSessionTimer);
+  document.addEventListener("scroll", resetSessionTimer);
   </script>
 </body>
 </html>
+
