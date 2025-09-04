@@ -7,79 +7,342 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
+    :root {
+      --primary: #1c1d1e;
+      --primary-dark: #0a0a0a;
+      --secondary: #dc2626;
+      --accent: #0b0b0b;
+      --light: #f8fafc;
+      --dark: #000000;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+      --transition: all 0.3s ease;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                   0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
       margin: 0;
-      padding: 20px;
+      padding-top: 90px;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .announcement {
-      background: #fff;
+
+    /* NAVBAR STYLES */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--primary);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    padding: 12px 20px;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Brand / Logo */
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-brand img.logo-img {
+    height: 50px;
+      margin-right: 15px;
+      border-radius: 10px;
+  }
+
+  .brand-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--light);
+  }
+
+  /* Nav Links */
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links li a {
+    text-decoration: none;
+    color: var(--light);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav-links li a:hover {
+    color: var(--dark);
+  }
+
+  /* Dropdown Menu */
+  .dropdown {
+    display: none;
+    position: absolute;
+    background: linear-gradient(rgb(91, 91, 91), black);
+    min-width: 180px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    margin-top: 10px;
+    padding: 10px 0;
+  }
+
+  #dropdownWrapper:hover .dropdown {
+    display: block;
+  }
+
+  .dropdown li {
+    list-style: none;
+  }
+
+  .dropdown li a {
+    color: var(--light);
+    padding: 10px 15px;
+    display: block;
+    transition: var(--transition);
+  }
+
+  .dropdown li a:hover {
+    background: var(--light-gray);
+    color: var(--dark);
+  }
+
+  /* Logout link styled */
+  .logout-link {
+    background: var(--secondary);
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: white !important;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  .logout-link:hover {
+    background: #b91c1c;
+  }
+
+  /* Hamburger (Mobile) */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 25px;
+  }
+
+  .hamburger span {
+    width: 25px;
+    height: 3px;
+    background: var(--light);
+    border-radius: 3px;
+    transition: var(--transition);
+  }
+
+  /* Mobile Menu */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      background: var(--primary-dark);
+      flex-direction: column;
+      gap: 15px;
+      width: 220px;
       padding: 15px;
       border-radius: 10px;
-      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
+      box-shadow: var(--shadow-lg);
+      display: none;
     }
-    .announcement h3 {
-      margin: 0 0 5px;
-      color: #333;
+
+    .nav-links.active {
+      display: flex;
     }
+
+    .hamburger {
+      display: flex;
+    }
+  }
+  
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    /* Announcements Section */
+    #announcements {
+      max-width: 800px;
+      margin: 0 auto 60px auto;
+      padding: 0 20px;
+    }
+
+    .announcement {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border-left: 6px solid var(--accent);
+    }
+
+    .announcement:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .announcement-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 1rem;
+      color: var(--primary-dark);
+    }
+
+    .announcement-header i {
+      margin-right: 8px;
+      color: var(--secondary);
+    }
+
     .announcement p {
-      margin: 0;
-      color: #555;
+      font-size: 1.1rem;
+      color: var(--dark);
+      margin-bottom: 10px;
     }
-    .date {
-      font-size: 0.85em;
-      color: #888;
-      margin-top: 8px;
+
+    .announcement .date {
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-align: right;
+      font-style: italic;
+    }
+
+    /* Responsive */
+    @media (max-width: 576px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+      .announcement p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <div class="nav-brand">
+        <a href="home.html"><img src="Images/images.jpeg" alt="WSU Logo" class="logo-img"></a>
+        <div class="brand-text">Sports Hub</div>
+      </div>
+      
+      <ul class="nav-links" id="navLinks">
+        <li><a href="upcoming.html"><i class="fas fa-calendar-alt"></i> Upcoming Matches</a></li>
+        <li id="dropdownWrapper">
+          <a href="#" id="dropdownLink" class="dropdown-trigger"><i class="fas fa-plus"></i> Sports</a>
+          <ul class="dropdown" id="moreDropdown">
+            <li><a href="football.html"><i class="fas fa-futbol"></i> Football</a></li>
+            <li><a href="rugby.html"><i class="fas fa-football-ball"></i> Rugby</a></li>
+            <li><a href="athletics.html"><i class="fas fa-running"></i> Athletics</a></li>
+            <li><a href="basketball.html"><i class="fas fa-basketball-ball"></i> Basketball</a></li>
+            <li><a href="cricket.html"><i class="fas fa-baseball-ball"></i> Cricket</a></li>
+            <li><a href="netball.html"><i class="fas fa-volleyball-ball"></i> Netball</a></li>
+            <li><a href="volleyball.html"><i class="fas fa-volleyball-ball"></i> Volleyball</a></li>
+          </ul>
+        </li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="updates.html"><i class="fas fa-bell"></i> Announcements</a></li>
+        <li><a href="index.html" id="logoutLink" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+      
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Announcements Section -->
   <h1>Latest Announcements</h1>
   <div id="announcements"></div>
 
   <script>
-    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+  const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function loadAnnouncements() {
-      const { data, error } = await supabase
-        .from("announcements") // 👈 make sure this matches your table name exactly
-        .select("*")
-        .order("created_at", { ascending: false });
+  async function loadAnnouncements() {
+    const { data, error } = await supabase
+      .from("announcements")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error("Error fetching announcements:", error);
-        return;
-      }
+    const container = document.getElementById("announcements");
+    container.innerHTML = "";
 
-      const container = document.getElementById("announcements");
-      container.innerHTML = "";
-
-      if (data.length === 0) {
-        container.innerHTML = "<p>No announcements available at the moment.</p>";
-        return;
-      }
-
-      data.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "announcement";
-        div.innerHTML = `
-          <p>${item.message}</p>
-          <div class="date">Posted on: ${item.created_at ? new Date(item.created_at).toLocaleString() : "Unknown"}</div>
-        `;
-        container.appendChild(div);
-      });
+    if (error) {
+      console.error("Error fetching announcements:", error);
+      container.innerHTML = "<p style='color:red;'>Failed to load announcements.</p>";
+      return;
     }
 
-    // Load announcements on page load
-    loadAnnouncements();
-  </script>
+    if (!data || data.length === 0) {
+      container.innerHTML = "<p>No announcements available at the moment.</p>";
+      return;
+    }
+
+    data.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "announcement";
+      div.innerHTML = `
+        <div class="announcement-header"><i class="fas fa-bullhorn"></i> Announcement</div>
+        <p>${item.message}</p>
+        <div class="date">Posted on: ${item.created_at ? new Date(item.created_at).toLocaleString() : "Unknown"}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  loadAnnouncements();
+
+  // Hamburger menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    // Animate hamburger icon (optional)
+    hamburger.classList.toggle('open');
+  });
+</script>
+
 </body>
 </html>
