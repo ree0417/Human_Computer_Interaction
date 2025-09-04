@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements | WSU Sports Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .announcement {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    .announcement h3 {
+      margin: 0 0 5px;
+      color: #333;
+    }
+    .announcement p {
+      margin: 0;
+      color: #555;
+    }
+    .date {
+      font-size: 0.85em;
+      color: #888;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Latest Announcements</h1>
+  <div id="announcements"></div>
+
+  <script>
+    const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function loadAnnouncements() {
+      const { data, error } = await supabase
+        .from("announcements") // 👈 make sure this matches your table name exactly
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching announcements:", error);
+        return;
+      }
+
+      const container = document.getElementById("announcements");
+      container.innerHTML = "";
+
+      if (data.length === 0) {
+        container.innerHTML = "<p>No announcements available at the moment.</p>";
+        return;
+      }
+
+      data.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "announcement";
+        div.innerHTML = `
+          <p>${item.message}</p>
+          <div class="date">Posted on: ${item.created_at ? new Date(item.created_at).toLocaleString() : "Unknown"}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Load announcements on page load
+    loadAnnouncements();
+  </script>
+</body>
+</html>
