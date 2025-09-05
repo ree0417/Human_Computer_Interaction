@@ -182,6 +182,8 @@
     let inputEmail = document.getElementById('email').value.trim().toLowerCase();
     const messageEl = document.getElementById('message');
     const errorEl = document.getElementById('error');
+    const buttonEl = document.querySelector("button");
+
     messageEl.textContent = '';
     errorEl.textContent = '';
     messageEl.style.display = 'none';
@@ -193,12 +195,17 @@
       return;
     }
 
-    // Remove the 'admin' prefix to get the real email
+    // Disable button & show "Sending..."
+    buttonEl.disabled = true;
+    buttonEl.textContent = "Sending...";
+
     const actualEmail = inputEmail.slice(5);
 
     if (!actualEmail) {
       errorEl.textContent = "Invalid email format. Please enter a valid email.";
       errorEl.style.display = 'block';
+      buttonEl.disabled = false;
+      buttonEl.textContent = "Get Login Link";
       return;
     }
 
@@ -212,52 +219,32 @@
     if (error || !data) {
       errorEl.textContent = 'Email is not authorized for admin access.';
       errorEl.style.display = 'block';
+      buttonEl.disabled = false;
+      buttonEl.textContent = "Get Login Link";
       return;
     }
 
-   const { error: signInError } = await supabase.auth.signInWithOtp({
-  email: actualEmail,
-  options: {
-    emailRedirectTo: 'https://ree0417.github.io/Human_Computer_Interaction/ADverify.html' // ← change this to your actual hosted login page
-  }
-});
+    const { error: signInError } = await supabase.auth.signInWithOtp({
+      email: actualEmail,
+      options: {
+        emailRedirectTo: 'https://ree0417.github.io/Human_Computer_Interaction/ADverify.html'
+      }
+    });
 
     if (signInError) {
       errorEl.textContent = 'Failed to send login link: ' + signInError.message;
       errorEl.style.display = 'block';
+      buttonEl.disabled = false;
+      buttonEl.textContent = "Get Login Link";
       return;
     }
 
-    messageEl.textContent = 'Check your email for the login link!';
+    messageEl.textContent = '✅ Login link sent! Please check your email and click the link to continue.';
     messageEl.style.display = 'block';
+
+    // Keep button disabled to avoid spamming
+    buttonEl.textContent = "Link Sent!";
   }
-
-  // After login, Supabase redirects back here with session in URL
-  window.onload = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (session) {
-      const userEmail = session.user.email.toLowerCase();
-
-      // Check user email against whitelist (without any prefix here)
-      const { data, error } = await supabase
-        .from('AdminEmails')
-        .select('email')
-        .eq('email', userEmail)
-        .single();
-
-      if (error || !data) {
-        alert('You are not authorized as an admin.');
-        await supabase.auth.signOut();
-        window.location.href = 'ADlogin.html';
-        return;
-      }
-
-      // Redirect to admin dashboard
-      window.location.href = 'admin.html';
-    }
-
-  };
 </script>
 
 </body>
