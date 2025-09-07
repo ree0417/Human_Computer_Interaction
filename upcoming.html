@@ -1,529 +1,169 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Upcoming Matches | WSU Sports Hub</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
     :root {
-      --primary: #484848;
-      --primary-dark: #040404;
-      --secondary: #dc2626;
-      --accent: #f59e0b;
-      --light: #f8fafc;
-      --dark: #000000;
-      --gray: #64748b;
-      --light-gray: #e2e8f0;
-      --success: #10b981;
-      --error: #ef4444;
-      --transition: all 0.3s ease;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --primary: #484848; --primary-dark: #040404; --secondary: #dc2626; --accent: #f59e0b;
+      --light: #f8fafc; --dark: #000000; --gray: #64748b; --light-gray: #e2e8f0;
+      --success: #10b981; --error: #ef4444; --transition: all 0.3s ease;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
     }
-    
-    body {
-      background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
-      color: var(--dark);
-      line-height: 1.6;
-      min-height: 100vh;
-      padding-bottom: 40px;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
+
+    body { background: linear-gradient(135deg, #f0f4f8, #e2e8f0); color: var(--dark); line-height: 1.6; min-height: 100vh; padding-bottom: 40px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
     /* Header */
-    .header {
-      background-color: rgb(0, 0, 0);
-      box-shadow: var(--shadow);
-      padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .logo {
-      width: 60px;
-      height: 60px;
-      background-color: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-    }
-    
-    .brand-text {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: white;
-    }
-    
-    .brand-text span {
-      color: white;
-    }
+    .header { background-color: #000; box-shadow: var(--shadow); padding: 15px 0; position: sticky; top: 0; z-index: 100; }
+    .header-content { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { display: flex; align-items: center; }
+    .logo-img { height: 50px; margin-right: 15px; border-radius: 10px; }
+    .brand-text { font-size: 1.8rem; font-weight: 700; color: #fff; }
 
-    .nav-brand {
-      display: flex;
-      align-items: left;
-    }
+    /* Hero */
+    .hero { background: url('Images/istockphoto-2057752732-612x612.jpg') center/cover no-repeat, #3d3d3d; color: #fff; padding: 60px 0; text-align: center; margin-bottom: 40px; position: relative; overflow: hidden; }
+    .hero::before { content: ""; position: absolute; inset: 0; background: #000; opacity: 0.3; }
+    .hero-title { font-size: 2.5rem; margin-bottom: 10px; position: relative; z-index: 1; }
+    .hero-subtitle { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: .95; position: relative; z-index: 1; }
 
-    .logo-img {
-      height: 50px;
-      margin-right: 15px;
-      border-radius: 10px;
-    }
-    
-    /* Hero Section */
-    .hero {
-      background: url('Images/istockphoto-2057752732-612x612.jpg') center/cover no-repeat, rgb(61, 61, 61);
-      color: white;
-      padding: 60px 0;
-      text-align: center;
-      margin-bottom: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgb(0, 0, 0);
-      background-size: cover;
-      opacity: 0.3;
-    }
-    
-    .hero-title {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 2;
-    }
-    
-    .hero-subtitle {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 30px;
-      position: relative;
-      z-index: 2;
-      opacity: 0.9;
-    }
-    
-    /* Filter Section */
-    .filter-section {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: var(--shadow);
-    }
-    
-    .filter-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .filter-title {
-      font-size: 1.5rem;
-      color: var(--primary);
-    }
-    
-    .filter-controls {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    
-    .filter-select {
-      padding: 12px 16px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray);
-      background-color: white;
-      color: var(--dark);
-      box-shadow: var(--shadow);
-      appearance: none;
-      cursor: pointer;
-      outline: none;
-      min-width: 200px;
-    }
-    
-    .search-box {
-      position: relative;
-      min-width: 250px;
-    }
-    
-    .search-box input {
-      width: 100%;
-      padding: 12px 16px 12px 40px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid var(--light-gray);
-      box-shadow: var(--shadow);
-    }
-    
-    .search-box i {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray);
-    }
-    
-    /* Match Cards */
-    .match-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 25px;
-      margin-bottom: 40px;
-    }
-    
-    .match-card {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: var(--transition);
-      position: relative;
-    }
-    
-    .match-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .sport-banner {
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.5rem;
-      font-weight: bold;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .sport-banner::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-    }
-    
-    .sport-banner i {
-      position: relative;
-      z-index: 2;
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-    
-    .sport-banner .sport-name {
-      position: relative;
-      z-index: 2;
-      margin-left: 15px;
-    }
-    
-    .football-banner {
-      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-    }
-    
-    .rugby-banner {
-      background: linear-gradient(135deg, #dc2626, #f87171);
-    }
-    
-    .cricket-banner {
-      background: linear-gradient(135deg, #f59e0b, #fbbf24);
-    }
-    
-    .basketball-banner {
-      background: linear-gradient(135deg, #10b981, #34d399);
-    }
-    
-    .netball-banner {
-      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
-    }
-    
-    .athletics-banner {
-      background: linear-gradient(135deg, #6366f1, #818cf8);
-    }
-    
-    .match-content {
-      padding: 25px;
-    }
-    
-    .match-date {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-      color: var(--gray);
-    }
-    
-    .match-date i {
-      color: var(--accent);
-    }
-    
-    .match-details {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--light-gray);
-    }
-    
-    .team-info {
-      text-align: center;
-    }
-    
-    .team-logo {
-      width: 60px;
-      height: 60px;
-      background: var(--light);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 10px;
-      font-weight: bold;
-      color: var(--primary);
-    }
-    
-    .vs-text {
-      font-weight: bold;
-      color: var(--gray);
-      margin: 0 15px;
-    }
-    
-    .match-venue {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 15px;
-      color: var(--gray);
-    }
-    
-    .match-venue i {
-      color: var(--accent);
-    }
-    
-    .match-actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-    
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-    }
-    
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-    
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--primary);
-      color: var(--primary);
-    }
-    
-    .btn-outline:hover {
-      background: var(--light);
-    }
-    
-    /* Calendar Section */
-    .calendar-section {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: var(--shadow);
-      margin-bottom: 40px;
-    }
-    
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .calendar-title {
-      font-size: 1.5rem;
-      color: var(--primary);
-    }
-    
-    .calendar-controls {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-    }
-    
-    .calendar-day {
-      text-align: center;
-      padding: 10px;
-      font-weight: bold;
-      color: var(--gray);
-      background: var(--light);
-    }
-    
-    .calendar-cell {
-      height: 80px;
-      border: 1px solid var(--light-gray);
-      padding: 5px;
-      position: relative;
-      cursor: pointer;
-    }
-    
-    .calendar-cell:hover {
-      background: var(--light);
-    }
-    
-    .calendar-date {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    
-    .calendar-event {
-      font-size: 0.8rem;
-      background: var(--primary);
-      color: white;
-      padding: 2px 5px;
-      border-radius: 4px;
-      margin-top: 3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
+    /* Filter */
+    .filter-section { max-width: 900px; margin: 0 auto 40px; background: #fff; padding: 25px; border-radius: 15px; box-shadow: var(--shadow); }
+    .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
+    .filter-title { font-size: 1.5rem; color: var(--primary); }
+    .filter-controls { display: flex; gap: 15px; flex-wrap: wrap; }
+    .filter-select { padding: 12px 16px; font-size: 16px; border-radius: 8px; border: 1px solid var(--light-gray); background: #fff; color: var(--dark); box-shadow: var(--shadow); min-width: 200px; }
+    .search-box { position: relative; min-width: 250px; }
+    .search-box input { width: 100%; padding: 12px 16px 12px 40px; font-size: 16px; border-radius: 8px; border: 1px solid var(--light-gray); box-shadow: var(--shadow); }
+    .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray); }
+
+    /* Cards */
+    .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-bottom: 40px; }
+    .match-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); position: relative; }
+    .match-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .sport-banner { height: 120px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; font-weight: bold; position: relative; gap: 12px; }
+    .sport-banner::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+    .sport-banner > * { position: relative; z-index: 1; }
+    .football-banner { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .rugby-banner { background: linear-gradient(135deg, #dc2626, #f87171); }
+    .cricket-banner { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+    .basketball-banner { background: linear-gradient(135deg, #10b981, #34d399); }
+    .netball-banner { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+    .athletics-banner { background: linear-gradient(135deg, #6366f1, #818cf8); }
+    .match-content { padding: 20px 22px 22px; }
+    .match-date { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--gray); }
+    .match-date i { color: var(--accent); }
+    .match-details { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--light-gray); }
+    .team-info { text-align: center; }
+    .team-logo { width: 56px; height: 56px; background: var(--light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 700; color: var(--primary); }
+    .vs-text { font-weight: 700; color: var(--gray); margin: 0 10px; }
+    .match-venue { display: flex; align-items: center; gap: 10px; margin-top: 8px; color: var(--gray); }
+    .match-venue i { color: var(--accent); }
+    .match-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 16px; align-items: center; }
+    .btn { padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+    .btn-outline:hover { background: var(--light); }
+
+    /* Share Menu (global, not injected per card) */
+    .share-wrapper { position: relative; }
+    .share-menu { position: absolute; top: 110%; right: 0; background: #fff; border: 1px solid var(--light-gray); border-radius: 8px; box-shadow: var(--shadow); padding: 8px 0; display: none; min-width: 190px; z-index: 10; }
+    .share-menu::before { content: ""; position: absolute; top: -8px; right: 15px; border-width: 8px; border-style: solid; border-color: transparent transparent #fff transparent; }
+    .share-menu a { display: flex; align-items: center; gap: 8px; padding: 8px 14px; text-decoration: none; color: var(--primary); font-size: .95rem; transition: var(--transition); }
+    .share-menu a:hover { background: var(--light-gray); }
+    .share-menu.show { display: block; }
+
+    /* Calendar */
+    .calendar-section { max-width: 900px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 15px; box-shadow: var(--shadow); }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .calendar-title { font-size: 1.5rem; color: var(--primary); }
+    .calendar-controls { display: flex; gap: 10px; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 10px; }
+    .calendar-day { text-align: center; padding: 8px; font-weight: 700; color: var(--gray); background: var(--light); }
+    .calendar-cell { min-height: 84px; border: 1px solid var(--light-gray); padding: 6px; position: relative; cursor: default; border-radius: 6px; background: #fff; }
+    .calendar-cell:hover { background: #fafafa; }
+    .calendar-date { font-weight: 700; margin-bottom: 4px; font-size: 0.95rem; }
+    .calendar-event { font-size: 0.8rem; background: var(--primary); color: #fff; padding: 2px 5px; border-radius: 4px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .calendar-cell.today { background: #007bff10; outline: 2px solid #007bff55; }
+
     /* Footer */
-    .footer {
-      background: black;
-      color: white;
-      padding: 40px 0 20px;
-      margin-top: 60px;
-    }
-    
-    .footer-content {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .footer-logo {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: var(--accent);
-    }
-    
-    .footer-text {
-      margin-bottom: 10px;
-      color: var(--light-gray);
-    }
-    
-    .footer-copyright {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--light-gray);
-      font-size: 0.9rem;
-    }
-    
-    /* Responsive Design */
+    .footer { background: #000; color: #fff; padding: 40px 0 20px; margin-top: 60px; }
+    .footer-content { text-align: center; max-width: 600px; margin: 0 auto; }
+    .footer-logo { font-size: 2rem; margin-bottom: 20px; color: var(--accent); }
+    .footer-text { margin-bottom: 10px; color: var(--light-gray); }
+    .footer-copyright { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--light-gray); font-size: 0.9rem; }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2rem;
-      }
-      
-      .filter-controls {
-        flex-direction: column;
-      }
-      
-      .filter-select, .search-box {
-        width: 100%;
-      }
-      
-      .match-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .calendar-grid {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
-      }
+      .hero-title { font-size: 2rem; }
+      .filter-controls { flex-direction: column; width: 100%; }
+      .filter-select, .search-box { width: 100%; }
+      .match-grid { grid-template-columns: 1fr; }
     }
-    
     @media (max-width: 480px) {
-      .header-content {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .hero {
-        padding: 40px 0;
-      }
-      
-      .match-actions {
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .btn {
-        width: 100%;
-      }
+      .header-content { flex-direction: column; gap: 15px; }
+      .hero { padding: 40px 0; }
+      .match-actions { flex-direction: column; gap: 10px; }
+      .btn { width: 100%; }
     }
+
+    /* Responsive Enhancements */
+@media (max-width: 992px) {
+  .hero-title { font-size: 2rem; }
+  .hero-subtitle { font-size: 1rem; padding: 0 10px; }
+  .filter-controls { flex-direction: column; width: 100%; gap: 10px; }
+  .filter-select, .search-box { width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .header-content { flex-direction: column; gap: 10px; text-align: center; }
+  .logo-img { height: 40px; margin-right: 10px; }
+  .brand-text { font-size: 1.4rem; }
+
+  .hero { padding: 40px 10px; }
+  .hero-title { font-size: 1.8rem; }
+  .hero-subtitle { font-size: 0.95rem; }
+
+  .match-grid { grid-template-columns: 1fr; }
+  .match-actions { flex-direction: column; gap: 10px; }
+  .btn { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(60px, 1fr));
+    overflow-x: auto;
+  }
+  .calendar-cell { min-width: 60px; }
+}
+
+@media (max-width: 480px) {
+  .header { padding: 10px 0; }
+  .hero { padding: 30px 10px; }
+  .hero-title { font-size: 1.5rem; }
+  .hero-subtitle { font-size: 0.85rem; }
+
+  .filter-section { padding: 15px; }
+  .filter-title { font-size: 1.2rem; }
+
+  .match-content { padding: 15px; }
+  .team-logo { width: 48px; height: 48px; font-size: 0.8rem; }
+
+  .calendar-title { font-size: 1.2rem; }
+  .calendar-day { font-size: 0.8rem; }
+  .calendar-date { font-size: 0.8rem; }
+
+  .footer { padding: 20px 0; }
+  .footer-text { font-size: 0.85rem; }
+}
+
   </style>
 </head>
 <body>
@@ -531,32 +171,32 @@
   <header class="header">
     <div class="container header-content">
       <div class="nav-brand">
-        <a href="home.html"><img src="Images/images.jpeg" alt="WSU Logo" class="logo-img"></a>
+        <a href="home.html"><img src="Images/images.jpeg" alt="WSU Logo" class="logo-img" /></a>
         <div class="brand-text">Sports Hub</div>
       </div>
       <div>
-        <a href="home.html" class="btn btn-primary" style="text-decoration: none;">
+        <a href="home.html" class="btn btn-primary" style="text-decoration:none;">
           <i class="fas fa-home"></i> Home
         </a>
       </div>
     </div>
   </header>
-  
-  <!-- Hero Section -->
+
+  <!-- Hero -->
   <section class="hero">
     <div class="container">
       <h1 class="hero-title">Upcoming WSU Sports Matches</h1>
       <p class="hero-subtitle">Stay updated with all the upcoming matches and events across all sports at Walter Sisulu University</p>
     </div>
   </section>
-  
-  <!-- Filter Section -->
+
+  <!-- Filters -->
   <section class="container">
     <div class="filter-section">
       <div class="filter-header">
         <h2 class="filter-title">Match Schedule</h2>
         <div class="filter-controls">
-          <select id="sportSelect" class="filter-select">
+          <select id="sportSelect" class="filter-select" aria-label="Filter by sport">
             <option value="all">All Sports</option>
             <option value="football">Football</option>
             <option value="rugby">Rugby</option>
@@ -566,32 +206,30 @@
             <option value="athletics">Athletics</option>
           </select>
           <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search matches...">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input type="text" id="searchInput" placeholder="Search matches..." aria-label="Search matches" />
           </div>
         </div>
       </div>
     </div>
   </section>
-  
+
   <!-- Match Grid -->
   <section class="container">
-    <div class="match-grid" id="matchGrid">
-      <!-- Match cards will be inserted here by JavaScript -->
-    </div>
+    <div class="match-grid" id="matchGrid"></div>
   </section>
-  
-  <!-- Calendar Section -->
+
+  <!-- Calendar -->
   <section class="container">
     <div class="calendar-section">
       <div class="calendar-header">
-        <h2 class="calendar-title">June 2025 Calendar</h2>
+        <h2 class="calendar-title" id="calendar-title"></h2>
         <div class="calendar-controls">
-          <button class="btn btn-outline"><i class="fas fa-chevron-left"></i></button>
-          <button class="btn btn-outline"><i class="fas fa-chevron-right"></i></button>
+          <button class="btn btn-outline" id="prev-month" aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
+          <button class="btn btn-outline" id="next-month" aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
         </div>
       </div>
-      <div class="calendar-grid">
+      <div class="calendar-grid" id="calendar-grid">
         <div class="calendar-day">Sun</div>
         <div class="calendar-day">Mon</div>
         <div class="calendar-day">Tue</div>
@@ -599,227 +237,223 @@
         <div class="calendar-day">Thu</div>
         <div class="calendar-day">Fri</div>
         <div class="calendar-day">Sat</div>
-        
-        <!-- Calendar cells will be generated by JavaScript -->
       </div>
     </div>
   </section>
-  
+
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer-content">
-      <div class="footer-logo">
-        <i class="fas fa-trophy"></i>
-      </div>
+      <div class="footer-logo"><i class="fas fa-trophy"></i></div>
       <p class="footer-text">Walter Sisulu University Sports Hub</p>
-      <p class="footer-text">Nelson Mandela Drive, Mthatha, Eastern Cape, South Africa</p>
+      <p class="footer-text">EAST LONDON 5200, Buffalo City, Eastern Cape, South Africa</p>
       <p class="footer-text">Email: sports@wsu.ac.za | Phone: +27 47 502 2844</p>
       <p class="footer-copyright">&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
     </div>
   </footer>
-  
-  <script>
-    // Match data
-    const matchData = {
-      football: [
-        { date: "2025-06-22", opponent: "University of Fort Hare", venue: "WSU Stadium", time: "15:00" },
-        { date: "2025-06-29", opponent: "Rhodes University", venue: "Away", time: "14:30" }
-      ],
-      rugby: [
-        { date: "2025-06-24", opponent: "UFH Bulls", venue: "WSU Rugby Field", time: "16:00" },
-        { date: "2025-07-01", opponent: "NMU Lions", venue: "Nelson Mandela Stadium", time: "15:00" }
-      ],
-      cricket: [
-        { date: "2025-06-25", opponent: "UCT Cricket Club", venue: "WSU Oval", time: "10:00" },
-        { date: "2025-07-02", opponent: "UWC Warriors", venue: "Cape Town", time: "11:00" }
-      ],
-      basketball: [
-        { date: "2025-06-23", opponent: "TUT Titans", venue: "WSU Indoor Arena", time: "18:00" },
-        { date: "2025-06-30", opponent: "UJ Jaguars", venue: "WSU Indoor Arena", time: "19:00" }
-      ],
-      netball: [
-        { date: "2025-06-26", opponent: "CUT Stars", venue: "WSU Court 1", time: "17:00" },
-        { date: "2025-07-03", opponent: "UP-Tuks", venue: "Away", time: "16:30" }
-      ],
-      athletics: [
-        { date: "2025-06-30", opponent: "All Universities (Track Meet)", venue: "WSU Track & Field", time: "09:00" }
-      ]
-    };
-    
-    // Sport icons and colors
-    const sportInfo = {
-      football: { icon: "fa-futbol", name: "Football", color: "football-banner" },
-      rugby: { icon: "fa-football-ball", name: "Rugby", color: "rugby-banner" },
-      cricket: { icon: "fa-baseball-ball", name: "Cricket", color: "cricket-banner" },
-      basketball: { icon: "fa-basketball-ball", name: "Basketball", color: "basketball-banner" },
-      netball: { icon: "fa-volleyball-ball", name: "Netball", color: "netball-banner" },
-      athletics: { icon: "fa-running", name: "Athletics", color: "athletics-banner" }
-    };
-    
-    // Function to format date
-    function formatDate(dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-    
-    // Function to render matches
-    function renderMatches(sport = "all") {
-      const matchGrid = document.getElementById("matchGrid");
-      matchGrid.innerHTML = "";
-      
-      // Loop through all sports
-      for (const sportType in matchData) {
-        if (sport !== "all" && sport !== sportType) continue;
-        
-        matchData[sportType].forEach(match => {
-          const info = sportInfo[sportType];
-          
-          const matchCard = document.createElement("div");
-          matchCard.className = "match-card";
-          
-          matchCard.innerHTML = `
-            <div class="sport-banner ${info.color}">
-              <i class="fas ${info.icon}"></i>
-              <div class="sport-name">${info.name}</div>
-            </div>
-            <div class="match-content">
-              <div class="match-date">
-                <i class="fas fa-calendar-alt"></i>
-                ${formatDate(match.date)} • ${match.time}
-              </div>
-              <div class="match-details">
-                <div class="team-info">
-                  <div class="team-logo">WSU</div>
-                  <div>WSU</div>
-                </div>
-                <div class="vs-text">VS</div>
-                <div class="team-info">
-                  <div class="team-logo">${match.opponent.substring(0, 3)}</div>
-                  <div>${match.opponent}</div>
-                </div>
-              </div>
-              <div class="match-venue">
-                <i class="fas fa-map-marker-alt"></i>
-                ${match.venue}
-              </div>
-              <div class="match-actions">
-                <button class="btn btn-primary"><i class="fas fa-calendar-plus"></i> Add to Calendar</button>
-                <button class="btn btn-outline"><i class="fas fa-share-alt"></i> Share</button>
-              </div>
-            </div>
-          `;
-          
-          matchGrid.appendChild(matchCard);
-        });
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  // ------------------- Supabase Setup -------------------
+  const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  // ------------------- Data -------------------
+  let matchData = {};  // Matches grouped by sport
+  let matches = [];    // Flattened matches for calendar
+
+  const sportInfo = {
+    football:   { icon: 'fa-futbol', name: 'Football', color: 'football-banner' },
+    rugby:      { icon: 'fa-football', name: 'Rugby', color: 'rugby-banner' },
+    cricket:    { icon: 'fa-baseball-bat-ball', name: 'Cricket', color: 'cricket-banner' },
+    basketball: { icon: 'fa-basketball', name: 'Basketball', color: 'basketball-banner' },
+    netball:    { icon: 'fa-volleyball', name: 'Netball', color: 'netball-banner' },
+    athletics:  { icon: 'fa-person-running', name: 'Athletics', color: 'athletics-banner' },
+  };
+
+  // ------------------- Utils -------------------
+  function pad2(n){ return String(n).padStart(2,'0'); }
+  function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+  function shortOpponent(name){ return name.replace(/University|Club|Warriors|Stars|Jaguars|Lions|Bulls|Titans/gi, (m) => m.split(' ')[0]); }
+  function formatDate(dateString){ return new Date(dateString).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }); }
+
+  // ------------------- Load Matches -------------------
+  async function loadMatches() {
+    console.log("Fetching matches from Supabase...");
+    try {
+      const { data, error } = await supabase
+        .from("Matches") // Make sure table name matches exactly
+        .select("*");
+
+      if (error) {
+        console.error("Supabase error:", error.message);
+        console.error("Details:", error.details);
+        console.error("Hint:", error.hint);
+        alert("Failed to load matches. Check console for details.");
+        return;
       }
-      
-      // If no matches found
-      if (matchGrid.innerHTML === "") {
-        matchGrid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 15px; box-shadow: var(--shadow);">
-            <i class="fas fa-calendar-times" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
-            <h3>No Upcoming Matches</h3>
-            <p>There are no scheduled matches for the selected sport.</p>
+
+      if (!data || data.length === 0) {
+        console.warn("No match data returned from Supabase.");
+      } else {
+        console.log("Match data received:", data);
+      }
+
+      // Group matches by sport
+      matchData = {};
+      data.forEach(m => {
+        if (!matchData[m.sport]) matchData[m.sport] = [];
+        matchData[m.sport].push({
+          date: m.date,
+          opponent: m.opponent,
+          venue: m.venue,
+          time: m.time
+        });
+      });
+
+      // Flatten matches for calendar
+      matches = [];
+      Object.entries(matchData).forEach(([sport, list]) => {
+        list.forEach(m => matches.push({ date: m.date, name: `${capitalize(sport)}: ${shortOpponent(m.opponent)}` }));
+      });
+
+      // Render UI
+      renderMatches('all');
+      renderCalendar(currentDate);
+
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("Something went wrong while fetching matches. See console.");
+    }
+  }
+
+  // ------------------- Render Match Cards -------------------
+  function renderMatches(filterSport='all') {
+    const grid = document.getElementById('matchGrid');
+    grid.innerHTML = '';
+    const sports = Object.keys(matchData);
+    sports.forEach(sport => {
+      if(filterSport!=='all' && sport!==filterSport) return;
+      matchData[sport].forEach((match, idx) => {
+        const info = sportInfo[sport];
+        const currentUrl = encodeURIComponent(window.location.href);
+        const card = document.createElement('div');
+        card.className = 'match-card';
+        card.innerHTML = `
+          <div class="sport-banner ${info.color}">
+            <i class="fas ${info.icon}"></i>
+            <div class="sport-name">${info.name}</div>
+          </div>
+          <div class="match-content">
+            <div class="match-date"><i class="fas fa-calendar-alt"></i> ${formatDate(match.date)} • ${match.time}</div>
+            <div class="match-details">
+              <div class="team-info"><div class="team-logo">WSU</div><div>WSU</div></div>
+              <div class="vs-text">VS</div>
+              <div class="team-info"><div class="team-logo">${match.opponent.substring(0,3).toUpperCase()}</div><div>${match.opponent}</div></div>
+            </div>
+            <div class="match-venue"><i class="fas fa-map-marker-alt"></i> ${match.venue}</div>
+            <div class="match-actions">
+              <button class="btn btn-primary add-to-calendar" data-sport="${sport}" data-index="${idx}">
+                <i class="fas fa-calendar-plus"></i> Add to Calendar
+              </button>
+              <div class="share-wrapper">
+                <button class="btn btn-outline share-btn" type="button"><i class="fas fa-share-alt"></i> Share</button>
+                <div class="share-menu">
+                  <a href="#" class="copy-link">📋 Copy Link</a>
+                  <a href="https://wa.me/?text=Check+this+out:+${currentUrl}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=${currentUrl}" target="_blank" rel="noopener"><i class="fab fa-facebook"></i> Facebook</a>
+                  <a href="https://twitter.com/intent/tweet?url=${currentUrl}&text=Check+this+out!" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i> X</a>
+                </div>
+              </div>
+            </div>
           </div>
         `;
-      }
-    }
-    
-    // Function to generate calendar
-    function generateCalendar() {
-      const calendarGrid = document.querySelector(".calendar-grid");
-      
-      // Clear existing cells (except days)
-      while (calendarGrid.children.length > 7) {
-        calendarGrid.removeChild(calendarGrid.lastChild);
-      }
-      
-      // Generate empty cells for June 2025 (June starts on Sunday)
-      for (let i = 1; i <= 30; i++) {
-        const cell = document.createElement("div");
-        cell.className = "calendar-cell";
-        cell.innerHTML = `<div class="calendar-date">${i}</div>`;
-        
-        // Add events to specific dates
-        if (i === 22) {
-          cell.innerHTML += `<div class="calendar-event">Football: UFH</div>`;
-        }
-        if (i === 23) {
-          cell.innerHTML += `<div class="calendar-event">Basketball: Titans</div>`;
-        }
-        if (i === 24) {
-          cell.innerHTML += `<div class="calendar-event">Rugby: UFH Bulls</div>`;
-        }
-        if (i === 25) {
-          cell.innerHTML += `<div class="calendar-event">Cricket: UCT</div>`;
-        }
-        if (i === 26) {
-          cell.innerHTML += `<div class="calendar-event">Netball: CUT</div>`;
-        }
-        if (i === 29) {
-          cell.innerHTML += `<div class="calendar-event">Football: Rhodes</div>`;
-        }
-        if (i === 30) {
-          cell.innerHTML += `<div class="calendar-event">Athletics Meet</div>`;
-          cell.innerHTML += `<div class="calendar-event">Basketball: Jaguars</div>`;
-        }
-        
-        calendarGrid.appendChild(cell);
-      }
-    }
-    
-    // Initialize page
-    document.addEventListener("DOMContentLoaded", () => {
-      renderMatches();
-      generateCalendar();
-      
-      // Filter by sport
-      document.getElementById("sportSelect").addEventListener("change", function() {
-        renderMatches(this.value);
-      });
-      
-      // Search functionality
-      document.getElementById("searchInput").addEventListener("input", function() {
-        const searchTerm = this.value.toLowerCase();
-        const matchCards = document.querySelectorAll(".match-card");
-        
-        matchCards.forEach(card => {
-          const text = card.textContent.toLowerCase();
-          if (text.includes(searchTerm)) {
-            card.style.display = "block";
-          } else {
-            card.style.display = "none";
-          }
-        });
+        grid.appendChild(card);
       });
     });
-
-    // Session timeout in milliseconds (e.g., 5 minutes = 300000ms)
-  const sessionTimeout = 3 * 60 * 1000; 
-  let sessionTimer;
-
-  function startSessionTimer() {
-    sessionTimer = setTimeout(() => {
-      alert("Your session has timed out due to inactivity.");
-      // Redirect to login page (or homepage)
-      window.location.href = "index.html"; 
-    }, sessionTimeout);
+    if(!grid.children.length) grid.innerHTML = `<div style="text-align:center;padding:40px;">No Upcoming Matches</div>`;
   }
 
-  function resetSessionTimer() {
-    clearTimeout(sessionTimer);
-    startSessionTimer();
+  // ------------------- Calendar -------------------
+  const calendarTitle = document.getElementById('calendar-title');
+  const calendarGrid  = document.getElementById('calendar-grid');
+  const prevBtn = document.getElementById('prev-month');
+  const nextBtn = document.getElementById('next-month');
+  let currentDate = new Date();
+
+  function renderCalendar(date){
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const monthName = date.toLocaleString('default',{month:'long'});
+    calendarTitle.textContent = `${monthName} ${year}`;
+    while(calendarGrid.children.length>7) calendarGrid.removeChild(calendarGrid.lastChild);
+
+    const firstDay = new Date(year,month,1).getDay();
+    const daysInMonth = new Date(year,month+1,0).getDate();
+    for(let i=0;i<firstDay;i++){ const empty=document.createElement('div'); empty.className='calendar-cell'; calendarGrid.appendChild(empty); }
+
+    const today=new Date(); 
+    const todayStr=`${today.getFullYear()}-${pad2(today.getMonth()+1)}-${pad2(today.getDate())}`;
+
+    for(let day=1;day<=daysInMonth;day++){
+      const cell=document.createElement('div'); cell.className='calendar-cell';
+      const dateStr=`${year}-${pad2(month+1)}-${pad2(day)}`;
+      cell.innerHTML=`<div class="calendar-date">${day}</div>`;
+      if(dateStr===todayStr) cell.classList.add('today');
+      matches.filter(m=>m.date===dateStr).forEach(m=>{ const ev=document.createElement('div'); ev.className='calendar-event'; ev.textContent=m.name; cell.appendChild(ev); });
+      calendarGrid.appendChild(cell);
+    }
+  }
+  prevBtn.addEventListener('click',()=>{currentDate.setMonth(currentDate.getMonth()-1); renderCalendar(currentDate);});
+  nextBtn.addEventListener('click',()=>{currentDate.setMonth(currentDate.getMonth()+1); renderCalendar(currentDate);});
+
+  // ------------------- Event Delegation -------------------
+  document.addEventListener('click',(e)=>{
+    const shareBtn=e.target.closest('.share-btn');
+    const anyMenu=document.querySelectorAll('.share-menu');
+    if(shareBtn){ e.stopPropagation(); anyMenu.forEach(m=>m.classList.remove('show')); const menu=shareBtn.parentElement.querySelector('.share-menu'); if(menu) menu.classList.toggle('show'); return; }
+    if(!e.target.closest('.share-wrapper')) anyMenu.forEach(m=>m.classList.remove('show'));
+    const copyLink=e.target.closest('.copy-link');
+    if(copyLink){ e.preventDefault(); navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!')); return; }
+    const addBtn=e.target.closest('.add-to-calendar');
+    if(addBtn){ const sport=addBtn.getAttribute('data-sport'); const idx=+addBtn.getAttribute('data-index'); downloadICS(matchData[sport][idx],sport); }
+  });
+
+  // ------------------- ICS Download -------------------
+  function downloadICS(match,sport){
+    const dt=new Date(match.date+'T'+match.time+':00');
+    const dtEnd=new Date(dt.getTime()+2*60*60*1000);
+    const formatICS=d=>`${d.getFullYear()}${pad2(d.getMonth()+1)}${pad2(d.getDate())}T${pad2(d.getHours())}${pad2(d.getMinutes())}00`;
+    const uid=`${Date.now()}@wsu-sports-hub`;
+    const summary=`WSU ${capitalize(sport)} vs ${match.opponent}`;
+    const description=`Match: WSU ${capitalize(sport)} vs ${match.opponent}\\nVenue: ${match.venue}`;
+    const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//WSU Sports Hub//Fixtures//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT',
+      `UID:${uid}`,
+      `DTSTAMP:${formatICS(new Date())}`,
+      `DTSTART:${formatICS(dt)}`,
+      `DTEND:${formatICS(dtEnd)}`,
+      `SUMMARY:${summary}`,
+      `LOCATION:${match.venue}`,
+      `DESCRIPTION:${description}`,
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=`${summary.replace(/\s+/g,'_')}.ics`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   }
 
-  // Start the timer when page loads
-  startSessionTimer();
+  // ------------------- Realtime Subscription -------------------
+  supabase.channel('public:Matches')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'Matches'},payload=>{
+      console.log('New match inserted:',payload.new);
+      loadMatches();
+    })
+    .subscribe();
 
-  // Reset timer on user interactions
-  document.addEventListener("mousemove", resetSessionTimer);
-  document.addEventListener("keydown", resetSessionTimer);
-  document.addEventListener("click", resetSessionTimer);
-  document.addEventListener("scroll", resetSessionTimer);
-  </script>
+  // ------------------- Init -------------------
+  document.addEventListener('DOMContentLoaded', loadMatches);
+</script>
+
 </body>
 </html>
-
