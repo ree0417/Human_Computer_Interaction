@@ -455,6 +455,70 @@
         font-size: 1rem;
       }
     }
+
+    /* Heading */
+.form-heading {
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin: 30px 0 20px 0;
+  font-weight: bold;
+}
+
+/* Form container */
+.match-form {
+  max-width: 500px;
+  margin: 0 auto 50px auto;
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: var(--transition);
+}
+
+.match-form input,
+.match-form select {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--light-gray);
+  font-size: 1rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.match-form input:focus,
+.match-form select:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 5px rgba(220, 38, 38, 0.5);
+}
+
+.match-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--secondary);
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.match-form button:hover {
+  background-color: #b91c1c;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .match-form {
+    padding: 20px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -535,8 +599,10 @@
 
   <hr>
 
-  <form id="addMatchForm">
-  <select id="sport">
+  <h2 class="form-heading">Add New Match</h2>
+<form id="addMatchForm" class="match-form">
+  <select id="sport" required>
+    <option value="" disabled selected>Select Sport</option>
     <option value="football">Football</option>
     <option value="rugby">Rugby</option>
     <option value="cricket">Cricket</option>
@@ -550,6 +616,7 @@
   <input type="time" id="time" required>
   <button type="submit">Add Match</button>
 </form>
+
   <div id="announcement">
     <h1>Announcements</h1>
     <p>Post new announcements to keep students updated.</p>
