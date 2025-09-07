@@ -535,6 +535,21 @@
 
   <hr>
 
+  <form id="addMatchForm">
+  <select id="sport">
+    <option value="football">Football</option>
+    <option value="rugby">Rugby</option>
+    <option value="cricket">Cricket</option>
+    <option value="basketball">Basketball</option>
+    <option value="netball">Netball</option>
+    <option value="athletics">Athletics</option>
+  </select>
+  <input type="text" id="opponent" placeholder="Opponent" required>
+  <input type="text" id="venue" placeholder="Venue" required>
+  <input type="date" id="date" required>
+  <input type="time" id="time" required>
+  <button type="submit">Add Match</button>
+</form>
   <div id="announcement">
     <h1>Announcements</h1>
     <p>Post new announcements to keep students updated.</p>
@@ -554,118 +569,74 @@
   </footer>
 
   <script>
+  // Supabase credentials
     const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function loadStats() {
-      const button = document.getElementById("load");
-      const resultsDiv = document.getElementById("results");
 
-      button.textContent = "Loading stats...";
-      button.disabled = true;
-      resultsDiv.innerHTML = "";
+  // ✅ Matches Insert
+  document.getElementById("addMatchForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const { error } = await supabase.from("Matches").insert([{
+      sport: document.getElementById("sport").value,
+      opponent: document.getElementById("opponent").value,
+      venue: document.getElementById("venue").value,
+      date: document.getElementById("date").value,
+      time: document.getElementById("time").value
+    }]);
 
-      const tables = {
-        Netball: "Netball_Registration",
-        Rugby: "rugby",
-        Athletics: "Athletics",
-        Cricket: "CricketRegistrations",
-        Basketball: "basketball",
-        Football: "football",
-        Volleyball: "volleyball",
-      };
-
-      let total = 0;
-      const stats = {};
-
-      for (const [label, table] of Object.entries(tables)) {
-        const { count, error } = await supabase
-          .from(table)
-          .select("*", { count: "exact", head: true });
-
-        stats[label] = error ? "❌ Error" : count;
-        if (!error) total += count;
-      }
-
-      resultsDiv.innerHTML = `
-        <hr>
-        <div class="stat">✅ ${total} Students Registered</div>
-        ${Object.entries(stats).map(([sport, value]) => `<div class="stat">${sport}: ${value}</div>`).join('')}
-        <br>
-        <a class="button" href="download.html">Download All</a>
-      `;
-
-      button.textContent = "Load Users";
-      button.disabled = false;
+    if (error) {
+      alert("❌ Error: " + error.message);
+    } else {
+      alert("✅ Match added successfully!");
     }
-
-    async function viewRegistrations(tableName, resultContainerId, nameColumn, numberColumn) {
-  const resultDiv = document.getElementById(resultContainerId);
-  resultDiv.innerHTML = "Loading...";
-
-  const { data, error } = await supabase
-    .from(tableName)
-    .select(`${nameColumn}, ${numberColumn}`);
-
-  if (error) {
-    resultDiv.innerHTML = `<span style="color:red">❌ Error fetching data: ${error.message}</span>`;
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    resultDiv.innerHTML = "No registrations found.";
-    return;
-  }
-
-  let tableHTML = `<h3>${tableName.replace(/_/g, ' ')} Registrations</h3><table border='1' cellpadding='8'><tr><th>Name</th><th>Student Number</th></tr>`;
-  data.forEach(item => {
-    tableHTML += `<tr><td>${item[nameColumn]}</td><td>${item[numberColumn]}</td></tr>`;
   });
-  tableHTML += "</table>";
 
-  resultDiv.innerHTML = tableHTML;
-}
+  // ✅ Fix Realtime Subscription (added supabase.)
+  supabase
+    .channel('public:Matches')
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'Matches' },
+      (payload) => {
+        console.log("📢 New match added:", payload.new);
+        // only works if you define loadMatches()
+        // if this page doesn’t show matches, you can remove loadMatches()
+        if (typeof loadMatches === "function") {
+          loadMatches();
+        }
+      }
+    )
+    .subscribe();
 
-
-    function logout() {
-      supabase.auth.signOut().then(() => {
-        window.location.href = "index.html";
-      }).catch((error) => {
-        console.error("Logout failed:", error.message);
-        alert("Failed to log out. Please try again.");
-      });
-    }
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("show");
-      document.body.classList.toggle("sidebar-open");
-    }
-
-    // ✅ Post announcement on form submit
+  // ✅ Post announcement
   document.getElementById("announcementForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const input = document.getElementById("announcementText");
-  const message = input.value.trim();
+    e.preventDefault();
+    const input = document.getElementById("announcementText");
+    const message = input.value.trim();
 
-  if (!message) {
-    alert("Please enter a message.");
-    return;
-  }
+    if (!message) {
+      alert("Please enter a message.");
+      return;
+    }
 
-  const { error } = await supabase
-    .from("announcements")
-    .insert([{ message }]); // ✅ Fix here
+    const { error } = await supabase
+      .from("announcements")
+      .insert([{ message }]);
 
-  if (error) {
-    document.getElementById("announcementStatus").innerText = "❌ Failed to post announcement.";
-    console.error(error.message);
-  } else {
-    document.getElementById("announcementStatus").innerText = "✅ Announcement posted successfully.";
-    input.value = ""; // Reset input
-  }
-});
+    if (error) {
+      document.getElementById("announcementStatus").innerText =
+        "❌ Failed to post announcement.";
+      console.error(error.message);
+    } else {
+      document.getElementById("announcementStatus").innerText =
+        "✅ Announcement posted successfully.";
+      input.value = "";
+    }
+  });
+
+  function logout() { supabase.auth.signOut().then(() => { window.location.href = "index.html"; }).catch((error) => { console.error("Logout failed:", error.message); alert("Failed to log out. Please try again."); }); }
 
   </script>
 </body>
