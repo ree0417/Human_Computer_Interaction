@@ -135,7 +135,7 @@
     </div>
     <a href="#" onclick="loadStats()">📊 Load Stats</a>
     <a href="#announcement">📢 Announcements</a>
-    <a href="#" onclick="logout()">🚪 Logout</a>
+    <button id="logoutBtn" onclick="confirmLogout()">Logout</button>
   </div>
 
   <h1>Admin Dashboard</h1>
@@ -236,7 +236,7 @@
     <div id="announcementResults" style="margin-top:16px;"></div>
   </div>
 
-  <button id="logoutBtn" onclick="logout()">Logout</button>
+  <button id="logoutBtn" onclick="confirmLogout()">Logout</button>
 
   <footer style="background-color: #000000; margin-top:2rem; padding:1.5rem; border-radius:8px; color:#fff; text-align:center;"> 
     <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
@@ -400,6 +400,19 @@
 
     // Initial load
     document.addEventListener('DOMContentLoaded', () => { loadMatches(); loadAnnouncements(); });
+    const logoutLink = document.getElementById('logoutLink');
+    function confirmLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    supabase.auth.signOut()
+      .then(() => {
+        window.location.href = 'index.html';
+      })
+      .catch((e) => {
+        alert('❌ Failed to log out: ' + e.message);
+      });
+  }
+}
+
   </script>
 </body>
 </html>
