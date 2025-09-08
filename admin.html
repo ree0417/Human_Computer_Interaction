@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +5,16 @@
   <title>Admin Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root{
+      --primary:#1a1a1a;
+      --accent:#2c2c2c;
+      --danger-start:#b91c1c;
+      --danger-end:#7f1d1d;
+      --shadow: 0 8px 30px rgba(0,0,0,0.1);
+      --light-gray:#e6e6e6;
+      --transition: all 0.25s ease;
     }
 
     body {
@@ -22,511 +27,75 @@
       min-height: 100vh;
     }
 
-    h1 {
-      color: #1a1a1a;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 1rem;
-    }
+    h1 { color: var(--primary); font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
+    h2 { color: var(--primary); font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem; }
+    h3 { color: var(--primary); font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
 
-    h2 {
-      color: #1a1a1a;
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    h3 {
-      color: #1a1a1a;
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    button,
-    a.button {
-      padding: 12px 24px;
-      margin: 8px 4px;
-      display: inline-block;
+    button, a.button {
+      padding: 12px 24px; margin: 8px 4px; display: inline-block;
       background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-      color: white;
-      text-decoration: none;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
+      color: white; text-decoration: none; border: none; border-radius: 8px; cursor: pointer;
+      font-size: 1rem; font-weight: 600; transition: all 0.3s ease; position: relative; overflow: hidden;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
+    button::before, a.button::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); transition: left 0.5s;
+    }
+    button:hover::before, a.button:hover::before { left: 100%; }
+    button:hover, a.button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
 
-    button::before,
-    a.button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.5s;
+    #welcome, #results, #matchesResults, #announcement, #instruction {
+      background: white; padding: 1.5rem; margin-top: 1.5rem; border-radius: 12px; box-shadow: var(--shadow);
     }
 
-    button:hover::before,
-    a.button:hover::before {
-      left: 100%;
-    }
+    .stat { margin-bottom: 1rem; font-size: 1.1rem; color: #333; font-weight: 500; padding: 1rem; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 8px; border-left: 4px solid var(--primary); }
 
-    button:hover,
-    a.button:hover {
-      background: linear-gradient(135deg, #3a3a3a 0%, #2c2c2c 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
+    .sports-section { margin: 2rem 0; }
+    .sports-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+    .sport-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: var(--shadow); border: 1px solid #f0f0f0; }
+    .sport-card button { width: 100%; margin: 0 0 1rem 0; font-size: 1.1rem; padding: 1rem; }
 
-    button:active,
-    a.button:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+    th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+    th { background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%); color: white; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
+    tr:hover { background-color: #f8f9fa; }
 
-    #welcome {
-      background-color: white;
-      border-left: 5px solid #1a1a1a;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      border-radius: 12px;
-      color: #333;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
+    .sidebar { position: fixed; top: 0; left: 0; width: 220px; height: 100vh; background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%); color: #fff; padding-top: 20px; z-index: 999; box-shadow: 4px 0 20px rgba(0,0,0,0.15); }
+    .sidebar a { display: block; color: #fff; text-decoration: none; padding: 15px 20px; font-weight: 500; }
+    .sidebar a:hover { background-color: rgba(255,255,255,0.06); }
 
-    #welcome ul {
-      margin-left: 1.5rem;
-      margin-top: 1rem;
-    }
+    #sidebarToggle { display: none; background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%); color: white; font-size: 24px; border: none; padding: 12px 16px; position: fixed; top: 15px; left: 15px; z-index: 1001; border-radius: 8px; cursor: pointer; }
 
-    #welcome li {
-      margin-bottom: 0.5rem;
-      color: #555;
-    }
+    #announcementForm { display: flex; flex-direction: column; gap: 1rem; max-width: 600px; }
+    #announcementText { padding: 1rem; font-size: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; width: 100%; background-color: #fafafa; }
+    #announcementStatus { margin-top: 1rem; font-style: italic; color: #2e7d32; font-weight: 500; padding: 0.5rem; border-radius: 6px; background-color: #e8f5e8; display: none; }
 
-    #welcome p {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    #results,
-    #netballResults,
-    #rugbyResults,
-    #athleticsResults,
-    #cricketResults,
-    #basketballResults,
-    #footballResults,
-    #volleyballResults {
-      background: white;
-      padding: 2rem;
-      margin-top: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .stat {
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-      color: #333;
-      font-weight: 500;
-      padding: 1rem;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      border-radius: 8px;
-      border-left: 4px solid #1a1a1a;
-      transition: all 0.3s ease;
-    }
-
-    .stat:hover {
-      transform: translateX(5px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .sports-section {
-      margin: 2rem 0;
-    }
-
-    .sports-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    .sport-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid #f0f0f0;
-    }
-
-    .sport-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(0, 0, 0, 0.1);
-      border-color: #e0e0e0;
-    }
-
-    .sport-card button {
-      width: 100%;
-      margin: 0 0 1rem 0;
-      font-size: 1.1rem;
-      padding: 1rem;
-    }
-
-    hr {
-      border: none;
-      border-top: 2px solid #e0e0e0;
-      margin: 2rem 0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    th, td {
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    th {
-      background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-      color: white;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    tr:hover {
-      background-color: #f8f9fa;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 220px;
-      height: 100vh;
-      background: linear-gradient(180deg, #1a1a1a 0%, #2c2c2c 100%);
-      color: #fff;
-      padding-top: 20px;
-      z-index: 999;
-      transition: transform 0.3s ease;
-      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .sidebar-header {
-      padding: 0 15px;
-      margin-bottom: 30px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 20px;
-    }
-
-    .sidebar a {
-      display: block;
-      color: #fff;
-      text-decoration: none;
-      padding: 15px 20px;
-      transition: all 0.3s ease;
-      border-left: 3px solid transparent;
-      font-weight: 500;
-    }
-
-    .sidebar a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-left: 3px solid #fff;
-      transform: translateX(5px);
-    }
-
-    #sidebarToggle {
-      display: none;
-      background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-      color: white;
-      font-size: 24px;
-      border: none;
-      padding: 12px 16px;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 1001;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    #sidebarToggle:hover {
-      background: linear-gradient(135deg, #3a3a3a 0%, #2c2c2c 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    }
-
-    #announcement {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(0, 0, 0, 0.05);
-      margin-top: 2rem;
-      max-width: 600px;
-    }
-
-    #announcement h1 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: #1a1a1a;
-      font-weight: 700;
-    }
-
-    #announcement p {
-      color: #555;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-
-    #announcementForm {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    #announcementText {
-      padding: 1rem;
-      font-size: 1rem;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      width: 100%;
-      background-color: #fafafa;
-      font-family: inherit;
-    }
-
-    #announcementText:focus {
-      border-color: #333;
-      outline: none;
-      background-color: white;
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-    }
-
-    #announcementForm button {
-      background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
-      color: #fff;
-      padding: 1rem 1.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-weight: 600;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #announcementForm button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.5s;
-    }
-
-    #announcementForm button:hover::before {
-      left: 100%;
-    }
-
-    #announcementForm button:hover {
-      background: linear-gradient(135deg, #3a3a3a 0%, #2c2c2c 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    #announcementStatus {
-      margin-top: 1rem;
-      font-style: italic;
-      color: #2e7d32;
-      font-weight: 500;
-      padding: 0.5rem;
-      border-radius: 6px;
-      background-color: #e8f5e8;
-    }
-
-    #instruction {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(0, 0, 0, 0.05);
-      margin-bottom: 2rem;
-    }
-
-    #instruction p {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 3rem;
-      padding: 2rem;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-      color: #fff;
-      font-size: 0.9rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    footer p {
-      margin-bottom: 0.5rem;
-      opacity: 0.9;
-    }
+    .delete-btn { padding: 8px 12px; border-radius: 8px; border: none; cursor: pointer; color: #fff; font-weight: 600; font-size: 0.95rem; background: linear-gradient(135deg, var(--danger-start) 0%, var(--danger-end) 100%); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
 
     @media (max-width: 768px) {
-      body {
-        padding: 15px;
-        margin-left: 0;
-      }
-
-      h1 {
-        font-size: 20px;
-      }
-
-      #sidebarToggle {
-        display: block;
-      }
-
-      .sidebar {
-        transform: translateX(-100%);
-      }
-
-      .sidebar.show {
-        transform: translateX(0);
-      }
-
-      body.sidebar-open {
-        overflow: hidden;
-      }
-
-      #announcement,
-      button,
-      a.button {
-        width: 100%;
-        font-size: 16px;
-      }
-
-      #announcementText {
-        width: 100%;
-      }
-
-      .sports-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-
-      .sport-card {
-        padding: 1rem;
-      }
-
-      .stat {
-        padding: 0.75rem;
-        font-size: 1rem;
-      }
+      body { padding: 15px; margin-left: 0; }
+      #sidebarToggle { display: block; }
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.show { transform: translateX(0); }
+      body.sidebar-open { overflow: hidden; }
+      #announcement, button, a.button { width: 100%; font-size: 16px; }
+      .sports-grid { grid-template-columns: 1fr; gap: 1rem; }
     }
 
-    /* Heading */
-.form-heading {
-  text-align: center;
-  font-size: 1.8rem;
-  color: var(--primary);
-  margin: 30px 0 20px 0;
-  font-weight: bold;
-}
-
-/* Form container */
-.match-form {
-  max-width: 500px;
-  margin: 0 auto 50px auto;
-  background: white;
-  padding: 25px 30px;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  transition: var(--transition);
-}
-
-.match-form input,
-.match-form select {
-  padding: 12px 15px;
-  border-radius: 8px;
-  border: 1px solid var(--light-gray);
-  font-size: 1rem;
-  outline: none;
-  transition: var(--transition);
-}
-
-.match-form input:focus,
-.match-form select:focus {
-  border-color: var(--secondary);
-  box-shadow: 0 0 5px rgba(220, 38, 38, 0.5);
-}
-
-.match-form button {
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--secondary);
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.match-form button:hover {
-  background-color: #b91c1c;
-  transform: translateY(-2px);
-}
-
-/* Responsive */
-@media (max-width: 576px) {
-  .match-form {
-    padding: 20px;
-  }
-}
-
+    /* Compact match form styles */
+    .form-heading { text-align: center; font-size: 1.8rem; color: var(--primary); margin: 30px 0 20px 0; font-weight: bold; }
+    .match-form { max-width: 500px; margin: 0 auto 50px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; }
+    .match-form input, .match-form select { padding: 10px 12px; border-radius: 8px; border: 1px solid var(--light-gray); font-size: 1rem; }
+    .match-form button { padding: 12px; border: none; border-radius: 8px; background-color: var(--accent); color: white; font-weight: bold; cursor: pointer; }
   </style>
 </head>
 <body>
   <button id="sidebarToggle" onclick="toggleSidebar()">☰</button>
 
   <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <h1 style="margin-top: 20px;color: #e6f4ff;">Admin Dashboard</h1>
+    <div style="padding:0 15px 20px 15px; border-bottom:1px solid rgba(255,255,255,0.08);">
+      <h1 style="margin-top:20px;color:#e6f4ff;">Admin Dashboard</h1>
     </div>
     <a href="#" onclick="loadStats()">📊 Load Stats</a>
     <a href="#announcement">📢 Announcements</a>
@@ -536,176 +105,253 @@
   <h1>Admin Dashboard</h1>
   <div id="welcome">
     <h3>👋 Welcome to the WSU Sports Management Admin Dashboard</h3>
-    <p>Hello Admin!</p>
-    <p>You're now logged into the central hub for managing sports registrations, announcements, and student engagement at Walter Sisulu University.</p>
-    <p>Use this dashboard to:</p>
-    <ul>
-      <li>Monitor registrations across all sports codes</li>
-      <li>Post important announcements</li>
-      <li>Keep students informed and updated</li>
-    </ul>
-    <p>Thank you for helping us keep WSU’s sporting community organized, active, and connected!</p>
+    <p>Hello Admin! Use this dashboard to manage registrations, post announcements and keep students informed.</p>
   </div>
-  <hr>
 
   <div id="instruction">
-    <h1>Instruction</h1>
-    <p>Click the button below to load the total number of registered students across all sports. You can post new announcements to keep students updated.</p>
+    <h2>Instruction</h2>
+    <p>Click the button below to load total registered users. Use the announcements area to post and manage messages.</p>
   </div>
 
   <button id="load" onclick="loadStats()">Load Users</button>
   <div id="results"></div>
 
-  <hr>
+  <h2>📅 Current Matches</h2>
+  <div id="matchesResults"></div>
+
+  <h2 class="form-heading">Add New Match</h2>
+  <form id="addMatchForm" class="match-form">
+    <select id="sport" required>
+      <option value="" disabled selected>Select Sport</option>
+      <option value="football">Football</option>
+      <option value="rugby">Rugby</option>
+      <option value="cricket">Cricket</option>
+      <option value="basketball">Basketball</option>
+      <option value="netball">Netball</option>
+      <option value="athletics">Athletics</option>
+    </select>
+    <input type="text" id="opponent" placeholder="Opponent" required>
+    <input type="text" id="venue" placeholder="Venue" required>
+    <input type="date" id="date" required>
+    <input type="time" id="time" required>
+    <button type="submit">Add Match</button>
+  </form>
+
   <div class="sports-section">
     <h2>📋 View Sport Registrations</h2>
     <div class="sports-grid">
       <div class="sport-card">
-        <button onclick="viewRegistrations('Netball_Registration', 'netballResults', 'fullname', 'studentNumber')">🏐 View Netball</button>
+        <button onclick="viewRegistrations('Netball_Registration','netballResults','fullname','studentNumber')">🏐 View Netball</button>
         <div id="netballResults"></div>
       </div>
-      
+
       <div class="sport-card">
-        <button onclick="viewRegistrations('rugby', 'rugbyResults', 'fullname', 'studentNumber')">🏉 View Rugby</button>
+        <button onclick="viewRegistrations('rugby','rugbyResults','fullname','studentNumber')">🏉 View Rugby</button>
         <div id="rugbyResults"></div>
       </div>
-      
+
       <div class="sport-card">
-        <button onclick="viewRegistrations('Athletics', 'athleticsResults', 'fullname', 'studentNumber')">🏃 View Athletics</button>
+        <button onclick="viewRegistrations('Athletics','athleticsResults','fullname','studentNumber')">🏃 View Athletics</button>
         <div id="athleticsResults"></div>
       </div>
-      
+
       <div class="sport-card">
-        <button onclick="viewRegistrations('CricketRegistrations', 'cricketResults', 'fullname', 'studentNumber')">🏏 View Cricket</button>
+        <button onclick="viewRegistrations('CricketRegistrations','cricketResults','fullname','studentNumber')">🏏 View Cricket</button>
         <div id="cricketResults"></div>
       </div>
 
       <div class="sport-card">
-        <button onclick="viewRegistrations('basketball', 'basketballResults', 'fullname', 'studentNumber')">🏀 View Basketball</button>
+        <button onclick="viewRegistrations('basketball','basketballResults','fullname','studentNumber')">🏀 View Basketball</button>
         <div id="basketballResults"></div>
       </div>
-      
+
       <div class="sport-card">
-        <button onclick="viewRegistrations('football', 'footballResults', 'fullname', 'studentNumber')">⚽ View Football</button>
+        <button onclick="viewRegistrations('football','footballResults','fullname','studentNumber')">⚽ View Football</button>
         <div id="footballResults"></div>
       </div>
-      
+
       <div class="sport-card">
-        <button onclick="viewRegistrations('volleyball', 'volleyballResults', 'fullname', 'studentNumber')">🏐 View Volleyball</button>
+        <button onclick="viewRegistrations('volleyball','volleyballResults','fullname','studentNumber')">🏐 View Volleyball</button>
         <div id="volleyballResults"></div>
       </div>
     </div>
   </div>
 
-  <hr>
-
-  <h2 class="form-heading">Add New Match</h2>
-<form id="addMatchForm" class="match-form">
-  <select id="sport" required>
-    <option value="" disabled selected>Select Sport</option>
-    <option value="football">Football</option>
-    <option value="rugby">Rugby</option>
-    <option value="cricket">Cricket</option>
-    <option value="basketball">Basketball</option>
-    <option value="netball">Netball</option>
-    <option value="athletics">Athletics</option>
-  </select>
-  <input type="text" id="opponent" placeholder="Opponent" required>
-  <input type="text" id="venue" placeholder="Venue" required>
-  <input type="date" id="date" required>
-  <input type="time" id="time" required>
-  <button type="submit">Add Match</button>
-</form>
-
   <div id="announcement">
-    <h1>Announcements</h1>
+    <h2>Announcements</h2>
     <p>Post new announcements to keep students updated.</p>
     <form id="announcementForm">
       <input type="text" id="announcementText" placeholder="Enter your announcement here" required />
       <button type="submit">Post Announcement</button>
     </form>
     <div id="announcementStatus"></div>
+    <div id="announcementResults" style="margin-top:16px;"></div>
   </div>
 
-  <hr>
   <button id="logoutBtn" onclick="logout()">Logout</button>
 
-  <footer style="background-color: #000000;">
+  <footer style="background-color: #000000; margin-top:2rem; padding:1.5rem; border-radius:8px; color:#fff; text-align:center;"> 
     <p>&copy; 2025 Walter Sisulu University Sports Hub. All Rights Reserved.</p>
-    <p>Developed to connect students with the Sports Department</p>
   </footer>
 
   <script>
-  // Supabase credentials
+    // Supabase setup
     const supabaseUrl = 'https://mqvjbgnipsjygmpwidnq.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xdmpiZ25pcHNqeWdtcHdpZG5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNDkyNzQsImV4cCI6MjA2NzcyNTI3NH0.p-mZxDCirt9NY_3taGk7_mL-qK5zTR05jInt6FEWs4Y';
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+    // Add match
+    document.getElementById('addMatchForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const sport = document.getElementById('sport').value;
+      const opponent = document.getElementById('opponent').value;
+      const venue = document.getElementById('venue').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
 
-  // ✅ Matches Insert
-  document.getElementById("addMatchForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const { error } = await supabase.from("Matches").insert([{
-      sport: document.getElementById("sport").value,
-      opponent: document.getElementById("opponent").value,
-      venue: document.getElementById("venue").value,
-      date: document.getElementById("date").value,
-      time: document.getElementById("time").value
-    }]);
+      const { error } = await supabase.from('Matches').insert([{ sport, opponent, venue, date, time }]);
+      if (error) return alert('❌ Error: ' + error.message);
+      alert('✅ Match added successfully!');
+      document.getElementById('addMatchForm').reset();
+      loadMatches();
+    });
 
-    if (error) {
-      alert("❌ Error: " + error.message);
-    } else {
-      alert("✅ Match added successfully!");
+    // Real-time updates for Matches & Announcements
+    supabase.channel('public:Matches')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'Matches' }, () => loadMatches())
+      .subscribe();
+
+    supabase.channel('public:announcements')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'announcements' }, () => loadAnnouncements())
+      .subscribe();
+
+    // Load matches
+    async function loadMatches() {
+      const container = document.getElementById('matchesResults');
+      container.innerHTML = '<p class="small-muted">Loading matches…</p>';
+      const { data, error } = await supabase.from('Matches').select('*').order('date', { ascending: true });
+      if (error) { container.innerHTML = '<p>❌ Failed to load matches: ' + error.message + '</p>'; return; }
+      if (!data || data.length === 0) { container.innerHTML = '<p>No matches found.</p>'; return; }
+
+      container.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Sport</th><th>Opponent</th><th>Venue</th><th>Date</th><th>Time</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            ${data.map(m => `
+              <tr>
+                <td>${escapeHtml(m.sport)}</td>
+                <td>${escapeHtml(m.opponent)}</td>
+                <td>${escapeHtml(m.venue)}</td>
+                <td>${escapeHtml(m.date ?? '')}</td>
+                <td>${escapeHtml(m.time ?? '')}</td>
+                <td><button class="delete-btn" onclick="deleteMatch(${m.id})">Delete</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
     }
-  });
 
-  // ✅ Fix Realtime Subscription (added supabase.)
-  supabase
-    .channel('public:Matches')
-    .on(
-      'postgres_changes',
-      { event: 'INSERT', schema: 'public', table: 'Matches' },
-      (payload) => {
-        console.log("📢 New match added:", payload.new);
-        // only works if you define loadMatches()
-        // if this page doesn’t show matches, you can remove loadMatches()
-        if (typeof loadMatches === "function") {
-          loadMatches();
-        }
-      }
-    )
-    .subscribe();
-
-  // ✅ Post announcement
-  document.getElementById("announcementForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const input = document.getElementById("announcementText");
-    const message = input.value.trim();
-
-    if (!message) {
-      alert("Please enter a message.");
-      return;
+    // Delete match
+    async function deleteMatch(id) {
+      if (!confirm('Delete this match?')) return;
+      const { error } = await supabase.from('Matches').delete().eq('id', id);
+      if (error) return alert('❌ Failed to delete match: ' + error.message);
+      loadMatches();
     }
 
-    const { error } = await supabase
-      .from("announcements")
-      .insert([{ message }]);
+    // Announcements: post, load, delete
+    document.getElementById('announcementForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('announcementText');
+      const message = input.value.trim();
+      if (!message) return alert('Please enter a message.');
+      const { error } = await supabase.from('announcements').insert([{ message }]);
+      if (error) { document.getElementById('announcementStatus').innerText = '❌ Failed to post announcement.'; document.getElementById('announcementStatus').style.display = 'block'; return; }
+      document.getElementById('announcementStatus').innerText = '✅ Announcement posted successfully.'; document.getElementById('announcementStatus').style.display = 'block';
+      input.value = '';
+    });
 
-    if (error) {
-      document.getElementById("announcementStatus").innerText =
-        "❌ Failed to post announcement.";
-      console.error(error.message);
-    } else {
-      document.getElementById("announcementStatus").innerText =
-        "✅ Announcement posted successfully.";
-      input.value = "";
+    async function loadAnnouncements() {
+      const container = document.getElementById('announcementResults');
+      container.innerHTML = '<p class="small-muted">Loading announcements…</p>';
+      const { data, error } = await supabase.from('announcements').select('*').order('id', { ascending: false });
+      if (error) { container.innerHTML = '<p>❌ Failed to load announcements: ' + error.message + '</p>'; return; }
+      if (!data || data.length === 0) { container.innerHTML = '<p>No announcements found.</p>'; return; }
+
+      container.innerHTML = `
+        <ul style="list-style:none;padding:0;margin:0;">
+          ${data.map(ann => `
+            <li style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;background:#fafafa;padding:10px 15px;border-radius:8px;">
+              <div style="flex:1;margin-right:12px;">
+                <div style="font-weight:600;">${escapeHtml(ann.message)}</div>
+                <div class="small-muted">Posted by: ${escapeHtml(ann.admin_email ?? '')} • ${ann.created_at ? new Date(ann.created_at).toLocaleString() : ''}</div>
+              </div>
+              <div><button class="delete-btn" onclick="deleteAnnouncement(${ann.id})">Delete</button></div>
+            </li>
+          `).join('')}
+        </ul>
+      `;
     }
-  });
 
-  function logout() { supabase.auth.signOut().then(() => { window.location.href = "index.html"; }).catch((error) => { console.error("Logout failed:", error.message); alert("Failed to log out. Please try again."); }); }
+    async function deleteAnnouncement(id) {
+      if (!confirm('Are you sure you want to delete this announcement?')) return;
+      const { error } = await supabase.from('announcements').delete().eq('id', id);
+      if (error) return alert('❌ Failed to delete announcement: ' + error.message);
+      loadAnnouncements();
+    }
 
+    // Registrations view
+    async function viewRegistrations(tableName, containerId, nameField = 'fullname', idField = 'studentNumber') {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '<p class="small-muted">Loading…</p>';
+      const { data, error } = await supabase.from(tableName).select('*').order(nameField, { ascending: true }).limit(200);
+      if (error) { container.innerHTML = '<p>❌ Error loading registrations: ' + error.message + '</p>'; return; }
+      if (!data || data.length === 0) { container.innerHTML = '<p>No registrations found.</p>'; return; }
+      container.innerHTML = `
+        <table>
+          <thead><tr><th>Name</th><th>Student No.</th><th>Contact</th></tr></thead>
+          <tbody>
+            ${data.map(r => `
+              <tr>
+                <td>${escapeHtml(r[nameField])}</td>
+                <td>${escapeHtml(r[idField])}</td>
+                <td>${escapeHtml(r.contactNumber ?? r.contact ?? '')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Stats loader
+    async function loadStats() {
+      const el = document.getElementById('results');
+      el.innerHTML = '<p class="small-muted">Loading stats…</p>';
+      const { count, error } = await supabase.from('Users').select('id', { count: 'exact', head: true });
+      if (error) { el.innerHTML = '<p>❌ Failed to load stats.</p>'; return; }
+      el.innerHTML = `<div class="stat">Total registered users: <strong>${count ?? 0}</strong></div>`;
+    }
+
+    // Utility: HTML escape
+    function escapeHtml(unsafe) {
+      if (unsafe === null || unsafe === undefined) return '';
+      return String(unsafe)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    // Logout and UI helpers
+    function logout() { supabase.auth.signOut().then(() => { window.location.href = 'index.html'; }).catch((e) => { alert('Failed to log out.'); }); }
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('show'); document.body.classList.toggle('sidebar-open'); }
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => { loadMatches(); loadAnnouncements(); });
   </script>
 </body>
 </html>
-
