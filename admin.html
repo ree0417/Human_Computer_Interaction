@@ -289,7 +289,7 @@
                 <div style="font-weight:600;">${escapeHtml(ann.message)}</div>
                 <div class="small-muted">Posted by: ${escapeHtml(ann.admin_email ?? '')} • ${ann.created_at ? new Date(ann.created_at).toLocaleString() : ''}</div>
               </div>
-              <div><button class="delete-btn" onclick="deleteAnnouncement(${ann.id})">Delete</button></div>
+              
             </li>
           `).join('')}
         </ul>
@@ -355,3 +355,4 @@
   </script>
 </body>
 </html>
+
