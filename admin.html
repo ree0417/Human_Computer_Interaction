@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,6 +84,41 @@
       .sports-grid { grid-template-columns: 1fr; gap: 1rem; }
     }
 
+    #welcomeMessage {
+  background-color: #ffffff;
+  border-left: 5px solid #1a1a1a; /* Matches your primary color */
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  color: #333;
+  line-height: 1.6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+}
+
+#welcomeMessage p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+#welcomeMessage ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+#welcomeMessage li {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+#welcomeMessage p:first-child {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+
     /* Compact match form styles */
     .form-heading { text-align: center; font-size: 1.8rem; color: var(--primary); margin: 30px 0 20px 0; font-weight: bold; }
     .match-form { max-width: 500px; margin: 0 auto 50px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; }
@@ -105,7 +141,17 @@
   <h1>Admin Dashboard</h1>
   <div id="welcome">
     <h3>👋 Welcome to the WSU Sports Management Admin Dashboard</h3>
-    <p>Hello Admin! Use this dashboard to manage registrations, post announcements and keep students informed.</p>
+    <div id="welcomeMessage">
+  You’re now logged into the WSU Sports Management Admin Dashboard — your central hub for managing student sports registrations, announcements, and events.</p>
+
+  <ul>
+    <li>Monitor registrations across all sports codes</li>
+    <li>Post important announcements to keep students updated</li>
+    <li>Organize and track upcoming matches</li>
+  </ul>
+
+  <p>Thank you for keeping WSU’s sporting community active, organized, and connected!</p>
+</div>
   </div>
 
   <div id="instruction">
@@ -357,5 +403,3 @@
   </script>
 </body>
 </html>
-
-
