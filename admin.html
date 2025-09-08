@@ -116,26 +116,7 @@
   <button id="load" onclick="loadStats()">Load Users</button>
   <div id="results"></div>
 
-  <h2>📅 Current Matches</h2>
-  <div id="matchesResults"></div>
-
-  <h2 class="form-heading">Add New Match</h2>
-  <form id="addMatchForm" class="match-form">
-    <select id="sport" required>
-      <option value="" disabled selected>Select Sport</option>
-      <option value="football">Football</option>
-      <option value="rugby">Rugby</option>
-      <option value="cricket">Cricket</option>
-      <option value="basketball">Basketball</option>
-      <option value="netball">Netball</option>
-      <option value="athletics">Athletics</option>
-    </select>
-    <input type="text" id="opponent" placeholder="Opponent" required>
-    <input type="text" id="venue" placeholder="Venue" required>
-    <input type="date" id="date" required>
-    <input type="time" id="time" required>
-    <button type="submit">Add Match</button>
-  </form>
+  
 
   <div class="sports-section">
     <h2>📋 View Sport Registrations</h2>
@@ -176,6 +157,27 @@
       </div>
     </div>
   </div>
+
+  <h2>📅 Current Matches</h2>
+  <div id="matchesResults"></div>
+
+  <h2 class="form-heading">Add New Match</h2>
+  <form id="addMatchForm" class="match-form">
+    <select id="sport" required>
+      <option value="" disabled selected>Select Sport</option>
+      <option value="football">Football</option>
+      <option value="rugby">Rugby</option>
+      <option value="cricket">Cricket</option>
+      <option value="basketball">Basketball</option>
+      <option value="netball">Netball</option>
+      <option value="athletics">Athletics</option>
+    </select>
+    <input type="text" id="opponent" placeholder="Opponent" required>
+    <input type="text" id="venue" placeholder="Venue" required>
+    <input type="date" id="date" required>
+    <input type="time" id="time" required>
+    <button type="submit">Add Match</button>
+  </form>
 
   <div id="announcement">
     <h2>Announcements</h2>
@@ -355,4 +357,5 @@
   </script>
 </body>
 </html>
+
 
